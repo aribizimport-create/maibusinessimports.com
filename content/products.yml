@@ -1,0 +1,65 @@
+products:
+  - name: "Montre connectée Sport"
+    category: "Électronique"
+    price: 39.90
+    oldPrice: 54.90
+    rating: 5
+    votes: 128
+    badgeLabel: "Meilleure vente"
+    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80"
+  - name: "Sac à main tendance"
+    category: "Mode"
+    price: 24.50
+    oldPrice: null
+    rating: 4
+    votes: 76
+    badgeLabel: "Nouveau"
+    image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&q=80"
+  - name: "Mixeur multifonction"
+    category: "Maison"
+    price: 32.00
+    oldPrice: 45.00
+    rating: 5
+    votes: 94
+    badgeLabel: null
+    image: "https://images.unsplash.com/photo-1585515320310-259814833e62?w=400&q=80"
+  - name: "Coffret soins visage"
+    category: "Beauté"
+    price: 18.90
+    oldPrice: null
+    rating: 4
+    votes: 52
+    badgeLabel: "Nouveau"
+    image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=400&q=80"
+  - name: "Ballon de football pro"
+    category: "Sport"
+    price: 15.00
+    oldPrice: 19.90
+    rating: 5
+    votes: 61
+    badgeLabel: null
+    image: "https://images.unsplash.com/photo-1614632537197-38a17061c2bd?w=400&q=80"
+  - name: "Écouteurs sans fil"
+    category: "Électronique"
+    price: 22.90
+    oldPrice: 29.90
+    rating: 4
+    votes: 143
+    badgeLabel: "Meilleure vente"
+    image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&q=80"
+  - name: "Valise cabine rigide"
+    category: "Bagagerie"
+    price: 59.00
+    oldPrice: null
+    rating: 5
+    votes: 38
+    badgeLabel: null
+    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&q=80"
+  - name: "Ensemble jouets enfant"
+    category: "Enfants"
+    price: 14.50
+    oldPrice: 21.00
+    rating: 4
+    votes: 47
+    badgeLabel: null
+    image: "https://images.unsplash.com/photo-1558877385-81a1c7e67d72?w=400&q=80"
