@@ -258,6 +258,8 @@
   .cart-item .remove{color:var(--coral-dark);font-size:12px;font-weight:600;cursor:pointer;}
   .cart-empty{text-align:center;color:var(--muted);font-size:14px;padding:44px 0;}
   .cart-foot{padding:22px 24px;border-top:1px solid var(--cream-dark);}
+  .checkout-form{display:none;flex-direction:column;gap:10px;margin-bottom:14px;}
+  .checkout-form input{width:100%;height:42px;border:1px solid var(--cream-dark);border-radius:8px;padding:0 14px;font-size:13px;font-family:inherit;background:var(--cream);}
   .cart-total{display:flex;justify-content:space-between;font-weight:700;margin-bottom:16px;font-family:var(--font-mono);color:var(--navy);}
   .cart-foot .btn-primary{width:100%;justify-content:center;}
 
@@ -293,11 +295,20 @@
 </head>
 <body>
 
+<form name="commande" data-netlify="true" netlify-honeypot="bot-field" style="display:none;">
+  <input type="text" name="name" />
+  <input type="text" name="phone" />
+  <input type="text" name="address" />
+  <textarea name="order"></textarea>
+  <input type="text" name="total" />
+  <input type="text" name="bot-field" />
+</form>
+
 <div class="topbar">
   <div class="container">
     <div class="left"><span>Livraison internationale — import direct</span></div>
     <div class="right">
-      <a href="tel:+22901430485" id="phoneTop">&#128222; +229 01 43 04 85</a>
+      <a href="tel:+2290143040485" id="phoneTop">&#128222; +229 01 43 04 04 85</a>
       <a href="mailto:teams@maibusinessimport.com" id="emailTop">&#9993; teams@maibusinessimport.com</a>
     </div>
   </div>
@@ -338,7 +349,7 @@
 
 <div class="shop-hero">
   <div class="container">
-    <h1>Toute la boutique</h1>
+    <h1>L'import qui a tout prévu</h1>
     <p>Parcourez l'ensemble de nos produits, filtrez par catégorie.</p>
   </div>
 </div>
@@ -356,7 +367,7 @@
       <div>
         <div class="footer-logo" id="footerLogo"><span style="color:var(--gold);">Maï</span> Business Import</div>
         <p>Votre boutique multi-catégories pour des produits importés de qualité, livrés directement chez vous.</p>
-        <p>&#128222; <span id="phoneFooter">+229 01 43 04 85</span></p>
+        <p>&#128222; <span id="phoneFooter">+229 01 43 04 04 85</span></p>
         <p>&#9993; <span id="emailFooter">teams@maibusinessimport.com</span></p>
         <div class="payment-row">
           <span class="pay-ic">CARTE</span>
@@ -419,7 +430,12 @@
   <div class="cart-items" id="cartItems"></div>
   <div class="cart-foot">
     <div class="cart-total"><span>Total</span><span id="cartTotal">0 FCFA</span></div>
-    <a href="#" class="btn-primary" onclick="alert('Le paiement sera connecté lors de la mise en ligne réelle du site.'); return false;">Passer commande &rarr;</a>
+    <div class="checkout-form" id="checkoutForm">
+      <input type="text" id="orderName" placeholder="Votre nom complet">
+      <input type="text" id="orderPhone" placeholder="Votre numéro de téléphone">
+      <input type="text" id="orderAddress" placeholder="Adresse de livraison">
+    </div>
+    <a href="#" class="btn-primary" id="checkoutBtn" onclick="startCheckout(event)">Passer commande &rarr;</a>
   </div>
 </div>
 <script>
@@ -522,6 +538,65 @@
     document.getElementById('cartOverlay').classList.toggle('open', open);
   }
 
+  let checkoutStep = 0;
+
+  function getWhatsAppNumber(){
+    const pt = document.getElementById('phoneTop');
+    if(pt && pt.getAttribute('href')){
+      const digits = pt.getAttribute('href').replace('tel:', '').replace(/\D/g, '');
+      if(digits) return digits;
+    }
+    return '2290143040485';
+  }
+
+  function startCheckout(e){
+    e.preventDefault();
+    if(cart.length === 0){ alert('Votre panier est vide.'); return; }
+    if(checkoutStep === 0){
+      document.getElementById('checkoutForm').style.display = 'flex';
+      document.getElementById('checkoutBtn').textContent = 'Confirmer la commande →';
+      checkoutStep = 1;
+      return;
+    }
+    const name = document.getElementById('orderName').value.trim();
+    const phone = document.getElementById('orderPhone').value.trim();
+    const address = document.getElementById('orderAddress').value.trim();
+    if(!name || !phone || !address){
+      alert('Merci de remplir votre nom, votre téléphone et votre adresse.');
+      return;
+    }
+    const orderLines = cart.map(c => `${c.qty} x ${c.name} (${formatPrice(c.price)})`).join('\n');
+    const total = cart.reduce((s,c) => s + c.qty * c.price, 0);
+    const totalFormatted = formatPrice(total);
+
+    const formData = new URLSearchParams();
+    formData.append('form-name', 'commande');
+    formData.append('name', name);
+    formData.append('phone', phone);
+    formData.append('address', address);
+    formData.append('order', orderLines);
+    formData.append('total', totalFormatted);
+    fetch('/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: formData.toString()
+    }).catch(err => console.error('Erreur envoi commande :', err));
+
+    const waNumber = getWhatsAppNumber();
+    const waText = encodeURIComponent(
+      `Nouvelle commande - Maï Business Import\n\nClient : ${name}\nTéléphone : ${phone}\nAdresse : ${address}\n\nArticles :\n${orderLines}\n\nTotal : ${totalFormatted}`
+    );
+    window.open(`https://wa.me/${waNumber}?text=${waText}`, '_blank');
+
+    alert('Merci ! Votre commande a été envoyée. Vous allez être redirigé vers WhatsApp pour confirmer avec nous.');
+    cart = [];
+    renderCart();
+    checkoutStep = 0;
+    document.getElementById('checkoutForm').style.display = 'none';
+    document.getElementById('checkoutBtn').textContent = 'Passer commande →';
+    toggleCart(false);
+  }
+
   const chatFaq = [
     {keywords: ['livraison', 'delai', 'délai', 'expedition', 'expédition', 'shipping'],
      answer: "Nous livrons dans tout le pays avec un suivi à chaque étape. Le délai dépend de votre localisation et de la catégorie du produit, généralement entre 3 et 10 jours."},
@@ -530,9 +605,9 @@
     {keywords: ['retour', 'remboursement', 'rembourser', 'echange', 'échange'],
      answer: "Vous disposez de 15 jours après réception pour nous retourner un article non conforme et être remboursé."},
     {keywords: ['contact', 'joindre', 'telephone', 'téléphone', 'numero', 'numéro', 'email', 'mail'],
-     answer: "Vous pouvez nous joindre au +229 01 43 04 85 ou par email à teams@maibusinessimport.com, du lundi au dimanche."},
+     answer: "Vous pouvez nous joindre au +229 01 43 04 04 85 ou par email à teams@maibusinessimport.com, du lundi au dimanche."},
     {keywords: ['commande', 'suivi', 'suivre', 'colis'],
-     answer: "Pour suivre votre commande, contactez-nous directement avec votre numéro de commande au +229 01 43 04 85."},
+     answer: "Pour suivre votre commande, contactez-nous directement avec votre numéro de commande au +229 01 43 04 04 85."},
     {keywords: ['prix', 'promo', 'reduction', 'réduction', 'solde'],
      answer: "Les prix et promotions en cours sont affichés directement sur chaque fiche produit dans la boutique."},
     {keywords: ['bonjour', 'salut', 'bonsoir', 'hello'],
@@ -544,7 +619,7 @@
     for(const entry of chatFaq){
       if(entry.keywords.some(k => t.includes(k))) return entry.answer;
     }
-    return "Je n'ai pas de réponse toute prête pour cette question. Contactez-nous directement au +229 01 43 04 85 ou par email à teams@maibusinessimport.com, on vous répondra rapidement.";
+    return "Je n'ai pas de réponse toute prête pour cette question. Contactez-nous directement au +229 01 43 04 04 85 ou par email à teams@maibusinessimport.com, on vous répondra rapidement.";
   }
 
   function addChatMsg(text, from){
