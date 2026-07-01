@@ -221,6 +221,27 @@
   /* Cart */
   .cart-overlay{position:fixed;inset:0;background:rgba(17,27,48,.55);display:none;z-index:100;}
   .cart-overlay.open{display:block;}
+
+  .chat-toggle{position:fixed;bottom:24px;right:24px;width:60px;height:60px;border-radius:50%;background:var(--navy);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:var(--shadow-md);z-index:120;transition:.2s;}
+  .chat-toggle:hover{transform:scale(1.06);}
+  .chat-badge{position:absolute;top:-2px;right:-2px;background:var(--coral);color:#fff;font-size:11px;font-family:var(--font-mono);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+  .chat-window{position:fixed;bottom:98px;right:24px;width:340px;max-width:90vw;height:440px;max-height:70vh;background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);z-index:120;display:none;flex-direction:column;overflow:hidden;}
+  .chat-window.open{display:flex;}
+  .chat-header{background:var(--navy);color:#fff;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;}
+  .chat-header h4{font-family:var(--font-display);font-size:15px;font-weight:600;}
+  .chat-header span.status{font-size:11px;color:var(--gold);display:block;margin-top:2px;}
+  .chat-close{cursor:pointer;font-size:18px;color:#AEB9CE;}
+  .chat-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--cream);}
+  .chat-msg{max-width:82%;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.5;}
+  .chat-msg.bot{background:var(--white);color:var(--ink);align-self:flex-start;border-bottom-left-radius:4px;box-shadow:var(--shadow-sm);}
+  .chat-msg.user{background:var(--navy);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
+  .chat-quick{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 12px;background:var(--cream);}
+  .chat-quick button{background:var(--white);border:1px solid var(--cream-dark);color:var(--navy);font-size:12px;padding:8px 12px;border-radius:999px;transition:.15s;}
+  .chat-quick button:hover{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .chat-input-row{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--cream-dark);background:var(--white);}
+  .chat-input-row input{flex:1;height:40px;border:1px solid var(--cream-dark);border-radius:999px;padding:0 16px;font-size:13px;font-family:inherit;}
+  .chat-input-row button{background:var(--navy);color:#fff;width:40px;height:40px;border-radius:50%;flex-shrink:0;font-size:15px;}
+  .chat-input-row button:hover{background:var(--coral);}
   .cart-panel{position:fixed;top:0;right:0;height:100%;width:390px;max-width:92vw;background:var(--white);z-index:101;transform:translateX(100%);transition:.3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;}
   .cart-panel.open{transform:translateX(0);}
   .cart-head{padding:22px 24px;border-bottom:1px solid var(--cream-dark);display:flex;justify-content:space-between;align-items:center;}
@@ -485,6 +506,32 @@
   </div>
 </footer>
 
+<div class="chat-toggle" onclick="toggleChat()">
+  &#128172;
+  <span class="chat-badge" id="chatBadge">1</span>
+</div>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div>
+      <h4>Assistant Maï</h4>
+      <span class="status">&#9679; En ligne</span>
+    </div>
+    <span class="chat-close" onclick="toggleChat()">&times;</span>
+  </div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="chat-quick" id="chatQuick">
+    <button onclick="askChat('Livraison')">Livraison</button>
+    <button onclick="askChat('Paiement')">Paiement</button>
+    <button onclick="askChat('Retours')">Retours</button>
+    <button onclick="askChat('Contact')">Contact</button>
+  </div>
+  <form class="chat-input-row" onsubmit="handleChatSubmit(event)">
+    <input type="text" id="chatInput" placeholder="Écrivez votre question...">
+    <button type="submit">&#10148;</button>
+  </form>
+</div>
+
 <div class="cart-overlay" id="cartOverlay" onclick="toggleCart(false)"></div>
 <div class="cart-panel" id="cartPanel">
   <div class="cart-head">
@@ -493,7 +540,7 @@
   </div>
   <div class="cart-items" id="cartItems"></div>
   <div class="cart-foot">
-    <div class="cart-total"><span>Total</span><span id="cartTotal">0 &euro;</span></div>
+    <div class="cart-total"><span>Total</span><span id="cartTotal">0 FCFA</span></div>
     <a href="#" class="btn-primary" onclick="alert('Le paiement sera connecté lors de la mise en ligne réelle du site.'); return false;">Passer commande &rarr;</a>
   </div>
 </div>
@@ -505,6 +552,10 @@
 
   function starString(n){ return '&#9733;'.repeat(n) + '&#9734;'.repeat(5-n); }
   function initials(name){ return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2); }
+  function formatPrice(n){
+    n = Math.round(Number(n));
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' FCFA';
+  }
 
   function renderProducts(){
     const grid = document.getElementById('productGrid');
@@ -519,8 +570,8 @@
           <span class="prod-title">${p.name}</span>
           <div class="prod-rating"><span class="stars">${starString(p.rating)}</span> (${p.votes})</div>
           <div class="prod-price-row">
-            <span class="price">${Number(p.price).toFixed(2)} &euro;</span>
-            ${p.oldPrice ? `<span class="price-old">${Number(p.oldPrice).toFixed(2)} &euro;</span>` : ''}
+            <span class="price">${formatPrice(p.price)}</span>
+            ${p.oldPrice ? `<span class="price-old">${formatPrice(p.oldPrice)}</span>` : ''}
           </div>
           <div class="add-btn" onclick="addToCart(${idx})">Ajouter au panier</div>
         </div>
@@ -580,13 +631,13 @@
       itemsEl.innerHTML = cart.map(c => `
         <div class="cart-item">
           <div class="thumb" style="background-image:url('${c.image}');"></div>
-          <div class="info"><h5>${c.name}</h5><span>${c.qty} &times; ${Number(c.price).toFixed(2)} &euro;</span></div>
+          <div class="info"><h5>${c.name}</h5><span>${c.qty} &times; ${formatPrice(c.price)}</span></div>
           <div class="remove" onclick="removeFromCart(${c.idx})">Retirer</div>
         </div>
       `).join('');
     }
     const total = cart.reduce((s,c) => s + c.qty * c.price, 0);
-    document.getElementById('cartTotal').textContent = total.toFixed(2) + ' \u20ac';
+    document.getElementById('cartTotal').textContent = formatPrice(total);
   }
 
   function toggleCart(open){
@@ -643,6 +694,64 @@
   }
 
   loadContent();
+
+  const chatFaq = [
+    {keywords: ['livraison', 'delai', 'délai', 'expedition', 'expédition', 'shipping'],
+     answer: "Nous livrons dans tout le pays avec un suivi à chaque étape. Le délai dépend de votre localisation et de la catégorie du produit, généralement entre 3 et 10 jours."},
+    {keywords: ['paiement', 'payer', 'mobile money', 'carte', 'virement'],
+     answer: "Vous pouvez payer par Mobile Money ou par virement bancaire. Le paiement par carte en ligne arrive très bientôt."},
+    {keywords: ['retour', 'remboursement', 'rembourser', 'echange', 'échange'],
+     answer: "Vous disposez de 15 jours après réception pour nous retourner un article non conforme et être remboursé."},
+    {keywords: ['contact', 'joindre', 'telephone', 'téléphone', 'numero', 'numéro', 'email', 'mail'],
+     answer: "Vous pouvez nous joindre au +229 01 43 04 85 ou par email à teams@maibusinessimport.com, du lundi au dimanche."},
+    {keywords: ['commande', 'suivi', 'suivre', 'colis'],
+     answer: "Pour suivre votre commande, contactez-nous directement avec votre numéro de commande au +229 01 43 04 85."},
+    {keywords: ['prix', 'promo', 'reduction', 'réduction', 'solde'],
+     answer: "Les prix et promotions en cours sont affichés directement sur chaque fiche produit dans la boutique."},
+    {keywords: ['bonjour', 'salut', 'bonsoir', 'hello'],
+     answer: "Bonjour ! Comment puis-je vous aider aujourd'hui ? Vous pouvez me poser une question ou choisir un sujet ci-dessous."}
+  ];
+
+  function findAnswer(text){
+    const t = text.toLowerCase();
+    for(const entry of chatFaq){
+      if(entry.keywords.some(k => t.includes(k))) return entry.answer;
+    }
+    return "Je n'ai pas de réponse toute prête pour cette question. Contactez-nous directement au +229 01 43 04 85 ou par email à teams@maibusinessimport.com, on vous répondra rapidement.";
+  }
+
+  function addChatMsg(text, from){
+    const body = document.getElementById('chatBody');
+    const div = document.createElement('div');
+    div.className = 'chat-msg ' + from;
+    div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function askChat(text){
+    addChatMsg(text, 'user');
+    setTimeout(() => addChatMsg(findAnswer(text), 'bot'), 400);
+  }
+
+  function handleChatSubmit(e){
+    e.preventDefault();
+    const input = document.getElementById('chatInput');
+    const val = input.value.trim();
+    if(!val) return;
+    askChat(val);
+    input.value = '';
+  }
+
+  function toggleChat(){
+    const win = document.getElementById('chatWindow');
+    const willOpen = !win.classList.contains('open');
+    win.classList.toggle('open', willOpen);
+    document.getElementById('chatBadge').style.display = 'none';
+    if(willOpen && document.getElementById('chatBody').children.length === 0){
+      addChatMsg("Bonjour et bienvenue chez Maï Business Import ! Choisissez un sujet ci-dessous ou écrivez votre question.", 'bot');
+    }
+  }
 </script>
 
 </body>
