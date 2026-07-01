@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boutique — Maï Business Import</title>
+<meta name="description" content="Maï Business Import : boutique en ligne multi-catégories (mode, électronique, maison, beauté, sport) avec produits importés, livraison suivie et retours faciles.">
+
+<link rel="icon" type="image/png" sizes="32x32" href="/images/logo-mark-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/images/logo-mark-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/logo-mark-180.png">
+<link rel="icon" href="/images/favicon.ico">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Boutique — Maï Business Import">
+<meta property="og:description" content="Boutique en ligne multi-catégories (mode, électronique, maison, beauté, sport) avec produits importés, livraison suivie et retours faciles.">
+<meta property="og:image" content="https://maibusinessimport.com/images/og-banner.jpg">
+<meta property="og:url" content="https://maibusinessimport.com/boutique.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Boutique — Maï Business Import">
+<meta name="twitter:description" content="Boutique en ligne multi-catégories (mode, électronique, maison, beauté, sport) avec produits importés, livraison suivie et retours faciles.">
+<meta name="twitter:image" content="https://maibusinessimport.com/images/og-banner.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+<style>
+  :root{
+    --navy:#1B2A4A;
+    --navy-light:#2C3E63;
+    --navy-dark:#111B30;
+    --gold:#F0A202;
+    --gold-dark:#C77F00;
+    --coral:#E8543E;
+    --coral-dark:#C23F2C;
+    --cream:#FBF6EE;
+    --cream-dark:#F1E7D3;
+    --ink:#1C1B1F;
+    --muted:#746C5E;
+    --white:#FFFFFF;
+    --radius:10px;
+    --radius-lg:18px;
+    --font-display:'Fraunces', serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+    --shadow-sm:0 2px 10px rgba(27,42,74,0.06);
+    --shadow-md:0 12px 32px rgba(27,42,74,0.12);
+    --shadow-lg:0 24px 60px rgba(27,42,74,0.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font-body);color:var(--ink);background:var(--cream);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  ul{list-style:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+  .container{max-width:1220px;margin:0 auto;padding:0 24px;}
+  ::selection{background:var(--gold);color:var(--navy-dark);}
+
+  [data-reveal]{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease;}
+  [data-reveal].visible{opacity:1;transform:translateY(0);}
+
+  /* Topbar */
+  .topbar{background:var(--navy-dark);color:#C9D2E4;font-size:12.5px;}
+  .topbar .container{display:flex;justify-content:space-between;align-items:center;height:38px;flex-wrap:wrap;gap:6px;}
+  .topbar .left,.topbar .right{display:flex;gap:20px;align-items:center;}
+  .topbar a:hover{color:var(--gold);}
+
+  /* Header */
+  header.main{background:rgba(251,246,238,0.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(27,42,74,0.08);position:sticky;top:0;z-index:60;transition:box-shadow .25s;}
+  header.main.scrolled{box-shadow:var(--shadow-sm);}
+  .header-inner{display:flex;align-items:center;gap:30px;padding:20px 0;flex-wrap:wrap;}
+  .logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:25px;color:var(--navy);white-space:nowrap;}
+  .logo .logo-mark{width:44px;height:44px;border-radius:10px;object-fit:cover;flex-shrink:0;box-shadow:var(--shadow-sm);}
+  .logo span{color:var(--coral);}
+  .footer-logo-mark{width:36px;height:36px;border-radius:8px;object-fit:cover;flex-shrink:0;}
+  .search-form{flex:1;min-width:240px;display:flex;height:48px;border-radius:999px;overflow:hidden;background:var(--white);box-shadow:var(--shadow-sm);}
+  .search-form select{border:none;background:transparent;padding:0 16px;font-size:13px;color:var(--muted);border-right:1px solid var(--cream-dark);}
+  .search-form input{flex:1;border:none;padding:0 18px;font-size:14px;outline:none;background:transparent;font-family:inherit;}
+  .search-form button{background:var(--navy);color:var(--white);padding:0 26px;font-weight:600;font-size:14px;border-radius:999px;margin:4px;}
+  .search-form button:hover{background:var(--navy-light);}
+  .header-actions{display:flex;align-items:center;gap:14px;}
+  .header-actions .icon-circle{width:42px;height:42px;border-radius:50%;background:var(--white);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--navy);box-shadow:var(--shadow-sm);position:relative;transition:.15s;cursor:pointer;}
+  .header-actions .icon-circle:hover{background:var(--navy);color:var(--gold);}
+  .cart-count{position:absolute;top:-4px;right:-4px;background:var(--coral);color:#fff;font-size:10px;font-family:var(--font-mono);width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+
+  nav.subnav{background:var(--navy);}
+  .subnav .container{display:flex;align-items:center;height:50px;gap:28px;}
+  .subnav a{color:#DCE3F0;font-size:14px;position:relative;padding:4px 0;}
+  .subnav a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--gold);transition:.2s;}
+  .subnav a:hover::after,.subnav a.active::after{width:100%;}
+  .subnav a:hover,.subnav a.active{color:var(--gold);}
+  .subnav .call{margin-left:auto;color:#AEB9CE;font-size:12.5px;display:flex;align-items:center;gap:8px;}
+
+  /* Hero */
+  .hero-section{position:relative;overflow:hidden;padding:0 0 10px;}
+  .hero-section::before{content:'';position:absolute;top:-140px;right:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle, rgba(240,162,2,0.18), transparent 70%);pointer-events:none;}
+  .hero-section::after{content:'';position:absolute;bottom:-160px;left:-140px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle, rgba(27,42,74,0.10), transparent 70%);pointer-events:none;}
+  .hero-wrap{display:flex;gap:36px;max-width:1220px;margin:0 auto;padding:44px 24px 30px;align-items:center;flex-wrap:wrap;position:relative;z-index:1;}
+
+  .sidebar{width:250px;background:var(--white);border-radius:var(--radius-lg);flex-shrink:0;box-shadow:var(--shadow-sm);overflow:hidden;align-self:stretch;}
+  .sidebar .head{background:var(--navy);color:var(--gold);padding:16px 18px;font-weight:600;font-size:14px;display:flex;align-items:center;gap:10px;font-family:var(--font-display);}
+  .sidebar ul{padding:6px 0;}
+  .sidebar li{padding:0;font-size:13.5px;color:var(--ink);border-bottom:1px solid var(--cream);cursor:pointer;transition:.15s;}
+  .sidebar li a{display:flex;align-items:center;gap:12px;padding:12px 18px;color:inherit;}
+  .sidebar li:last-child{border-bottom:none;}
+  .sidebar li:hover{background:var(--cream);color:var(--coral-dark);}
+  .sidebar li:hover a{padding-left:22px;}
+  .sidebar li .ic{width:18px;text-align:center;flex-shrink:0;}
+
+  .hero{
+    flex:1;
+    min-width:300px;
+    border-radius:var(--radius-lg);
+    background-image:linear-gradient(120deg, rgba(251,246,238,0.55), rgba(251,246,238,0.25)), url('/images/hero-bg.png');
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:64px 50px;
+    color:var(--navy);
+    position:relative;
+    min-height:420px;
+    box-shadow:var(--shadow-md);
+  }
+  .hero-copy{max-width:460px;text-align:center;position:relative;}
+  .hero-copy .tag{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1px dashed var(--coral);color:var(--coral-dark);font-family:var(--font-mono);font-size:12px;font-weight:600;padding:7px 16px;border-radius:20px;margin-bottom:22px;}
+  .hero-copy h1{font-family:var(--font-display);font-size:40px;font-weight:700;line-height:1.12;margin-bottom:18px;color:var(--navy);}
+  .hero-copy p{color:#4A5468;font-size:15px;max-width:400px;margin:0 auto 30px;}
+  .btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--navy);color:var(--white);padding:15px 32px;border-radius:999px;font-weight:600;font-size:14.5px;box-shadow:var(--shadow-sm);transition:.2s;}
+  .btn-primary:hover{background:var(--coral);transform:translateY(-2px);box-shadow:var(--shadow-md);}
+  .btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--navy);padding:14px 28px;border-radius:999px;font-weight:600;font-size:14px;border:1.5px solid var(--navy);transition:.2s;}
+  .btn-ghost:hover{background:var(--navy);color:var(--white);}
+  .floating-badge{position:absolute;top:-18px;right:-30px;background:var(--gold);color:var(--navy-dark);font-family:var(--font-mono);font-weight:600;font-size:12px;padding:10px 16px;border-radius:14px;box-shadow:var(--shadow-md);transform:rotate(6deg);}
+
+  /* Trust strip */
+  .trust-strip{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;padding:0 0 36px;position:relative;z-index:1;}
+  .trust-strip .t-item{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--navy);font-weight:500;}
+  .trust-strip .t-item .ic{color:var(--coral);font-size:16px;}
+
+  /* Stats */
+  .stats{background:var(--navy);}
+  .stats .container{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:40px 20px;}
+  .stat{text-align:center;color:#fff;}
+  .stat .num{font-family:var(--font-display);font-size:32px;font-weight:600;}
+  .stat .num span{color:var(--gold);}
+  .stat .label{font-size:12.5px;color:#AEB9CE;margin-top:6px;letter-spacing:.3px;}
+
+  /* Section heading */
+  .section{padding:64px 0;}
+  .section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px;flex-wrap:wrap;gap:12px;}
+  .section-head .tag{font-family:var(--font-mono);font-size:12px;color:var(--coral-dark);letter-spacing:.6px;margin-bottom:8px;display:block;text-transform:uppercase;}
+  .section-head h2{font-family:var(--font-display);font-size:32px;font-weight:600;color:var(--navy);}
+  .section-head a{font-size:13px;font-weight:600;color:var(--navy);border-bottom:1.5px solid var(--gold);padding-bottom:2px;}
+
+  /* Category grid — bento style */
+  .cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  .cat-card{position:relative;display:block;border-radius:var(--radius-lg);overflow:hidden;height:170px;box-shadow:var(--shadow-sm);transition:.25s;background-size:cover;background-position:center;}
+  .cat-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
+  .cat-card .overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(27,42,74,0.05), rgba(17,27,48,0.82));display:flex;flex-direction:column;justify-content:flex-end;padding:16px;}
+  .cat-card h4{color:#fff;font-size:15px;font-weight:600;font-family:var(--font-display);}
+  .cat-card span{color:var(--gold);font-size:11.5px;font-family:var(--font-mono);}
+
+  /* Why us */
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .why-card{background:var(--white);border-radius:var(--radius-lg);padding:32px 26px;box-shadow:var(--shadow-sm);transition:.2s;}
+  .why-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);}
+  .why-card .ic{width:52px;height:52px;border-radius:14px;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:18px;color:var(--coral);}
+  .why-card h4{font-family:var(--font-display);font-size:18px;font-weight:600;color:var(--navy);margin-bottom:8px;}
+  .why-card p{font-size:13.5px;color:var(--muted);line-height:1.65;}
+
+  /* Product grid */
+  .prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  .prod-card{background:var(--white);border-radius:var(--radius-lg);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:var(--shadow-sm);transition:.25s;}
+  .prod-card:hover{box-shadow:var(--shadow-md);transform:translateY(-4px);}
+  .prod-img{height:170px;background-size:cover;background-position:center;position:relative;}
+  .prod-img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(27,42,74,0.05), rgba(27,42,74,0.02));}
+  .badge{position:absolute;top:12px;left:12px;background:var(--coral);color:#fff;font-family:var(--font-mono);font-size:11px;font-weight:600;padding:5px 11px;border-radius:6px;z-index:2;}
+  .wishlist{position:absolute;top:10px;right:10px;width:32px;height:32px;background:rgba(255,255,255,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--navy);z-index:2;}
+  .prod-body{padding:18px;display:flex;flex-direction:column;gap:8px;flex:1;}
+  .prod-cat{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:600;}
+  .prod-title{font-size:14.5px;font-weight:600;color:var(--ink);}
+  .prod-rating{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted);}
+  .stars{color:var(--gold);font-size:13px;letter-spacing:1px;}
+  .prod-price-row{display:flex;align-items:center;gap:9px;margin-top:auto;}
+  .price{font-family:var(--font-mono);font-weight:600;font-size:16.5px;color:var(--navy);}
+  .price-old{font-family:var(--font-mono);font-size:12.5px;color:var(--muted);text-decoration:line-through;}
+  .add-btn{margin-top:10px;background:var(--navy);color:#fff;padding:11px;border-radius:999px;font-size:13px;font-weight:600;text-align:center;transition:.2s;}
+  .add-btn:hover{background:var(--coral);}
+
+  /* Promo duo */
+  .promo-duo{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  .promo{
+    border-radius:var(--radius-lg);
+    padding:40px;color:#fff;position:relative;overflow:hidden;min-height:200px;display:flex;flex-direction:column;justify-content:center;
+  }
+  .promo.dark{background:var(--navy);}
+  .promo.gold{background:linear-gradient(135deg, var(--gold), var(--coral));}
+  .promo h3{font-family:var(--font-display);font-size:24px;font-weight:600;margin-bottom:10px;}
+  .promo p{font-size:13.5px;margin-bottom:20px;opacity:.92;max-width:320px;}
+  .promo .btn-ghost{border-color:#fff;color:#fff;}
+  .promo .btn-ghost:hover{background:#fff;color:var(--navy);}
+
+  /* Reviews */
+  .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .review-card{background:var(--white);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow-sm);}
+  .review-card .stars{margin-bottom:14px;display:block;}
+  .review-card p.quote{font-family:var(--font-display);font-size:15px;color:var(--ink);margin-bottom:20px;line-height:1.6;font-weight:500;}
+  .review-author{display:flex;align-items:center;gap:12px;}
+  .review-author .avatar{width:40px;height:40px;border-radius:50%;background:var(--navy);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;font-family:var(--font-display);}
+  .review-author h5{font-size:13.5px;font-weight:600;color:var(--ink);}
+  .review-author span{font-size:12px;color:var(--muted);}
+
+  .review-form-card{max-width:600px;margin:48px auto 0;background:var(--white);border-radius:var(--radius-lg);padding:32px;box-shadow:var(--shadow-sm);}
+  .review-form-card h4{font-family:var(--font-display);font-size:18px;font-weight:600;color:var(--navy);margin-bottom:18px;}
+  .review-form-card form{display:flex;flex-direction:column;gap:14px;}
+  .review-form-card input,.review-form-card select,.review-form-card textarea{height:46px;border:1px solid var(--cream-dark);border-radius:10px;padding:0 16px;font-size:13.5px;font-family:inherit;background:var(--cream);}
+  .review-form-card textarea{height:auto;padding:12px 16px;resize:vertical;}
+
+  /* Newsletter */
+  .newsletter{background:var(--navy);padding:56px 0;text-align:center;position:relative;overflow:hidden;}
+  .newsletter h3{font-family:var(--font-display);font-size:28px;font-weight:600;color:#fff;margin-bottom:10px;}
+  .newsletter p{color:#AEB9CE;font-size:14px;margin-bottom:26px;}
+  .newsletter form{display:flex;max-width:440px;margin:0 auto;gap:10px;flex-wrap:wrap;justify-content:center;}
+  .newsletter input{flex:1;min-width:230px;height:50px;border:none;border-radius:999px;padding:0 20px;font-size:14px;}
+  .newsletter button{background:var(--gold);color:var(--navy-dark);height:50px;padding:0 28px;border-radius:999px;font-weight:600;}
+  .newsletter button:hover{background:var(--coral);color:#fff;}
+
+  /* Footer */
+  footer{background:var(--navy-dark);color:#AEB9CE;padding:56px 0 20px;}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:36px;}
+  .footer-grid h5{color:#fff;font-size:14px;margin-bottom:16px;font-family:var(--font-display);}
+  .footer-grid li{font-size:13.5px;margin-bottom:10px;}
+  .footer-grid li:hover{color:var(--gold);}
+  .footer-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:700;font-size:22px;color:#fff;margin-bottom:14px;}
+  .footer-grid p{font-size:13.5px;margin-bottom:9px;line-height:1.6;}
+  .payment-row{display:flex;gap:10px;margin-top:16px;}
+  .payment-row .pay-ic{background:#26314D;color:#AEB9CE;font-size:11px;font-family:var(--font-mono);padding:7px 12px;border-radius:6px;}
+  .footer-bottom{border-top:1px solid #26314D;padding-top:18px;display:flex;justify-content:space-between;font-size:12.5px;flex-wrap:wrap;gap:10px;}
+
+  /* Cart */
+  .cart-overlay{position:fixed;inset:0;background:rgba(17,27,48,.55);display:none;z-index:100;}
+  .cart-overlay.open{display:block;}
+
+  .chat-toggle{position:fixed;bottom:24px;right:24px;width:60px;height:60px;border-radius:50%;background:var(--navy);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:var(--shadow-md);z-index:120;transition:.2s;}
+  .chat-toggle:hover{transform:scale(1.06);}
+  .chat-badge{position:absolute;top:-2px;right:-2px;background:var(--coral);color:#fff;font-size:11px;font-family:var(--font-mono);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+  .chat-window{position:fixed;bottom:98px;right:24px;width:340px;max-width:90vw;height:440px;max-height:70vh;background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);z-index:120;display:none;flex-direction:column;overflow:hidden;}
+  .chat-window.open{display:flex;}
+  .chat-header{background:var(--navy);color:#fff;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;}
+  .chat-header h4{font-family:var(--font-display);font-size:15px;font-weight:600;}
+  .chat-header span.status{font-size:11px;color:var(--gold);display:block;margin-top:2px;}
+  .chat-close{cursor:pointer;font-size:18px;color:#AEB9CE;}
+  .chat-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--cream);}
+  .chat-msg{max-width:82%;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.5;}
+  .chat-msg.bot{background:var(--white);color:var(--ink);align-self:flex-start;border-bottom-left-radius:4px;box-shadow:var(--shadow-sm);}
+  .chat-msg.user{background:var(--navy);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
+  .chat-quick{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 12px;background:var(--cream);}
+  .chat-quick button{background:var(--white);border:1px solid var(--cream-dark);color:var(--navy);font-size:12px;padding:8px 12px;border-radius:999px;transition:.15s;}
+  .chat-quick button:hover{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .chat-input-row{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--cream-dark);background:var(--white);}
+  .chat-input-row input{flex:1;height:40px;border:1px solid var(--cream-dark);border-radius:999px;padding:0 16px;font-size:13px;font-family:inherit;}
+  .chat-input-row button{background:var(--navy);color:#fff;width:40px;height:40px;border-radius:50%;flex-shrink:0;font-size:15px;}
+  .chat-input-row button:hover{background:var(--coral);}
+  .cart-panel{position:fixed;top:0;right:0;height:100%;width:390px;max-width:92vw;background:var(--white);z-index:101;transform:translateX(100%);transition:.3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;}
+  .cart-panel.open{transform:translateX(0);}
+  .cart-head{padding:22px 24px;border-bottom:1px solid var(--cream-dark);display:flex;justify-content:space-between;align-items:center;}
+  .cart-head h4{font-family:var(--font-display);font-size:20px;font-weight:600;color:var(--navy);}
+  .cart-close{font-size:22px;color:var(--muted);cursor:pointer;}
+  .cart-items{flex:1;overflow-y:auto;padding:16px 24px;}
+  .cart-item{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--cream);align-items:center;}
+  .cart-item .thumb{width:54px;height:54px;background-size:cover;background-position:center;border-radius:10px;flex-shrink:0;}
+  .cart-item .info{flex:1;}
+  .cart-item .info h5{font-size:13.5px;font-weight:600;}
+  .cart-item .info span{font-family:var(--font-mono);font-size:12.5px;color:var(--muted);}
+  .cart-item .remove{color:var(--coral-dark);font-size:12px;font-weight:600;cursor:pointer;}
+  .cart-empty{text-align:center;color:var(--muted);font-size:14px;padding:44px 0;}
+  .cart-foot{padding:22px 24px;border-top:1px solid var(--cream-dark);}
+  .checkout-form{display:none;flex-direction:column;gap:10px;margin-bottom:14px;}
+  .checkout-form input{width:100%;height:42px;border:1px solid var(--cream-dark);border-radius:8px;padding:0 14px;font-size:13px;font-family:inherit;background:var(--cream);}
+  .cart-total{display:flex;justify-content:space-between;font-weight:700;margin-bottom:16px;font-family:var(--font-mono);color:var(--navy);}
+  .cart-foot .btn-primary{width:100%;justify-content:center;}
+
+  @media(max-width:1000px){
+    .why-grid{grid-template-columns:1fr;}
+    .promo-duo{grid-template-columns:1fr;}
+  }
+  @media(max-width:900px){
+    .stats .container{grid-template-columns:repeat(2,1fr);}
+    .cat-grid{grid-template-columns:repeat(2,1fr);}
+    .prod-grid{grid-template-columns:repeat(2,1fr);}
+    .reviews-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .subnav .container{overflow-x:auto;}
+    .sidebar{display:none;}
+    .floating-badge{display:none;}
+  }
+  @media(max-width:520px){
+    .hero-copy h1{font-size:28px;}
+    .prod-grid,.cat-grid{grid-template-columns:1fr 1fr;}
+    .footer-grid{grid-template-columns:1fr;}
+  }
+
+  .shop-hero{background:var(--navy);padding:44px 0 34px;text-align:center;}
+  .shop-hero h1{font-family:var(--font-display);font-size:30px;font-weight:600;color:#fff;margin-bottom:8px;}
+  .shop-hero p{color:#AEB9CE;font-size:14px;}
+  .filter-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px;}
+  .filter-btn{background:var(--white);border:1px solid var(--cream-dark);color:var(--navy);font-size:13px;font-weight:500;padding:10px 18px;border-radius:999px;transition:.15s;}
+  .filter-btn:hover{border-color:var(--navy);}
+  .filter-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .shop-empty{text-align:center;color:var(--muted);font-size:14px;padding:60px 0;grid-column:1/-1;}
+</style>
+</head>
+<body>
+
+<form name="commande" data-netlify="true" netlify-honeypot="bot-field" style="display:none;">
+  <input type="text" name="name" />
+  <input type="text" name="phone" />
+  <input type="text" name="address" />
+  <textarea name="order"></textarea>
+  <input type="text" name="total" />
+  <input type="text" name="bot-field" />
+</form>
+
+<div class="topbar">
+  <div class="container">
+    <div class="left"><span>Livraison internationale — import direct</span></div>
+    <div class="right">
+      <a href="tel:+2290143040485" id="phoneTop">&#128222; +229 01 43 04 04 85</a>
+      <a href="mailto:teams@maibusinessimport.com" id="emailTop">&#9993; teams@maibusinessimport.com</a>
+    </div>
+  </div>
+</div>
+
+<header class="main" id="mainHeader">
+  <div class="container header-inner">
+    <a href="index.html" class="logo" id="logoText"><img src="/images/logo-mark-64.png" alt="Maï Business Import" class="logo-mark">Maï Business <span>Import</span></a>
+    <form class="search-form" id="searchForm" onsubmit="handleHeaderSearch(event)">
+      <select id="searchCategory">
+        <option value="Toutes">Toutes catégories</option>
+        <option value="Mode">Mode</option>
+        <option value="Électronique">Électronique</option>
+        <option value="Maison">Maison</option>
+        <option value="Beauté">Beauté</option>
+        <option value="Sport">Sport</option>
+      </select>
+      <input type="text" id="searchInput" placeholder="Rechercher un produit...">
+      <button type="submit">&#128269;</button>
+    </form>
+    <div class="header-actions">
+      <div class="icon-circle">&#9825;</div>
+      <div class="icon-circle" onclick="toggleCart(true)">&#128722;<span class="cart-count" id="cartCount">0</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="subnav">
+  <div class="container">
+    <a href="index.html">Accueil</a>
+    <a href="index.html#categories">Catégories</a>
+    <a href="boutique.html" class="active">Boutique</a>
+    <a href="index.html#avis">Avis</a>
+    <a href="index.html#contact">Contact</a>
+    <span class="call">&#9679; Livraison suivie sur toutes les commandes</span>
+  </div>
+</nav>
+
+<div class="shop-hero">
+  <div class="container">
+    <h1>L'import qui a tout prévu</h1>
+    <p>Parcourez l'ensemble de nos produits, filtrez par catégorie.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="filter-bar" id="filterBar"></div>
+    <div class="prod-grid" id="productGrid"></div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo" id="footerLogo"><img src="/images/logo-mark-64.png" alt="Maï Business Import" class="footer-logo-mark"><span style="color:var(--gold);">Maï</span> Business Import</div>
+        <p>Votre boutique multi-catégories pour des produits importés de qualité, livrés directement chez vous.</p>
+        <p>&#128222; <span id="phoneFooter">+229 01 43 04 04 85</span></p>
+        <p>&#9993; <span id="emailFooter">teams@maibusinessimport.com</span></p>
+        <div class="payment-row">
+          <span class="pay-ic">CARTE</span>
+          <span class="pay-ic">MOBILE MONEY</span>
+          <span class="pay-ic">VIREMENT</span>
+        </div>
+      </div>
+      <div>
+        <h5>Boutique</h5>
+        <ul><li>Toutes les catégories</li><li>Nouveautés</li><li>Promotions</li><li>Import groupé</li></ul>
+      </div>
+      <div>
+        <h5>Aide</h5>
+        <ul><li>Suivre ma commande</li><li>Livraison &amp; retours</li><li>FAQ</li><li>Contact</li></ul>
+      </div>
+      <div>
+        <h5>Entreprise</h5>
+        <ul><li>À propos</li><li>maibusinessimport.com</li><li>Conditions générales</li><li>Confidentialité</li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 <span id="copyrightName">Maï Business Import</span>. Tous droits réservés.</span>
+      <span>maibusinessimport.com</span>
+    </div>
+  </div>
+</footer>
+
+<div class="chat-toggle" onclick="toggleChat()">
+  &#128172;
+  <span class="chat-badge" id="chatBadge">1</span>
+</div>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div>
+      <h4>Assistant Maï</h4>
+      <span class="status">&#9679; En ligne</span>
+    </div>
+    <span class="chat-close" onclick="toggleChat()">&times;</span>
+  </div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="chat-quick" id="chatQuick">
+    <button onclick="askChat('Livraison')">Livraison</button>
+    <button onclick="askChat('Paiement')">Paiement</button>
+    <button onclick="askChat('Retours')">Retours</button>
+    <button onclick="askChat('Contact')">Contact</button>
+  </div>
+  <form class="chat-input-row" onsubmit="handleChatSubmit(event)">
+    <input type="text" id="chatInput" placeholder="Écrivez votre question...">
+    <button type="submit">&#10148;</button>
+  </form>
+</div>
+
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart(false)"></div>
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-head">
+    <h4>Votre panier</h4>
+    <span class="cart-close" onclick="toggleCart(false)">&times;</span>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot">
+    <div class="cart-total"><span>Total</span><span id="cartTotal">0 FCFA</span></div>
+    <div class="checkout-form" id="checkoutForm">
+      <input type="text" id="orderName" placeholder="Votre nom complet">
+      <input type="text" id="orderPhone" placeholder="Votre numéro de téléphone">
+      <input type="text" id="orderAddress" placeholder="Adresse de livraison">
+    </div>
+    <a href="#" class="btn-primary" id="checkoutBtn" onclick="startCheckout(event)">Passer commande &rarr;</a>
+  </div>
+</div>
+<script>
+  let products = [];
+  let cart = [];
+  let activeCategory = 'Toutes';
+  let activeSearch = '';
+  const categories = ['Toutes', 'Mode', 'Électronique', 'Maison', 'Beauté', 'Sport', 'Enfants', 'Bagagerie', 'Accessoires'];
+
+  function starString(n){ return '&#9733;'.repeat(n) + '&#9734;'.repeat(5-n); }
+  function formatPrice(n){
+    n = Math.round(Number(n));
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' FCFA';
+  }
+
+  function renderFilterBar(){
+    const bar = document.getElementById('filterBar');
+    bar.innerHTML = categories.map(cat => `
+      <button class="filter-btn ${cat === activeCategory ? 'active' : ''}" onclick="setCategory('${cat}')">${cat}</button>
+    `).join('');
+  }
+
+  function setCategory(cat){
+    activeCategory = cat;
+    renderFilterBar();
+    renderProducts();
+    const url = new URL(window.location);
+    if(cat === 'Toutes'){ url.searchParams.delete('cat'); } else { url.searchParams.set('cat', cat); }
+    window.history.replaceState({}, '', url);
+  }
+
+  function renderProducts(){
+    const grid = document.getElementById('productGrid');
+    let list = activeCategory === 'Toutes' ? products : products.filter(p => p.category === activeCategory);
+    if(activeSearch){
+      const q = activeSearch.toLowerCase();
+      list = list.filter(p => p.name.toLowerCase().includes(q));
+    }
+    if(list.length === 0){
+      grid.innerHTML = `<div class="shop-empty">${activeSearch ? `Aucun résultat pour "${activeSearch}".` : 'Aucun produit dans cette catégorie pour le moment.'}</div>`;
+      return;
+    }
+    grid.innerHTML = list.map((p) => {
+      const idx = products.indexOf(p);
+      return `
+      <div class="prod-card">
+        <div class="prod-img" style="background-image:url('${p.image}');">
+          ${p.oldPrice ? '<span class="badge">Promo</span>' : (p.badgeLabel ? `<span class="badge" style="background:var(--navy);">${p.badgeLabel}</span>` : '')}
+          <div class="wishlist">&#9825;</div>
+        </div>
+        <div class="prod-body">
+          <span class="prod-cat">${p.category}</span>
+          <span class="prod-title">${p.name}</span>
+          <div class="prod-rating"><span class="stars">${starString(p.rating)}</span> (${p.votes})</div>
+          <div class="prod-price-row">
+            <span class="price">${formatPrice(p.price)}</span>
+            ${p.oldPrice ? `<span class="price-old">${formatPrice(p.oldPrice)}</span>` : ''}
+          </div>
+          <div class="add-btn" onclick="addToCart(${idx})">Ajouter au panier</div>
+        </div>
+      </div>
+    `;
+    }).join('');
+  }
+
+  function handleHeaderSearch(e){
+    e.preventDefault();
+    const cat = document.getElementById('searchCategory').value;
+    const query = document.getElementById('searchInput').value.trim();
+    activeCategory = cat && cat !== 'Toutes' ? cat : 'Toutes';
+    activeSearch = query;
+    renderFilterBar();
+    renderProducts();
+    const url = new URL(window.location);
+    if(activeCategory === 'Toutes'){ url.searchParams.delete('cat'); } else { url.searchParams.set('cat', activeCategory); }
+    if(activeSearch){ url.searchParams.set('search', activeSearch); } else { url.searchParams.delete('search'); }
+    window.history.replaceState({}, '', url);
+  }
+
+  window.addEventListener('scroll', function(){
+    document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 10);
+  });
+
+  function addToCart(idx){
+    const existing = cart.find(c => c.idx === idx);
+    if(existing){ existing.qty++; } else {
+      cart.push({...products[idx], idx, qty:1});
+    }
+    renderCart();
+    toggleCart(true);
+  }
+
+  function removeFromCart(idx){
+    cart = cart.filter(c => c.idx !== idx);
+    renderCart();
+  }
+
+  function renderCart(){
+    const itemsEl = document.getElementById('cartItems');
+    const count = cart.reduce((s,c) => s + c.qty, 0);
+    document.getElementById('cartCount').textContent = count;
+    if(cart.length === 0){
+      itemsEl.innerHTML = '<div class="cart-empty">Votre panier est vide.</div>';
+    } else {
+      itemsEl.innerHTML = cart.map(c => `
+        <div class="cart-item">
+          <div class="thumb" style="background-image:url('${c.image}');"></div>
+          <div class="info"><h5>${c.name}</h5><span>${c.qty} &times; ${formatPrice(c.price)}</span></div>
+          <div class="remove" onclick="removeFromCart(${c.idx})">Retirer</div>
+        </div>
+      `).join('');
+    }
+    const total = cart.reduce((s,c) => s + c.qty * c.price, 0);
+    document.getElementById('cartTotal').textContent = formatPrice(total);
+  }
+
+  function toggleCart(open){
+    document.getElementById('cartPanel').classList.toggle('open', open);
+    document.getElementById('cartOverlay').classList.toggle('open', open);
+  }
+
+  let checkoutStep = 0;
+
+  function getWhatsAppNumber(){
+    const pt = document.getElementById('phoneTop');
+    if(pt && pt.getAttribute('href')){
+      const digits = pt.getAttribute('href').replace('tel:', '').replace(/\D/g, '');
+      if(digits) return digits;
+    }
+    return '2290143040485';
+  }
+
+  function startCheckout(e){
+    e.preventDefault();
+    if(cart.length === 0){ alert('Votre panier est vide.'); return; }
+    if(checkoutStep === 0){
+      document.getElementById('checkoutForm').style.display = 'flex';
+      document.getElementById('checkoutBtn').textContent = 'Confirmer la commande →';
+      checkoutStep = 1;
+      return;
+    }
+    const name = document.getElementById('orderName').value.trim();
+    const phone = document.getElementById('orderPhone').value.trim();
+    const address = document.getElementById('orderAddress').value.trim();
+    if(!name || !phone || !address){
+      alert('Merci de remplir votre nom, votre téléphone et votre adresse.');
+      return;
+    }
+    const orderLines = cart.map(c => `${c.qty} x ${c.name} (${formatPrice(c.price)})`).join('\n');
+    const total = cart.reduce((s,c) => s + c.qty * c.price, 0);
+    const totalFormatted = formatPrice(total);
+
+    const formData = new URLSearchParams();
+    formData.append('form-name', 'commande');
+    formData.append('name', name);
+    formData.append('phone', phone);
+    formData.append('address', address);
+    formData.append('order', orderLines);
+    formData.append('total', totalFormatted);
+    fetch('/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: formData.toString()
+    }).catch(err => console.error('Erreur envoi commande :', err));
+
+    const waNumber = getWhatsAppNumber();
+    const waText = encodeURIComponent(
+      `Nouvelle commande - Maï Business Import\n\nClient : ${name}\nTéléphone : ${phone}\nAdresse : ${address}\n\nArticles :\n${orderLines}\n\nTotal : ${totalFormatted}`
+    );
+    window.open(`https://wa.me/${waNumber}?text=${waText}`, '_blank');
+
+    alert('Merci ! Votre commande a été envoyée. Vous allez être redirigé vers WhatsApp pour confirmer avec nous.');
+    cart = [];
+    renderCart();
+    checkoutStep = 0;
+    document.getElementById('checkoutForm').style.display = 'none';
+    document.getElementById('checkoutBtn').textContent = 'Passer commande →';
+    toggleCart(false);
+  }
+
+  const chatFaq = [
+    {keywords: ['livraison', 'delai', 'délai', 'expedition', 'expédition', 'shipping'],
+     answer: "Nous livrons dans tout le pays avec un suivi à chaque étape. Le délai dépend de votre localisation et de la catégorie du produit, généralement entre 3 et 10 jours."},
+    {keywords: ['paiement', 'payer', 'mobile money', 'carte', 'virement'],
+     answer: "Vous pouvez payer par Mobile Money ou par virement bancaire. Le paiement par carte en ligne arrive très bientôt."},
+    {keywords: ['retour', 'remboursement', 'rembourser', 'echange', 'échange'],
+     answer: "Vous disposez de 15 jours après réception pour nous retourner un article non conforme et être remboursé."},
+    {keywords: ['contact', 'joindre', 'telephone', 'téléphone', 'numero', 'numéro', 'email', 'mail'],
+     answer: "Vous pouvez nous joindre au +229 01 43 04 04 85 ou par email à teams@maibusinessimport.com, du lundi au dimanche."},
+    {keywords: ['commande', 'suivi', 'suivre', 'colis'],
+     answer: "Pour suivre votre commande, contactez-nous directement avec votre numéro de commande au +229 01 43 04 04 85."},
+    {keywords: ['prix', 'promo', 'reduction', 'réduction', 'solde'],
+     answer: "Les prix et promotions en cours sont affichés directement sur chaque fiche produit dans la boutique."},
+    {keywords: ['bonjour', 'salut', 'bonsoir', 'hello'],
+     answer: "Bonjour ! Comment puis-je vous aider aujourd'hui ? Vous pouvez me poser une question ou choisir un sujet ci-dessous."}
+  ];
+
+  function findAnswer(text){
+    const t = text.toLowerCase();
+    for(const entry of chatFaq){
+      if(entry.keywords.some(k => t.includes(k))) return entry.answer;
+    }
+    return "Je n'ai pas de réponse toute prête pour cette question. Contactez-nous directement au +229 01 43 04 04 85 ou par email à teams@maibusinessimport.com, on vous répondra rapidement.";
+  }
+
+  function addChatMsg(text, from){
+    const body = document.getElementById('chatBody');
+    const div = document.createElement('div');
+    div.className = 'chat-msg ' + from;
+    div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function askChat(text){
+    addChatMsg(text, 'user');
+    setTimeout(() => addChatMsg(findAnswer(text), 'bot'), 400);
+  }
+
+  function handleChatSubmit(e){
+    e.preventDefault();
+    const input = document.getElementById('chatInput');
+    const val = input.value.trim();
+    if(!val) return;
+    askChat(val);
+    input.value = '';
+  }
+
+  function toggleChat(){
+    const win = document.getElementById('chatWindow');
+    const willOpen = !win.classList.contains('open');
+    win.classList.toggle('open', willOpen);
+    document.getElementById('chatBadge').style.display = 'none';
+    if(willOpen && document.getElementById('chatBody').children.length === 0){
+      addChatMsg("Bonjour et bienvenue chez Maï Business Import ! Choisissez un sujet ci-dessous ou écrivez votre question.", 'bot');
+    }
+  }
+
+  function applyFooterSettings(s){
+    const setText = (id, val) => { const el = document.getElementById(id); if(el && val) el.textContent = val; };
+    setText('copyrightName', s.siteName);
+    setText('phoneFooter', s.phone);
+    setText('emailFooter', s.email);
+    if(s.phone){
+      const pt = doc
