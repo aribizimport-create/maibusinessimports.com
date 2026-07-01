@@ -317,16 +317,16 @@
 <header class="main" id="mainHeader">
   <div class="container header-inner">
     <a href="index.html" class="logo" id="logoText"><span class="mark">M</span>Maï Business <span>Import</span></a>
-    <form class="search-form" onsubmit="return false;">
-      <select>
-        <option>Toutes catégories</option>
-        <option>Mode</option>
-        <option>Électronique</option>
-        <option>Maison</option>
-        <option>Beauté</option>
-        <option>Sport</option>
+    <form class="search-form" id="searchForm" onsubmit="handleHeaderSearch(event)">
+      <select id="searchCategory">
+        <option value="Toutes">Toutes catégories</option>
+        <option value="Mode">Mode</option>
+        <option value="Électronique">Électronique</option>
+        <option value="Maison">Maison</option>
+        <option value="Beauté">Beauté</option>
+        <option value="Sport">Sport</option>
       </select>
-      <input type="text" placeholder="Rechercher un produit...">
+      <input type="text" id="searchInput" placeholder="Rechercher un produit...">
       <button type="submit">&#128269;</button>
     </form>
     <div class="header-actions">
@@ -442,6 +442,7 @@
   let products = [];
   let cart = [];
   let activeCategory = 'Toutes';
+  let activeSearch = '';
   const categories = ['Toutes', 'Mode', 'Électronique', 'Maison', 'Beauté', 'Sport', 'Enfants', 'Bagagerie', 'Accessoires'];
 
   function starString(n){ return '&#9733;'.repeat(n) + '&#9734;'.repeat(5-n); }
@@ -468,9 +469,13 @@
 
   function renderProducts(){
     const grid = document.getElementById('productGrid');
-    const list = activeCategory === 'Toutes' ? products : products.filter(p => p.category === activeCategory);
+    let list = activeCategory === 'Toutes' ? products : products.filter(p => p.category === activeCategory);
+    if(activeSearch){
+      const q = activeSearch.toLowerCase();
+      list = list.filter(p => p.name.toLowerCase().includes(q));
+    }
     if(list.length === 0){
-      grid.innerHTML = '<div class="shop-empty">Aucun produit dans cette catégorie pour le moment.</div>';
+      grid.innerHTML = `<div class="shop-empty">${activeSearch ? `Aucun résultat pour "${activeSearch}".` : 'Aucun produit dans cette catégorie pour le moment.'}</div>`;
       return;
     }
     grid.innerHTML = list.map((p) => {
@@ -494,6 +499,20 @@
       </div>
     `;
     }).join('');
+  }
+
+  function handleHeaderSearch(e){
+    e.preventDefault();
+    const cat = document.getElementById('searchCategory').value;
+    const query = document.getElementById('searchInput').value.trim();
+    activeCategory = cat && cat !== 'Toutes' ? cat : 'Toutes';
+    activeSearch = query;
+    renderFilterBar();
+    renderProducts();
+    const url = new URL(window.location);
+    if(activeCategory === 'Toutes'){ url.searchParams.delete('cat'); } else { url.searchParams.set('cat', activeCategory); }
+    if(activeSearch){ url.searchParams.set('search', activeSearch); } else { url.searchParams.delete('search'); }
+    window.history.replaceState({}, '', url);
   }
 
   window.addEventListener('scroll', function(){
@@ -674,6 +693,14 @@
     const params = new URLSearchParams(window.location.search);
     const catParam = params.get('cat');
     if(catParam) activeCategory = catParam;
+    const searchParam = params.get('search');
+    if(searchParam){
+      activeSearch = searchParam;
+      const searchInputEl = document.getElementById('searchInput');
+      if(searchInputEl) searchInputEl.value = searchParam;
+    }
+    const searchCategoryEl = document.getElementById('searchCategory');
+    if(searchCategoryEl && catParam) searchCategoryEl.value = catParam;
     try{
       const [productsTxt, settingsTxt] = await Promise.all([
         fetch('/content/products.yml').then(r => r.text()),

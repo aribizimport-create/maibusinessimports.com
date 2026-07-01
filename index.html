@@ -295,6 +295,11 @@
   <input type="text" name="bot-field" />
 </form>
 
+<form name="newsletter" data-netlify="true" netlify-honeypot="bot-field" style="display:none;">
+  <input type="email" name="email" />
+  <input type="text" name="bot-field" />
+</form>
+
 <div class="topbar">
   <div class="container">
     <div class="left"><span>Livraison internationale — import direct</span></div>
@@ -308,16 +313,16 @@
 <header class="main" id="mainHeader">
   <div class="container header-inner">
     <a href="#" class="logo" id="logoText"><span class="mark">M</span>Maï Business <span>Import</span></a>
-    <form class="search-form" onsubmit="return false;">
-      <select>
-        <option>Toutes catégories</option>
-        <option>Mode</option>
-        <option>Électronique</option>
-        <option>Maison</option>
-        <option>Beauté</option>
-        <option>Sport</option>
+    <form class="search-form" id="searchForm" onsubmit="handleHeaderSearch(event)">
+      <select id="searchCategory">
+        <option value="Toutes">Toutes catégories</option>
+        <option value="Mode">Mode</option>
+        <option value="Électronique">Électronique</option>
+        <option value="Maison">Maison</option>
+        <option value="Beauté">Beauté</option>
+        <option value="Sport">Sport</option>
       </select>
-      <input type="text" placeholder="Rechercher un produit...">
+      <input type="text" id="searchInput" placeholder="Rechercher un produit...">
       <button type="submit">&#128269;</button>
     </form>
     <div class="header-actions">
@@ -478,8 +483,8 @@
   <div class="container">
     <h3>Restez informé des nouveaux arrivages</h3>
     <p>Recevez nos offres et nouveautés directement par email.</p>
-    <form onsubmit="return false;">
-      <input type="email" placeholder="Votre adresse email">
+    <form id="newsletterForm" onsubmit="submitNewsletter(event)">
+      <input type="email" id="newsletterEmail" placeholder="Votre adresse email" required>
       <button type="submit">S'inscrire</button>
     </form>
   </div>
@@ -663,7 +668,39 @@
     document.getElementById('cartOverlay').classList.toggle('open', open);
   }
 
+  function handleHeaderSearch(e){
+    e.preventDefault();
+    const cat = document.getElementById('searchCategory').value;
+    const query = document.getElementById('searchInput').value.trim();
+    const params = new URLSearchParams();
+    if(cat && cat !== 'Toutes') params.set('cat', cat);
+    if(query) params.set('search', query);
+    const qs = params.toString();
+    window.location.href = 'boutique.html' + (qs ? '?' + qs : '');
+  }
+
   let checkoutStep = 0;
+
+  function submitNewsletter(e){
+    e.preventDefault();
+    const emailInput = document.getElementById('newsletterEmail');
+    const email = emailInput.value.trim();
+    if(!email) return;
+    const formData = new URLSearchParams();
+    formData.append('form-name', 'newsletter');
+    formData.append('email', email);
+    fetch('/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: formData.toString()
+    }).then(() => {
+      const form = document.getElementById('newsletterForm');
+      form.innerHTML = '<p style="color:#fff;font-weight:500;">Merci ! Votre inscription a bien été prise en compte.</p>';
+    }).catch(err => {
+      console.error('Erreur inscription newsletter :', err);
+      alert("L'inscription n'a pas pu être envoyée, réessayez dans un instant.");
+    });
+  }
 
   function getWhatsAppNumber(){
     const pt = document.getElementById('phoneTop');
