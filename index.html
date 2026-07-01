@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maï Business Import — Boutique en ligne multi-catégories</title>
+<meta name="description" content="Maï Business Import : boutique en ligne multi-catégories (mode, électronique, maison, beauté, sport) avec produits importés, livraison suivie et retours faciles.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+<style>
+  :root{
+    --navy:#1B2A4A;
+    --navy-light:#2C3E63;
+    --navy-dark:#111B30;
+    --gold:#F0A202;
+    --gold-dark:#C77F00;
+    --coral:#E8543E;
+    --coral-dark:#C23F2C;
+    --cream:#FBF6EE;
+    --cream-dark:#F1E7D3;
+    --ink:#1C1B1F;
+    --muted:#746C5E;
+    --white:#FFFFFF;
+    --radius:10px;
+    --radius-lg:18px;
+    --font-display:'Fraunces', serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+    --shadow-sm:0 2px 10px rgba(27,42,74,0.06);
+    --shadow-md:0 12px 32px rgba(27,42,74,0.12);
+    --shadow-lg:0 24px 60px rgba(27,42,74,0.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font-body);color:var(--ink);background:var(--cream);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  ul{list-style:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+  .container{max-width:1220px;margin:0 auto;padding:0 24px;}
+  ::selection{background:var(--gold);color:var(--navy-dark);}
+
+  [data-reveal]{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease;}
+  [data-reveal].visible{opacity:1;transform:translateY(0);}
+
+  /* Topbar */
+  .topbar{background:var(--navy-dark);color:#C9D2E4;font-size:12.5px;}
+  .topbar .container{display:flex;justify-content:space-between;align-items:center;height:38px;flex-wrap:wrap;gap:6px;}
+  .topbar .left,.topbar .right{display:flex;gap:20px;align-items:center;}
+  .topbar a:hover{color:var(--gold);}
+
+  /* Header */
+  header.main{background:rgba(251,246,238,0.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(27,42,74,0.08);position:sticky;top:0;z-index:60;transition:box-shadow .25s;}
+  header.main.scrolled{box-shadow:var(--shadow-sm);}
+  .header-inner{display:flex;align-items:center;gap:30px;padding:20px 0;flex-wrap:wrap;}
+  .logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:25px;color:var(--navy);white-space:nowrap;}
+  .logo .mark{width:40px;height:40px;background:var(--navy);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:19px;font-weight:700;font-family:var(--font-display);flex-shrink:0;}
+  .logo span{color:var(--coral);}
+  .search-form{flex:1;min-width:240px;display:flex;height:48px;border-radius:999px;overflow:hidden;background:var(--white);box-shadow:var(--shadow-sm);}
+  .search-form select{border:none;background:transparent;padding:0 16px;font-size:13px;color:var(--muted);border-right:1px solid var(--cream-dark);}
+  .search-form input{flex:1;border:none;padding:0 18px;font-size:14px;outline:none;background:transparent;font-family:inherit;}
+  .search-form button{background:var(--navy);color:var(--white);padding:0 26px;font-weight:600;font-size:14px;border-radius:999px;margin:4px;}
+  .search-form button:hover{background:var(--navy-light);}
+  .header-actions{display:flex;align-items:center;gap:14px;}
+  .header-actions .icon-circle{width:42px;height:42px;border-radius:50%;background:var(--white);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--navy);box-shadow:var(--shadow-sm);position:relative;transition:.15s;cursor:pointer;}
+  .header-actions .icon-circle:hover{background:var(--navy);color:var(--gold);}
+  .cart-count{position:absolute;top:-4px;right:-4px;background:var(--coral);color:#fff;font-size:10px;font-family:var(--font-mono);width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+
+  nav.subnav{background:var(--navy);}
+  .subnav .container{display:flex;align-items:center;height:50px;gap:28px;}
+  .subnav a{color:#DCE3F0;font-size:14px;position:relative;padding:4px 0;}
+  .subnav a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--gold);transition:.2s;}
+  .subnav a:hover::after,.subnav a.active::after{width:100%;}
+  .subnav a:hover,.subnav a.active{color:var(--gold);}
+  .subnav .call{margin-left:auto;color:#AEB9CE;font-size:12.5px;display:flex;align-items:center;gap:8px;}
+
+  /* Hero */
+  .hero-section{position:relative;overflow:hidden;padding:0 0 10px;}
+  .hero-section::before{content:'';position:absolute;top:-140px;right:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle, rgba(240,162,2,0.18), transparent 70%);pointer-events:none;}
+  .hero-section::after{content:'';position:absolute;bottom:-160px;left:-140px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle, rgba(27,42,74,0.10), transparent 70%);pointer-events:none;}
+  .hero-wrap{display:flex;gap:36px;max-width:1220px;margin:0 auto;padding:44px 24px 30px;align-items:center;flex-wrap:wrap;position:relative;z-index:1;}
+
+  .sidebar{width:250px;background:var(--white);border-radius:var(--radius-lg);flex-shrink:0;box-shadow:var(--shadow-sm);overflow:hidden;align-self:stretch;}
+  .sidebar .head{background:var(--navy);color:var(--gold);padding:16px 18px;font-weight:600;font-size:14px;display:flex;align-items:center;gap:10px;font-family:var(--font-display);}
+  .sidebar ul{padding:6px 0;}
+  .sidebar li{padding:12px 18px;font-size:13.5px;color:var(--ink);display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--cream);cursor:pointer;transition:.15s;}
+  .sidebar li:last-child{border-bottom:none;}
+  .sidebar li:hover{background:var(--cream);color:var(--coral-dark);padding-left:22px;}
+  .sidebar li .ic{width:18px;text-align:center;flex-shrink:0;}
+
+  .hero{
+    flex:1;
+    min-width:300px;
+    border-radius:var(--radius-lg);
+    background-image:linear-gradient(120deg, rgba(251,246,238,0.55), rgba(251,246,238,0.25)), url('/images/hero-bg.png');
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:64px 50px;
+    color:var(--navy);
+    position:relative;
+    min-height:420px;
+    box-shadow:var(--shadow-md);
+  }
+  .hero-copy{max-width:460px;text-align:center;position:relative;}
+  .hero-copy .tag{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1px dashed var(--coral);color:var(--coral-dark);font-family:var(--font-mono);font-size:12px;font-weight:600;padding:7px 16px;border-radius:20px;margin-bottom:22px;}
+  .hero-copy h1{font-family:var(--font-display);font-size:40px;font-weight:700;line-height:1.12;margin-bottom:18px;color:var(--navy);}
+  .hero-copy p{color:#4A5468;font-size:15px;max-width:400px;margin:0 auto 30px;}
+  .btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--navy);color:var(--white);padding:15px 32px;border-radius:999px;font-weight:600;font-size:14.5px;box-shadow:var(--shadow-sm);transition:.2s;}
+  .btn-primary:hover{background:var(--coral);transform:translateY(-2px);box-shadow:var(--shadow-md);}
+  .btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--navy);padding:14px 28px;border-radius:999px;font-weight:600;font-size:14px;border:1.5px solid var(--navy);transition:.2s;}
+  .btn-ghost:hover{background:var(--navy);color:var(--white);}
+  .floating-badge{position:absolute;top:-18px;right:-30px;background:var(--gold);color:var(--navy-dark);font-family:var(--font-mono);font-weight:600;font-size:12px;padding:10px 16px;border-radius:14px;box-shadow:var(--shadow-md);transform:rotate(6deg);}
+
+  /* Trust strip */
+  .trust-strip{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;padding:0 0 36px;position:relative;z-index:1;}
+  .trust-strip .t-item{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--navy);font-weight:500;}
+  .trust-strip .t-item .ic{color:var(--coral);font-size:16px;}
+
+  /* Stats */
+  .stats{background:var(--navy);}
+  .stats .container{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:40px 20px;}
+  .stat{text-align:center;color:#fff;}
+  .stat .num{font-family:var(--font-display);font-size:32px;font-weight:600;}
+  .stat .num span{color:var(--gold);}
+  .stat .label{font-size:12.5px;color:#AEB9CE;margin-top:6px;letter-spacing:.3px;}
+
+  /* Section heading */
+  .section{padding:64px 0;}
+  .section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px;flex-wrap:wrap;gap:12px;}
+  .section-head .tag{font-family:var(--font-mono);font-size:12px;color:var(--coral-dark);letter-spacing:.6px;margin-bottom:8px;display:block;text-transform:uppercase;}
+  .section-head h2{font-family:var(--font-display);font-size:32px;font-weight:600;color:var(--navy);}
+  .section-head a{font-size:13px;font-weight:600;color:var(--navy);border-bottom:1.5px solid var(--gold);padding-bottom:2px;}
+
+  /* Category grid — bento style */
+  .cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  .cat-card{position:relative;border-radius:var(--radius-lg);overflow:hidden;height:170px;box-shadow:var(--shadow-sm);transition:.25s;background-size:cover;background-position:center;}
+  .cat-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
+  .cat-card .overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(27,42,74,0.05), rgba(17,27,48,0.82));display:flex;flex-direction:column;justify-content:flex-end;padding:16px;}
+  .cat-card h4{color:#fff;font-size:15px;font-weight:600;font-family:var(--font-display);}
+  .cat-card span{color:var(--gold);font-size:11.5px;font-family:var(--font-mono);}
+
+  /* Why us */
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .why-card{background:var(--white);border-radius:var(--radius-lg);padding:32px 26px;box-shadow:var(--shadow-sm);transition:.2s;}
+  .why-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);}
+  .why-card .ic{width:52px;height:52px;border-radius:14px;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:18px;color:var(--coral);}
+  .why-card h4{font-family:var(--font-display);font-size:18px;font-weight:600;color:var(--navy);margin-bottom:8px;}
+  .why-card p{font-size:13.5px;color:var(--muted);line-height:1.65;}
+
+  /* Product grid */
+  .prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  .prod-card{background:var(--white);border-radius:var(--radius-lg);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:var(--shadow-sm);transition:.25s;}
+  .prod-card:hover{box-shadow:var(--shadow-md);transform:translateY(-4px);}
+  .prod-img{height:170px;background-size:cover;background-position:center;position:relative;}
+  .prod-img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(27,42,74,0.05), rgba(27,42,74,0.02));}
+  .badge{position:absolute;top:12px;left:12px;background:var(--coral);color:#fff;font-family:var(--font-mono);font-size:11px;font-weight:600;padding:5px 11px;border-radius:6px;z-index:2;}
+  .wishlist{position:absolute;top:10px;right:10px;width:32px;height:32px;background:rgba(255,255,255,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--navy);z-index:2;}
+  .prod-body{padding:18px;display:flex;flex-direction:column;gap:8px;flex:1;}
+  .prod-cat{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:600;}
+  .prod-title{font-size:14.5px;font-weight:600;color:var(--ink);}
+  .prod-rating{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted);}
+  .stars{color:var(--gold);font-size:13px;letter-spacing:1px;}
+  .prod-price-row{display:flex;align-items:center;gap:9px;margin-top:auto;}
+  .price{font-family:var(--font-mono);font-weight:600;font-size:16.5px;color:var(--navy);}
+  .price-old{font-family:var(--font-mono);font-size:12.5px;color:var(--muted);text-decoration:line-through;}
+  .add-btn{margin-top:10px;background:var(--navy);color:#fff;padding:11px;border-radius:999px;font-size:13px;font-weight:600;text-align:center;transition:.2s;}
+  .add-btn:hover{background:var(--coral);}
+
+  /* Promo duo */
+  .promo-duo{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  .promo{
+    border-radius:var(--radius-lg);
+    padding:40px;color:#fff;position:relative;overflow:hidden;min-height:200px;display:flex;flex-direction:column;justify-content:center;
+  }
+  .promo.dark{background:var(--navy);}
+  .promo.gold{background:linear-gradient(135deg, var(--gold), var(--coral));}
+  .promo h3{font-family:var(--font-display);font-size:24px;font-weight:600;margin-bottom:10px;}
+  .promo p{font-size:13.5px;margin-bottom:20px;opacity:.92;max-width:320px;}
+  .promo .btn-ghost{border-color:#fff;color:#fff;}
+  .promo .btn-ghost:hover{background:#fff;color:var(--navy);}
+
+  /* Reviews */
+  .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .review-card{background:var(--white);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow-sm);}
+  .review-card .stars{margin-bottom:14px;display:block;}
+  .review-card p.quote{font-family:var(--font-display);font-size:15px;color:var(--ink);margin-bottom:20px;line-height:1.6;font-weight:500;}
+  .review-author{display:flex;align-items:center;gap:12px;}
+  .review-author .avatar{width:40px;height:40px;border-radius:50%;background:var(--navy);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;font-family:var(--font-display);}
+  .review-author h5{font-size:13.5px;font-weight:600;color:var(--ink);}
+  .review-author span{font-size:12px;color:var(--muted);}
+
+  .review-form-card{max-width:600px;margin:48px auto 0;background:var(--white);border-radius:var(--radius-lg);padding:32px;box-shadow:var(--shadow-sm);}
+  .review-form-card h4{font-family:var(--font-display);font-size:18px;font-weight:600;color:var(--navy);margin-bottom:18px;}
+  .review-form-card form{display:flex;flex-direction:column;gap:14px;}
+  .review-form-card input,.review-form-card select,.review-form-card textarea{height:46px;border:1px solid var(--cream-dark);border-radius:10px;padding:0 16px;font-size:13.5px;font-family:inherit;background:var(--cream);}
+  .review-form-card textarea{height:auto;padding:12px 16px;resize:vertical;}
+
+  /* Newsletter */
+  .newsletter{background:var(--navy);padding:56px 0;text-align:center;position:relative;overflow:hidden;}
+  .newsletter h3{font-family:var(--font-display);font-size:28px;font-weight:600;color:#fff;margin-bottom:10px;}
+  .newsletter p{color:#AEB9CE;font-size:14px;margin-bottom:26px;}
+  .newsletter form{display:flex;max-width:440px;margin:0 auto;gap:10px;flex-wrap:wrap;justify-content:center;}
+  .newsletter input{flex:1;min-width:230px;height:50px;border:none;border-radius:999px;padding:0 20px;font-size:14px;}
+  .newsletter button{background:var(--gold);color:var(--navy-dark);height:50px;padding:0 28px;border-radius:999px;font-weight:600;}
+  .newsletter button:hover{background:var(--coral);color:#fff;}
+
+  /* Footer */
+  footer{background:var(--navy-dark);color:#AEB9CE;padding:56px 0 20px;}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:36px;}
+  .footer-grid h5{color:#fff;font-size:14px;margin-bottom:16px;font-family:var(--font-display);}
+  .footer-grid li{font-size:13.5px;margin-bottom:10px;}
+  .footer-grid li:hover{color:var(--gold);}
+  .footer-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:700;font-size:22px;color:#fff;margin-bottom:14px;}
+  .footer-grid p{font-size:13.5px;margin-bottom:9px;line-height:1.6;}
+  .payment-row{display:flex;gap:10px;margin-top:16px;}
+  .payment-row .pay-ic{background:#26314D;color:#AEB9CE;font-size:11px;font-family:var(--font-mono);padding:7px 12px;border-radius:6px;}
+  .footer-bottom{border-top:1px solid #26314D;padding-top:18px;display:flex;justify-content:space-between;font-size:12.5px;flex-wrap:wrap;gap:10px;}
+
+  /* Cart */
+  .cart-overlay{position:fixed;inset:0;background:rgba(17,27,48,.55);display:none;z-index:100;}
+  .cart-overlay.open{display:block;}
+  .cart-panel{position:fixed;top:0;right:0;height:100%;width:390px;max-width:92vw;background:var(--white);z-index:101;transform:translateX(100%);transition:.3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;}
+  .cart-panel.open{transform:translateX(0);}
+  .cart-head{padding:22px 24px;border-bottom:1px solid var(--cream-dark);display:flex;justify-content:space-between;align-items:center;}
+  .cart-head h4{font-family:var(--font-display);font-size:20px;font-weight:600;color:var(--navy);}
+  .cart-close{font-size:22px;color:var(--muted);cursor:pointer;}
+  .cart-items{flex:1;overflow-y:auto;padding:16px 24px;}
+  .cart-item{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--cream);align-items:center;}
+  .cart-item .thumb{width:54px;height:54px;background-size:cover;background-position:center;border-radius:10px;flex-shrink:0;}
+  .cart-item .info{flex:1;}
+  .cart-item .info h5{font-size:13.5px;font-weight:600;}
+  .cart-item .info span{font-family:var(--font-mono);font-size:12.5px;color:var(--muted);}
+  .cart-item .remove{color:var(--coral-dark);font-size:12px;font-weight:600;cursor:pointer;}
+  .cart-empty{text-align:center;color:var(--muted);font-size:14px;padding:44px 0;}
+  .cart-foot{padding:22px 24px;border-top:1px solid var(--cream-dark);}
+  .cart-total{display:flex;justify-content:space-between;font-weight:700;margin-bottom:16px;font-family:var(--font-mono);color:var(--navy);}
+  .cart-foot .btn-primary{width:100%;justify-content:center;}
+
+  @media(max-width:1000px){
+    .why-grid{grid-template-columns:1fr;}
+    .promo-duo{grid-template-columns:1fr;}
+  }
+  @media(max-width:900px){
+    .stats .container{grid-template-columns:repeat(2,1fr);}
+    .cat-grid{grid-template-columns:repeat(2,1fr);}
+    .prod-grid{grid-template-columns:repeat(2,1fr);}
+    .reviews-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .subnav .container{overflow-x:auto;}
+    .sidebar{display:none;}
+    .floating-badge{display:none;}
+  }
+  @media(max-width:520px){
+    .hero-copy h1{font-size:28px;}
+    .prod-grid,.cat-grid{grid-template-columns:1fr 1fr;}
+    .footer-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <div class="left"><span>Livraison internationale — import direct</span></div>
+    <div class="right">
+      <a href="tel:+22901430485" id="phoneTop">&#128222; +229 01 43 04 85</a>
+      <a href="mailto:teams@maibusinessimport.com" id="emailTop">&#9993; teams@maibusinessimport.com</a>
+    </div>
+  </div>
+</div>
+
+<header class="main" id="mainHeader">
+  <div class="container header-inner">
+    <a href="#" class="logo" id="logoText"><span class="mark">M</span>Maï Business <span>Import</span></a>
+    <form class="search-form" onsubmit="return false;">
+      <select>
+        <option>Toutes catégories</option>
+        <option>Mode</option>
+        <option>Électronique</option>
+        <option>Maison</option>
+        <option>Beauté</option>
+        <option>Sport</option>
+      </select>
+      <input type="text" placeholder="Rechercher un produit...">
+      <button type="submit">&#128269;</button>
+    </form>
+    <div class="header-actions">
+      <div class="icon-circle">&#9825;</div>
+      <div class="icon-circle" onclick="toggleCart(true)">&#128722;<span class="cart-count" id="cartCount">0</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="subnav">
+  <div class="container">
+    <a href="#" class="active">Accueil</a>
+    <a href="#categories">Catégories</a>
+    <a href="#produits">Boutique</a>
+    <a href="#avis">Avis</a>
+    <a href="#contact">Contact</a>
+    <span class="call">&#9679; Livraison suivie sur toutes les commandes</span>
+  </div>
+</nav>
+
+<div class="hero-section">
+  <div class="hero-wrap">
+    <aside class="sidebar">
+      <div class="head">&#9776; Parcourir les catégories</div>
+      <ul>
+        <li><span class="ic">&#128092;</span> Mode</li>
+        <li><span class="ic">&#128241;</span> Électronique</li>
+        <li><span class="ic">&#127968;</span> Maison</li>
+        <li><span class="ic">&#128132;</span> Beauté</li>
+        <li><span class="ic">&#9917;</span> Sport</li>
+        <li><span class="ic">&#129466;</span> Enfants</li>
+        <li><span class="ic">&#128717;&#65039;</span> Bagagerie</li>
+        <li><span class="ic">&#127909;</span> Accessoires</li>
+      </ul>
+    </aside>
+    <div class="hero">
+      <div class="hero-copy">
+        <span class="tag" id="heroTag">&#9679; Offres exclusives -30%</span>
+        <h1 id="heroTitle">L'import qui rend chaque catégorie accessible</h1>
+        <p id="heroText">Mode, électronique, maison, beauté et plus encore — sélectionnés et importés directement pour vous.</p>
+        <a href="#produits" class="btn-primary">Voir la boutique &rarr;</a>
+        <div class="floating-badge">&#9733; 4.8/5 clients</div>
+      </div>
+    </div>
+  </div>
+  <div class="trust-strip">
+    <div class="t-item"><span class="ic">&#128274;</span> Paiement 100% sécurisé</div>
+    <div class="t-item"><span class="ic">&#128666;</span> Livraison suivie</div>
+    <div class="t-item"><span class="ic">&#8635;</span> Retours sous 15 jours</div>
+    <div class="t-item"><span class="ic">&#127908;</span> Support dédié 7j/7</div>
+  </div>
+</div>
+
+<section class="stats">
+  <div class="container">
+    <div class="stat"><div class="num"><span id="statClients">2 400</span>+</div><div class="label">Clients satisfaits</div></div>
+    <div class="stat"><div class="num"><span id="statProducts">500</span>+</div><div class="label">Produits au catalogue</div></div>
+    <div class="stat"><div class="num"><span id="statCountries">15</span></div><div class="label">Pays livrés</div></div>
+    <div class="stat"><div class="num"><span id="statRating">4.8</span>/5</div><div class="label">Note moyenne clients</div></div>
+  </div>
+</section>
+
+<section class="section" id="categories">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <div><span class="tag">Explorez</span><h2>Nos catégories</h2></div>
+      <a href="#produits">Voir tout le catalogue &rarr;</a>
+    </div>
+    <div class="cat-grid" data-reveal>
+      <div class="cat-card" style="background-image:url('https://images.unsplash.com/photo-1445205170230-053b83016050?w=500&q=80')"><div class="overlay"><h4>Mode</h4><span>120+ articles</span></div></div>
+      <div class="cat-card" style="background-image:url('https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=500&q=80')"><div class="overlay"><h4>Électronique</h4><span>85+ articles</span></div></div>
+      <div class="cat-card" style="background-image:url('https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=500&q=80')"><div class="overlay"><h4>Maison</h4><span>96+ articles</span></div></div>
+      <div class="cat-card" style="background-image:url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500&q=80')"><div class="overlay"><h4>Beauté</h4><span>64+ articles</span></div></div>
+      <div class="cat-card" style="background-image:url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=500&q=80')"><div class="overlay"><h4>Sport</h4><span>52+ articles</span></div></div>
+      <div class="cat-card" style="background-image:url('https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=500&q=80')"><div class="overlay"><h4>Enfants</h4><span>40+ articles</span></div></div>
+      <div class="cat-card" style="background-image:url('https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80')"><div class="overlay"><h4>Bagagerie</h4><span>30+ articles</span></div></div>
+      <div class="cat-card" style="background:linear-gradient(135deg, var(--navy), var(--navy-light));"><div class="overlay" style="background:none;align-items:center;text-align:center;"><h4>Toutes catégories</h4><span>Voir plus &rarr;</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--white);">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <div><span class="tag">Pourquoi Maï</span><h2>Une expérience d'achat pensée pour vous</h2></div>
+    </div>
+    <div class="why-grid" data-reveal>
+      <div class="why-card">
+        <div class="ic">&#128666;</div>
+        <h4>Suivi transparent</h4>
+        <p>Chaque commande est tracée de bout en bout, avec des notifications claires à chaque étape de la livraison.</p>
+      </div>
+      <div class="why-card">
+        <div class="ic">&#128274;</div>
+        <h4>Paiement en confiance</h4>
+        <p>Mobile Money ou carte bancaire, vos paiements sont sécurisés et vos données ne sont jamais partagées.</p>
+      </div>
+      <div class="why-card">
+        <div class="ic">&#127775;</div>
+        <h4>Sélection exigeante</h4>
+        <p>Chaque produit importé est choisi pour son rapport qualité-prix avant d'être ajouté au catalogue.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="produits">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <div><span class="tag">Fraîchement importés</span><h2>Nouveautés</h2></div>
+      <a href="#">Voir tous les produits &rarr;</a>
+    </div>
+    <div class="prod-grid" id="productGrid" data-reveal></div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--white);">
+  <div class="container">
+    <div class="promo-duo" data-reveal>
+      <div class="promo dark">
+        <h3>Import groupé disponible</h3>
+        <p>Commandez en gros et réduisez vos coûts de livraison sur toutes les catégories.</p>
+        <a href="mailto:teams@maibusinessimport.com" class="btn-ghost">Nous contacter &rarr;</a>
+      </div>
+      <div class="promo gold">
+        <h3>-30% sur votre 1ère commande</h3>
+        <p>Inscrivez-vous à la newsletter pour recevoir votre code de bienvenue.</p>
+        <a href="#newsletter" class="btn-ghost">En profiter &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="avis" style="background:var(--white);">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <div><span class="tag">Ils nous font confiance</span><h2>Avis de nos clients</h2></div>
+    </div>
+    <div class="reviews-grid" id="reviewsGrid" data-reveal></div>
+
+    <div class="review-form-card" data-reveal>
+      <h4>Laisser un avis</h4>
+      <form id="reviewForm" onsubmit="submitReview(event)">
+        <input type="text" id="reviewName" placeholder="Votre nom" required>
+        <select id="reviewStars">
+          <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733; — Excellent</option>
+          <option value="4">&#9733;&#9733;&#9733;&#9733;&#9734; — Très bien</option>
+          <option value="3">&#9733;&#9733;&#9733;&#9734;&#9734; — Correct</option>
+        </select>
+        <textarea id="reviewText" placeholder="Votre commentaire..." required rows="3"></textarea>
+        <button type="submit" class="btn-primary" style="align-self:flex-start;">Publier mon avis</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="newsletter" id="newsletter">
+  <div class="container">
+    <h3>Restez informé des nouveaux arrivages</h3>
+    <p>Recevez nos offres et nouveautés directement par email.</p>
+    <form onsubmit="return false;">
+      <input type="email" placeholder="Votre adresse email">
+      <button type="submit">S'inscrire</button>
+    </form>
+  </div>
+</div>
+
+<footer id="contact">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo" id="footerLogo"><span style="color:var(--gold);">Maï</span> Business Import</div>
+        <p>Votre boutique multi-catégories pour des produits importés de qualité, livrés directement chez vous.</p>
+        <p>&#128222; <span id="phoneFooter">+229 01 43 04 85</span></p>
+        <p>&#9993; <span id="emailFooter">teams@maibusinessimport.com</span></p>
+        <div class="payment-row">
+          <span class="pay-ic">CARTE</span>
+          <span class="pay-ic">MOBILE MONEY</span>
+          <span class="pay-ic">VIREMENT</span>
+        </div>
+      </div>
+      <div>
+        <h5>Boutique</h5>
+        <ul><li>Toutes les catégories</li><li>Nouveautés</li><li>Promotions</li><li>Import groupé</li></ul>
+      </div>
+      <div>
+        <h5>Aide</h5>
+        <ul><li>Suivre ma commande</li><li>Livraison &amp; retours</li><li>FAQ</li><li>Contact</li></ul>
+      </div>
+      <div>
+        <h5>Entreprise</h5>
+        <ul><li>À propos</li><li>maibusinessimport.com</li><li>Conditions générales</li><li>Confidentialité</li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 <span id="copyrightName">Maï Business Import</span>. Tous droits réservés.</span>
+      <span>maibusinessimport.com</span>
+    </div>
+  </div>
+</footer>
+
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart(false)"></div>
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-head">
+    <h4>Votre panier</h4>
+    <span class="cart-close" onclick="toggleCart(false)">&times;</span>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot">
+    <div class="cart-total"><span>Total</span><span id="cartTotal">0 &euro;</span></div>
+    <a href="#" class="btn-primary" onclick="alert('Le paiement sera connecté lors de la mise en ligne réelle du site.'); return false;">Passer commande &rarr;</a>
+  </div>
+</div>
+
+<script>
+  let products = [];
+  let reviews = [];
+  let cart = [];
+
+  function starString(n){ return '&#9733;'.repeat(n) + '&#9734;'.repeat(5-n); }
+  function initials(name){ return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2); }
+
+  function renderProducts(){
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML = products.map((p, idx) => `
+      <div class="prod-card">
+        <div class="prod-img" style="background-image:url('${p.image}');">
+          ${p.oldPrice ? '<span class="badge">Promo</span>' : (p.badgeLabel ? `<span class="badge" style="background:var(--navy);">${p.badgeLabel}</span>` : '')}
+          <div class="wishlist">&#9825;</div>
+        </div>
+        <div class="prod-body">
+          <span class="prod-cat">${p.category}</span>
+          <span class="prod-title">${p.name}</span>
+          <div class="prod-rating"><span class="stars">${starString(p.rating)}</span> (${p.votes})</div>
+          <div class="prod-price-row">
+            <span class="price">${Number(p.price).toFixed(2)} &euro;</span>
+            ${p.oldPrice ? `<span class="price-old">${Number(p.oldPrice).toFixed(2)} &euro;</span>` : ''}
+          </div>
+          <div class="add-btn" onclick="addToCart(${idx})">Ajouter au panier</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderReviews(){
+    document.getElementById('reviewsGrid').innerHTML = reviews.map(r => `
+      <div class="review-card">
+        <span class="stars">${starString(r.stars)}</span>
+        <p class="quote">"${r.text}"</p>
+        <div class="review-author">
+          <div class="avatar">${initials(r.name)}</div>
+          <div><h5>${r.name}</h5><span>Achat vérifié</span></div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function submitReview(e){
+    e.preventDefault();
+    const name = document.getElementById('reviewName').value.trim();
+    const stars = parseInt(document.getElementById('reviewStars').value, 10);
+    const text = document.getElementById('reviewText').value.trim();
+    if(!name || !text) return;
+    reviews.unshift({name, stars, text});
+    renderReviews();
+    document.getElementById('reviewForm').reset();
+  }
+
+  window.addEventListener('scroll', function(){
+    document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 10);
+  });
+
+  function addToCart(idx){
+    const existing = cart.find(c => c.idx === idx);
+    if(existing){ existing.qty++; } else {
+      cart.push({...products[idx], idx, qty:1});
+    }
+    renderCart();
+    toggleCart(true);
+  }
+
+  function removeFromCart(idx){
+    cart = cart.filter(c => c.idx !== idx);
+    renderCart();
+  }
+
+  function renderCart(){
+    const itemsEl = document.getElementById('cartItems');
+    const count = cart.reduce((s,c) => s + c.qty, 0);
+    document.getElementById('cartCount').textContent = count;
+    if(cart.length === 0){
+      itemsEl.innerHTML = '<div class="cart-empty">Votre panier est vide.</div>';
+    } else {
+      itemsEl.innerHTML = cart.map(c => `
+        <div class="cart-item">
+          <div class="thumb" style="background-image:url('${c.image}');"></div>
+          <div class="info"><h5>${c.name}</h5><span>${c.qty} &times; ${Number(c.price).toFixed(2)} &euro;</span></div>
+          <div class="remove" onclick="removeFromCart(${c.idx})">Retirer</div>
+        </div>
+      `).join('');
+    }
+    const total = cart.reduce((s,c) => s + c.qty * c.price, 0);
+    document.getElementById('cartTotal').textContent = total.toFixed(2) + ' \u20ac';
+  }
+
+  function toggleCart(open){
+    document.getElementById('cartPanel').classList.toggle('open', open);
+    document.getElementById('cartOverlay').classList.toggle('open', open);
+  }
+
+  function applySettings(s){
+    const setText = (id, val) => { const el = document.getElementById(id); if(el && val) el.textContent = val; };
+    if(s.siteName){ document.title = s.siteName + ' — Boutique en ligne multi-catégories'; }
+    setText('heroTag', s.heroTag);
+    setText('heroTitle', s.heroTitle);
+    setText('heroText', s.heroText);
+    setText('statClients', s.statClients);
+    setText('statProducts', s.statProducts);
+    setText('statCountries', s.statCountries);
+    setText('statRating', s.statRating);
+    setText('copyrightName', s.siteName);
+    setText('phoneFooter', s.phone);
+    setText('emailFooter', s.email);
+    if(s.phone){
+      const pt = document.getElementById('phoneTop');
+      if(pt){ pt.href = 'tel:' + s.phone.replace(/\s/g,''); pt.innerHTML = '&#128222; ' + s.phone; }
+    }
+    if(s.email){
+      const et = document.getElementById('emailTop');
+      if(et){ et.href = 'mailto:' + s.email; et.innerHTML = '&#9993; ' + s.email; }
+    }
+  }
+
+  async function loadContent(){
+    try{
+      const [productsTxt, reviewsTxt, settingsTxt] = await Promise.all([
+        fetch('/content/products.yml').then(r => r.text()),
+        fetch('/content/reviews.yml').then(r => r.text()),
+        fetch('/content/settings.yml').then(r => r.text())
+      ]);
+      products = (jsyaml.load(productsTxt) || {}).products || [];
+      reviews = (jsyaml.load(reviewsTxt) || {}).reviews || [];
+      const settings = jsyaml.load(settingsTxt) || {};
+      renderProducts();
+      renderReviews();
+      applySettings(settings);
+    } catch(err){
+      console.error('Erreur de chargement du contenu :', err);
+    }
+    renderCart();
+
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if(entry.isIntersecting){ entry.target.classList.add('visible'); } });
+    }, {threshold:0.12});
+    revealEls.forEach(el => observer.observe(el));
+  }
+
+  loadContent();
+</script>
+
+</body>
+</html>
