@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maï Business Import — Boutique en ligne multi-catégories</title>
+<title>Boutique — Maï Business Import</title>
 <meta name="description" content="Maï Business Import : boutique en ligne multi-catégories (mode, électronique, maison, beauté, sport) avec produits importés, livraison suivie et retours faciles.">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
@@ -280,6 +280,15 @@
     .prod-grid,.cat-grid{grid-template-columns:1fr 1fr;}
     .footer-grid{grid-template-columns:1fr;}
   }
+
+  .shop-hero{background:var(--navy);padding:44px 0 34px;text-align:center;}
+  .shop-hero h1{font-family:var(--font-display);font-size:30px;font-weight:600;color:#fff;margin-bottom:8px;}
+  .shop-hero p{color:#AEB9CE;font-size:14px;}
+  .filter-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px;}
+  .filter-btn{background:var(--white);border:1px solid var(--cream-dark);color:var(--navy);font-size:13px;font-weight:500;padding:10px 18px;border-radius:999px;transition:.15s;}
+  .filter-btn:hover{border-color:var(--navy);}
+  .filter-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .shop-empty{text-align:center;color:var(--muted);font-size:14px;padding:60px 0;grid-column:1/-1;}
 </style>
 </head>
 <body>
@@ -296,7 +305,7 @@
 
 <header class="main" id="mainHeader">
   <div class="container header-inner">
-    <a href="#" class="logo" id="logoText"><span class="mark">M</span>Maï Business <span>Import</span></a>
+    <a href="index.html" class="logo" id="logoText"><span class="mark">M</span>Maï Business <span>Import</span></a>
     <form class="search-form" onsubmit="return false;">
       <select>
         <option>Toutes catégories</option>
@@ -318,161 +327,28 @@
 
 <nav class="subnav">
   <div class="container">
-    <a href="#" class="active">Accueil</a>
-    <a href="#categories">Catégories</a>
-    <a href="boutique.html">Boutique</a>
-    <a href="#avis">Avis</a>
-    <a href="#contact">Contact</a>
+    <a href="index.html">Accueil</a>
+    <a href="index.html#categories">Catégories</a>
+    <a href="boutique.html" class="active">Boutique</a>
+    <a href="index.html#avis">Avis</a>
+    <a href="index.html#contact">Contact</a>
     <span class="call">&#9679; Livraison suivie sur toutes les commandes</span>
   </div>
 </nav>
 
-<div class="hero-section">
-  <div class="hero-wrap">
-    <aside class="sidebar">
-      <div class="head">&#9776; Parcourir les catégories</div>
-      <ul>
-        <li><a href="boutique.html?cat=Mode"><span class="ic">&#128092;</span> Mode</a></li>
-        <li><a href="boutique.html?cat=Électronique"><span class="ic">&#128241;</span> Électronique</a></li>
-        <li><a href="boutique.html?cat=Maison"><span class="ic">&#127968;</span> Maison</a></li>
-        <li><a href="boutique.html?cat=Beauté"><span class="ic">&#128132;</span> Beauté</a></li>
-        <li><a href="boutique.html?cat=Sport"><span class="ic">&#9917;</span> Sport</a></li>
-        <li><a href="boutique.html?cat=Enfants"><span class="ic">&#129466;</span> Enfants</a></li>
-        <li><a href="boutique.html?cat=Bagagerie"><span class="ic">&#128717;&#65039;</span> Bagagerie</a></li>
-        <li><a href="boutique.html?cat=Accessoires"><span class="ic">&#127909;</span> Accessoires</a></li>
-      </ul>
-    </aside>
-    <div class="hero">
-      <div class="hero-copy">
-        <span class="tag" id="heroTag">&#9679; Offres exclusives -30%</span>
-        <h1 id="heroTitle">L'import qui rend chaque catégorie accessible</h1>
-        <p id="heroText">Mode, électronique, maison, beauté et plus encore — sélectionnés et importés directement pour vous.</p>
-        <a href="boutique.html" class="btn-primary">Voir la boutique &rarr;</a>
-        <div class="floating-badge">&#9733; 4.8/5 clients</div>
-      </div>
-    </div>
-  </div>
-  <div class="trust-strip">
-    <div class="t-item"><span class="ic">&#128274;</span> Paiement 100% sécurisé</div>
-    <div class="t-item"><span class="ic">&#128666;</span> Livraison suivie</div>
-    <div class="t-item"><span class="ic">&#8635;</span> Retours sous 15 jours</div>
-    <div class="t-item"><span class="ic">&#127908;</span> Support dédié 7j/7</div>
+<div class="shop-hero">
+  <div class="container">
+    <h1>Toute la boutique</h1>
+    <p>Parcourez l'ensemble de nos produits, filtrez par catégorie.</p>
   </div>
 </div>
 
-<section class="stats">
+<section class="section">
   <div class="container">
-    <div class="stat"><div class="num"><span id="statClients">2 400</span>+</div><div class="label">Clients satisfaits</div></div>
-    <div class="stat"><div class="num"><span id="statProducts">500</span>+</div><div class="label">Produits au catalogue</div></div>
-    <div class="stat"><div class="num"><span id="statCountries">15</span></div><div class="label">Pays livrés</div></div>
-    <div class="stat"><div class="num"><span id="statRating">4.8</span>/5</div><div class="label">Note moyenne clients</div></div>
+    <div class="filter-bar" id="filterBar"></div>
+    <div class="prod-grid" id="productGrid"></div>
   </div>
 </section>
-
-<section class="section" id="categories">
-  <div class="container">
-    <div class="section-head" data-reveal>
-      <div><span class="tag">Explorez</span><h2>Nos catégories</h2></div>
-      <a href="boutique.html">Voir tout le catalogue &rarr;</a>
-    </div>
-    <div class="cat-grid" data-reveal>
-      <a class="cat-card" href="boutique.html?cat=Mode" style="background-image:url('https://images.unsplash.com/photo-1445205170230-053b83016050?w=500&q=80')"><div class="overlay"><h4>Mode</h4><span>120+ articles</span></div></a>
-      <a class="cat-card" href="boutique.html?cat=Électronique" style="background-image:url('https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=500&q=80')"><div class="overlay"><h4>Électronique</h4><span>85+ articles</span></div></a>
-      <a class="cat-card" href="boutique.html?cat=Maison" style="background-image:url('https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=500&q=80')"><div class="overlay"><h4>Maison</h4><span>96+ articles</span></div></a>
-      <a class="cat-card" href="boutique.html?cat=Beauté" style="background-image:url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500&q=80')"><div class="overlay"><h4>Beauté</h4><span>64+ articles</span></div></a>
-      <a class="cat-card" href="boutique.html?cat=Sport" style="background-image:url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=500&q=80')"><div class="overlay"><h4>Sport</h4><span>52+ articles</span></div></a>
-      <a class="cat-card" href="boutique.html?cat=Enfants" style="background-image:url('https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=500&q=80')"><div class="overlay"><h4>Enfants</h4><span>40+ articles</span></div></a>
-      <a class="cat-card" href="boutique.html?cat=Bagagerie" style="background-image:url('https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80')"><div class="overlay"><h4>Bagagerie</h4><span>30+ articles</span></div></a>
-      <a class="cat-card" href="boutique.html" style="background:linear-gradient(135deg, var(--navy), var(--navy-light));"><div class="overlay" style="background:none;align-items:center;text-align:center;"><h4>Toutes catégories</h4><span>Voir plus &rarr;</span></div></a>
-    </div>
-  </div>
-</section>
-
-<section class="section" style="background:var(--white);">
-  <div class="container">
-    <div class="section-head" data-reveal>
-      <div><span class="tag">Pourquoi Maï</span><h2>Une expérience d'achat pensée pour vous</h2></div>
-    </div>
-    <div class="why-grid" data-reveal>
-      <div class="why-card">
-        <div class="ic">&#128666;</div>
-        <h4>Suivi transparent</h4>
-        <p>Chaque commande est tracée de bout en bout, avec des notifications claires à chaque étape de la livraison.</p>
-      </div>
-      <div class="why-card">
-        <div class="ic">&#128274;</div>
-        <h4>Paiement en confiance</h4>
-        <p>Mobile Money ou carte bancaire, vos paiements sont sécurisés et vos données ne sont jamais partagées.</p>
-      </div>
-      <div class="why-card">
-        <div class="ic">&#127775;</div>
-        <h4>Sélection exigeante</h4>
-        <p>Chaque produit importé est choisi pour son rapport qualité-prix avant d'être ajouté au catalogue.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="produits">
-  <div class="container">
-    <div class="section-head" data-reveal>
-      <div><span class="tag">Fraîchement importés</span><h2>Nouveautés</h2></div>
-      <a href="boutique.html">Voir tous les produits &rarr;</a>
-    </div>
-    <div class="prod-grid" id="productGrid" data-reveal></div>
-  </div>
-</section>
-
-<section class="section" style="background:var(--white);">
-  <div class="container">
-    <div class="promo-duo" data-reveal>
-      <div class="promo dark">
-        <h3>Import groupé disponible</h3>
-        <p>Commandez en gros et réduisez vos coûts de livraison sur toutes les catégories.</p>
-        <a href="mailto:teams@maibusinessimport.com" class="btn-ghost">Nous contacter &rarr;</a>
-      </div>
-      <div class="promo gold">
-        <h3>-30% sur votre 1ère commande</h3>
-        <p>Inscrivez-vous à la newsletter pour recevoir votre code de bienvenue.</p>
-        <a href="#newsletter" class="btn-ghost">En profiter &rarr;</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="avis" style="background:var(--white);">
-  <div class="container">
-    <div class="section-head" data-reveal>
-      <div><span class="tag">Ils nous font confiance</span><h2>Avis de nos clients</h2></div>
-    </div>
-    <div class="reviews-grid" id="reviewsGrid" data-reveal></div>
-
-    <div class="review-form-card" data-reveal>
-      <h4>Laisser un avis</h4>
-      <form id="reviewForm" onsubmit="submitReview(event)">
-        <input type="text" id="reviewName" placeholder="Votre nom" required>
-        <select id="reviewStars">
-          <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733; — Excellent</option>
-          <option value="4">&#9733;&#9733;&#9733;&#9733;&#9734; — Très bien</option>
-          <option value="3">&#9733;&#9733;&#9733;&#9734;&#9734; — Correct</option>
-        </select>
-        <textarea id="reviewText" placeholder="Votre commentaire..." required rows="3"></textarea>
-        <button type="submit" class="btn-primary" style="align-self:flex-start;">Publier mon avis</button>
-      </form>
-    </div>
-  </div>
-</section>
-
-<div class="newsletter" id="newsletter">
-  <div class="container">
-    <h3>Restez informé des nouveaux arrivages</h3>
-    <p>Recevez nos offres et nouveautés directement par email.</p>
-    <form onsubmit="return false;">
-      <input type="email" placeholder="Votre adresse email">
-      <button type="submit">S'inscrire</button>
-    </form>
-  </div>
-</div>
 
 <footer id="contact">
   <div class="container">
@@ -546,22 +422,44 @@
     <a href="#" class="btn-primary" onclick="alert('Le paiement sera connecté lors de la mise en ligne réelle du site.'); return false;">Passer commande &rarr;</a>
   </div>
 </div>
-
 <script>
   let products = [];
-  let reviews = [];
   let cart = [];
+  let activeCategory = 'Toutes';
+  const categories = ['Toutes', 'Mode', 'Électronique', 'Maison', 'Beauté', 'Sport', 'Enfants', 'Bagagerie', 'Accessoires'];
 
   function starString(n){ return '&#9733;'.repeat(n) + '&#9734;'.repeat(5-n); }
-  function initials(name){ return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2); }
   function formatPrice(n){
     n = Math.round(Number(n));
     return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' FCFA';
   }
 
+  function renderFilterBar(){
+    const bar = document.getElementById('filterBar');
+    bar.innerHTML = categories.map(cat => `
+      <button class="filter-btn ${cat === activeCategory ? 'active' : ''}" onclick="setCategory('${cat}')">${cat}</button>
+    `).join('');
+  }
+
+  function setCategory(cat){
+    activeCategory = cat;
+    renderFilterBar();
+    renderProducts();
+    const url = new URL(window.location);
+    if(cat === 'Toutes'){ url.searchParams.delete('cat'); } else { url.searchParams.set('cat', cat); }
+    window.history.replaceState({}, '', url);
+  }
+
   function renderProducts(){
     const grid = document.getElementById('productGrid');
-    grid.innerHTML = products.map((p, idx) => `
+    const list = activeCategory === 'Toutes' ? products : products.filter(p => p.category === activeCategory);
+    if(list.length === 0){
+      grid.innerHTML = '<div class="shop-empty">Aucun produit dans cette catégorie pour le moment.</div>';
+      return;
+    }
+    grid.innerHTML = list.map((p) => {
+      const idx = products.indexOf(p);
+      return `
       <div class="prod-card">
         <div class="prod-img" style="background-image:url('${p.image}');">
           ${p.oldPrice ? '<span class="badge">Promo</span>' : (p.badgeLabel ? `<span class="badge" style="background:var(--navy);">${p.badgeLabel}</span>` : '')}
@@ -578,31 +476,8 @@
           <div class="add-btn" onclick="addToCart(${idx})">Ajouter au panier</div>
         </div>
       </div>
-    `).join('');
-  }
-
-  function renderReviews(){
-    document.getElementById('reviewsGrid').innerHTML = reviews.map(r => `
-      <div class="review-card">
-        <span class="stars">${starString(r.stars)}</span>
-        <p class="quote">"${r.text}"</p>
-        <div class="review-author">
-          <div class="avatar">${initials(r.name)}</div>
-          <div><h5>${r.name}</h5><span>Achat vérifié</span></div>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  function submitReview(e){
-    e.preventDefault();
-    const name = document.getElementById('reviewName').value.trim();
-    const stars = parseInt(document.getElementById('reviewStars').value, 10);
-    const text = document.getElementById('reviewText').value.trim();
-    if(!name || !text) return;
-    reviews.unshift({name, stars, text});
-    renderReviews();
-    document.getElementById('reviewForm').reset();
+    `;
+    }).join('');
   }
 
   window.addEventListener('scroll', function(){
@@ -646,56 +521,6 @@
     document.getElementById('cartPanel').classList.toggle('open', open);
     document.getElementById('cartOverlay').classList.toggle('open', open);
   }
-
-  function applySettings(s){
-    const setText = (id, val) => { const el = document.getElementById(id); if(el && val) el.textContent = val; };
-    if(s.siteName){ document.title = s.siteName + ' — Boutique en ligne multi-catégories'; }
-    setText('heroTag', s.heroTag);
-    setText('heroTitle', s.heroTitle);
-    setText('heroText', s.heroText);
-    setText('statClients', s.statClients);
-    setText('statProducts', s.statProducts);
-    setText('statCountries', s.statCountries);
-    setText('statRating', s.statRating);
-    setText('copyrightName', s.siteName);
-    setText('phoneFooter', s.phone);
-    setText('emailFooter', s.email);
-    if(s.phone){
-      const pt = document.getElementById('phoneTop');
-      if(pt){ pt.href = 'tel:' + s.phone.replace(/\s/g,''); pt.innerHTML = '&#128222; ' + s.phone; }
-    }
-    if(s.email){
-      const et = document.getElementById('emailTop');
-      if(et){ et.href = 'mailto:' + s.email; et.innerHTML = '&#9993; ' + s.email; }
-    }
-  }
-
-  async function loadContent(){
-    try{
-      const [productsTxt, reviewsTxt, settingsTxt] = await Promise.all([
-        fetch('/content/products.yml').then(r => r.text()),
-        fetch('/content/reviews.yml').then(r => r.text()),
-        fetch('/content/settings.yml').then(r => r.text())
-      ]);
-      products = (jsyaml.load(productsTxt) || {}).products || [];
-      reviews = (jsyaml.load(reviewsTxt) || {}).reviews || [];
-      const settings = jsyaml.load(settingsTxt) || {};
-      renderProducts();
-      renderReviews();
-      applySettings(settings);
-    } catch(err){
-      console.error('Erreur de chargement du contenu :', err);
-    }
-    renderCart();
-
-    const revealEls = document.querySelectorAll('[data-reveal]');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => { if(entry.isIntersecting){ entry.target.classList.add('visible'); } });
-    }, {threshold:0.12});
-    revealEls.forEach(el => observer.observe(el));
-  }
-
-  loadContent();
 
   const chatFaq = [
     {keywords: ['livraison', 'delai', 'délai', 'expedition', 'expédition', 'shipping'],
@@ -754,7 +579,42 @@
       addChatMsg("Bonjour et bienvenue chez Maï Business Import ! Choisissez un sujet ci-dessous ou écrivez votre question.", 'bot');
     }
   }
-</script>
 
-</body>
-</html>
+  function applyFooterSettings(s){
+    const setText = (id, val) => { const el = document.getElementById(id); if(el && val) el.textContent = val; };
+    setText('copyrightName', s.siteName);
+    setText('phoneFooter', s.phone);
+    setText('emailFooter', s.email);
+    if(s.phone){
+      const pt = document.getElementById('phoneTop');
+      if(pt){ pt.href = 'tel:' + s.phone.replace(/\s/g,''); pt.innerHTML = '&#128222; ' + s.phone; }
+    }
+    if(s.email){
+      const et = document.getElementById('emailTop');
+      if(et){ et.href = 'mailto:' + s.email; et.innerHTML = '&#9993; ' + s.email; }
+    }
+  }
+
+  async function loadContent(){
+    const params = new URLSearchParams(window.location.search);
+    const catParam = params.get('cat');
+    if(catParam) activeCategory = catParam;
+    try{
+      const [productsTxt, settingsTxt] = await Promise.all([
+        fetch('/content/products.yml').then(r => r.text()),
+        fetch('/content/settings.yml').then(r => r.text())
+      ]);
+      products = (jsyaml.load(productsTxt) || {}).products || [];
+      const settings = jsyaml.load(settingsTxt) || {};
+      renderFilterBar();
+      renderProducts();
+      applyFooterSettings(settings);
+    } catch(err){
+      console.error('Erreur de chargement du contenu :', err);
+    }
+    renderCart();
+  }
+
+  loadContent();
+</script>
+</body></html>

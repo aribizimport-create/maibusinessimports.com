@@ -1,0 +1,66 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+locale: "fr"
+
+collections:
+  - name: "products"
+    label: "Produits"
+    label_singular: "Produit"
+    files:
+      - name: "products"
+        label: "Liste des produits"
+        file: "content/products.yml"
+        fields:
+          - label: "Produits"
+            name: "products"
+            widget: "list"
+            summary: "{{fields.name}} — {{fields.price}} FCFA"
+            fields:
+              - {label: "Nom du produit", name: "name", widget: "string"}
+              - {label: "Catégorie", name: "category", widget: "select", options: ["Mode", "Électronique", "Maison", "Beauté", "Sport", "Enfants", "Bagagerie", "Accessoires"]}
+              - {label: "Prix (FCFA)", name: "price", widget: "number", value_type: "int"}
+              - {label: "Ancien prix (optionnel, pour afficher une promo, en FCFA)", name: "oldPrice", widget: "number", value_type: "int", required: false}
+              - {label: "Note (1 à 5)", name: "rating", widget: "number", value_type: "int", min: 1, max: 5, default: 5}
+              - {label: "Nombre d'avis", name: "votes", widget: "number", value_type: "int", default: 0}
+              - {label: "Badge (optionnel)", name: "badgeLabel", widget: "select", options: ["Nouveau", "Meilleure vente"], required: false}
+              - {label: "Photo du produit", name: "image", widget: "image"}
+
+  - name: "reviews"
+    label: "Avis clients"
+    label_singular: "Avis"
+    files:
+      - name: "reviews"
+        label: "Liste des avis"
+        file: "content/reviews.yml"
+        fields:
+          - label: "Avis"
+            name: "reviews"
+            widget: "list"
+            summary: "{{fields.name}} — {{fields.stars}} étoiles"
+            fields:
+              - {label: "Nom du client", name: "name", widget: "string"}
+              - {label: "Note (1 à 5)", name: "stars", widget: "number", value_type: "int", min: 1, max: 5, default: 5}
+              - {label: "Commentaire", name: "text", widget: "text"}
+
+  - name: "settings"
+    label: "Réglages du site"
+    files:
+      - name: "settings"
+        label: "Informations générales"
+        file: "content/settings.yml"
+        fields:
+          - {label: "Nom de la boutique", name: "siteName", widget: "string"}
+          - {label: "Téléphone", name: "phone", widget: "string"}
+          - {label: "Email", name: "email", widget: "string"}
+          - {label: "Bandeau d'accroche (au-dessus du titre)", name: "heroTag", widget: "string"}
+          - {label: "Titre principal", name: "heroTitle", widget: "string"}
+          - {label: "Texte sous le titre", name: "heroText", widget: "text"}
+          - {label: "Nombre de clients", name: "statClients", widget: "string"}
+          - {label: "Nombre de produits", name: "statProducts", widget: "string"}
+          - {label: "Nombre de pays livrés", name: "statCountries", widget: "string"}
+          - {label: "Note moyenne", name: "statRating", widget: "string"}
