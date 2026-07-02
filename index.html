@@ -11,6 +11,20 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "OnlineStore",
+  "name": "Maï Business Import",
+  "url": "https://maibusinessimport.com/",
+  "logo": "https://maibusinessimport.com/images/logo-mark.png",
+  "image": "https://maibusinessimport.com/images/logo-full.jpg",
+  "telephone": "+229 01 43 04 04 85",
+  "email": "teams@maibusinessimport.com",
+  "priceRange": "FCFA",
+  "sameAs": []
+}
+</script>
 <style>
   :root{
     --navy:#1B2A4A;
@@ -260,6 +274,24 @@
   .cart-item .info{flex:1;}
   .cart-item .info h5{font-size:13.5px;font-weight:600;}
   .cart-item .info span{font-family:var(--font-mono);font-size:12.5px;color:var(--muted);}
+  .qty-row{display:flex;align-items:center;gap:8px;margin:6px 0;}
+  .qty-btn{width:22px;height:22px;border-radius:50%;border:1px solid var(--cream-dark);background:var(--white);cursor:pointer;font-size:14px;line-height:1;color:var(--navy);}
+  .qty-btn:hover{background:var(--cream);}
+  .qty-val{font-family:var(--font-mono);font-size:12.5px;min-width:12px;text-align:center;}
+  .unit-price{font-family:var(--font-mono);font-size:11.5px;color:var(--muted);margin-left:2px;}
+  .prod-img,.prod-title{cursor:pointer;}
+  .product-modal-overlay{position:fixed;inset:0;background:rgba(17,27,48,.6);display:none;z-index:150;align-items:center;justify-content:center;padding:20px;}
+  .product-modal-overlay.open{display:flex;}
+  .product-modal{background:var(--white);border-radius:var(--radius-lg);max-width:640px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:var(--shadow-lg);position:relative;}
+  .product-modal-close{position:absolute;top:14px;right:16px;font-size:24px;color:var(--muted);cursor:pointer;z-index:2;background:var(--white);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);}
+  .product-modal-img{height:280px;background-size:cover;background-position:center;border-radius:var(--radius-lg) var(--radius-lg) 0 0;}
+  .product-modal-body{padding:28px;}
+  .product-modal-body h3{font-family:var(--font-display);font-size:22px;color:var(--navy);margin:8px 0 10px;}
+  .product-modal-body .prod-rating{margin-bottom:14px;}
+  .price-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+  .price-row .price{font-size:22px;}
+  .product-modal-body .desc{color:#3d4457;font-size:14.5px;line-height:1.65;margin-bottom:22px;}
+  .product-modal-body .add-btn{display:inline-block;width:auto;padding:13px 30px;}
   .cart-item .remove{color:var(--coral-dark);font-size:12px;font-weight:600;cursor:pointer;}
   .cart-empty{text-align:center;color:var(--muted);font-size:14px;padding:44px 0;}
   .cart-foot{padding:22px 24px;border-top:1px solid var(--cream-dark);}
@@ -511,15 +543,30 @@
       </div>
       <div>
         <h5>Boutique</h5>
-        <ul><li>Toutes les catégories</li><li>Nouveautés</li><li>Promotions</li><li>Import groupé</li></ul>
+        <ul>
+          <li><a href="boutique.html">Toutes les catégories</a></li>
+          <li><a href="boutique.html">Nouveautés</a></li>
+          <li><a href="boutique.html">Promotions</a></li>
+          <li><a href="mailto:teams@maibusinessimport.com?subject=Import%20group%C3%A9">Import groupé</a></li>
+        </ul>
       </div>
       <div>
         <h5>Aide</h5>
-        <ul><li>Suivre ma commande</li><li>Livraison &amp; retours</li><li>FAQ</li><li>Contact</li></ul>
+        <ul>
+          <li><a href="livraison-retours.html#suivi">Suivre ma commande</a></li>
+          <li><a href="livraison-retours.html">Livraison &amp; retours</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
       </div>
       <div>
         <h5>Entreprise</h5>
-        <ul><li>À propos</li><li>maibusinessimport.com</li><li>Conditions générales</li><li>Confidentialité</li></ul>
+        <ul>
+          <li><a href="a-propos.html">À propos</a></li>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="conditions-generales.html">Conditions générales</a></li>
+          <li><a href="confidentialite.html">Confidentialité</a></li>
+        </ul>
       </div>
     </div>
     <div class="footer-bottom">
@@ -574,10 +621,39 @@
   </div>
 </div>
 
+<div class="product-modal-overlay" id="productModalOverlay" onclick="if(event.target===this) closeProductModal();">
+  <div class="product-modal">
+    <span class="product-modal-close" onclick="closeProductModal()">&times;</span>
+    <div class="product-modal-img" id="modalImg"></div>
+    <div class="product-modal-body">
+      <span class="prod-cat" id="modalCat"></span>
+      <h3 id="modalTitle"></h3>
+      <div class="prod-rating"><span class="stars" id="modalStars"></span> <span id="modalVotes"></span></div>
+      <div class="price-row">
+        <span class="price" id="modalPrice"></span>
+        <span class="price-old" id="modalOldPrice"></span>
+      </div>
+      <p class="desc" id="modalDesc"></p>
+      <div class="add-btn" id="modalAddBtn" onclick="addToCart(parseInt(this.getAttribute('data-idx'),10)); closeProductModal();">Ajouter au panier</div>
+    </div>
+  </div>
+</div>
+
 <script>
   let products = [];
   let reviews = [];
   let cart = [];
+
+  function saveCart(){
+    try{ localStorage.setItem('mbi_cart', JSON.stringify(cart)); }catch(e){}
+  }
+  function loadCart(){
+    try{
+      const raw = localStorage.getItem('mbi_cart');
+      cart = raw ? JSON.parse(raw) : [];
+    }catch(e){ cart = []; }
+  }
+  loadCart();
 
   function starString(n){
     const filled = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="vertical-align:-2px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
@@ -594,13 +670,13 @@
     const grid = document.getElementById('productGrid');
     grid.innerHTML = products.map((p, idx) => `
       <div class="prod-card">
-        <div class="prod-img" style="background-image:url('${p.image}');">
+        <div class="prod-img" style="background-image:url('${p.image}');" onclick="openProductModal(${idx})">
           ${p.oldPrice ? '<span class="badge">Promo</span>' : (p.badgeLabel ? `<span class="badge" style="background:var(--navy);">${p.badgeLabel}</span>` : '')}
           <div class="wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
         </div>
         <div class="prod-body">
           <span class="prod-cat">${p.category}</span>
-          <span class="prod-title">${p.name}</span>
+          <span class="prod-title" onclick="openProductModal(${idx})">${p.name}</span>
           <div class="prod-rating"><span class="stars">${starString(p.rating)}</span> (${p.votes})</div>
           <div class="prod-price-row">
             <span class="price">${formatPrice(p.price)}</span>
@@ -610,6 +686,29 @@
         </div>
       </div>
     `).join('');
+  }
+
+  function openProductModal(idx){
+    const p = products[idx];
+    if(!p) return;
+    document.getElementById('modalImg').style.backgroundImage = `url('${p.image}')`;
+    document.getElementById('modalCat').textContent = p.category;
+    document.getElementById('modalTitle').textContent = p.name;
+    document.getElementById('modalStars').innerHTML = starString(p.rating);
+    document.getElementById('modalVotes').textContent = '(' + p.votes + ' avis)';
+    document.getElementById('modalPrice').textContent = formatPrice(p.price);
+    const oldEl = document.getElementById('modalOldPrice');
+    if(p.oldPrice){ oldEl.textContent = formatPrice(p.oldPrice); oldEl.style.display = 'inline'; }
+    else { oldEl.textContent = ''; oldEl.style.display = 'none'; }
+    const descEl = document.getElementById('modalDesc');
+    descEl.textContent = p.description || '';
+    descEl.style.display = p.description ? 'block' : 'none';
+    document.getElementById('modalAddBtn').setAttribute('data-idx', idx);
+    document.getElementById('productModalOverlay').classList.add('open');
+  }
+
+  function closeProductModal(){
+    document.getElementById('productModalOverlay').classList.remove('open');
   }
 
   function renderReviews(){
@@ -640,37 +739,79 @@
     document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 10);
   });
 
+  function escAttr(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
+
   function addToCart(idx){
-    const existing = cart.find(c => c.idx === idx);
+    const p = products[idx];
+    const existing = cart.find(c => c.name === p.name);
     if(existing){ existing.qty++; } else {
-      cart.push({...products[idx], idx, qty:1});
+      cart.push({...p, qty:1});
     }
+    saveCart();
     renderCart();
     toggleCart(true);
   }
 
-  function removeFromCart(idx){
-    cart = cart.filter(c => c.idx !== idx);
+  function removeFromCart(name){
+    cart = cart.filter(c => c.name !== name);
+    saveCart();
     renderCart();
+  }
+
+  function incrementQty(name){
+    const it = cart.find(c => c.name === name);
+    if(it){ it.qty++; saveCart(); renderCart(); }
+  }
+
+  function decrementQty(name){
+    const it = cart.find(c => c.name === name);
+    if(it){
+      it.qty--;
+      if(it.qty <= 0){ cart = cart.filter(c => c.name !== name); }
+      saveCart();
+      renderCart();
+    }
   }
 
   function renderCart(){
     const itemsEl = document.getElementById('cartItems');
     const count = cart.reduce((s,c) => s + c.qty, 0);
-    document.getElementById('cartCount').textContent = count;
+    document.querySelectorAll('.cart-count').forEach(el => el.textContent = count);
     if(cart.length === 0){
       itemsEl.innerHTML = '<div class="cart-empty">Votre panier est vide.</div>';
     } else {
       itemsEl.innerHTML = cart.map(c => `
-        <div class="cart-item">
+        <div class="cart-item" data-name="${escAttr(c.name)}">
           <div class="thumb" style="background-image:url('${c.image}');"></div>
-          <div class="info"><h5>${c.name}</h5><span>${c.qty} &times; ${formatPrice(c.price)}</span></div>
-          <div class="remove" onclick="removeFromCart(${c.idx})">Retirer</div>
+          <div class="info">
+            <h5>${c.name}</h5>
+            <div class="qty-row">
+              <button type="button" class="qty-btn" data-action="dec">−</button>
+              <span class="qty-val">${c.qty}</span>
+              <button type="button" class="qty-btn" data-action="inc">+</button>
+              <span class="unit-price">${formatPrice(c.price)} / u.</span>
+            </div>
+          </div>
+          <div class="remove" data-action="remove">Retirer</div>
         </div>
       `).join('');
     }
     const total = cart.reduce((s,c) => s + c.qty * c.price, 0);
     document.getElementById('cartTotal').textContent = formatPrice(total);
+  }
+
+  const cartItemsEl = document.getElementById('cartItems');
+  if(cartItemsEl){
+    cartItemsEl.addEventListener('click', function(e){
+      const btn = e.target.closest('[data-action]');
+      if(!btn) return;
+      const row = btn.closest('.cart-item');
+      const name = row.getAttribute('data-name');
+      const action = btn.getAttribute('data-action');
+      if(action === 'inc') incrementQty(name);
+      else if(action === 'dec') decrementQty(name);
+      else if(action === 'remove') removeFromCart(name);
+    });
   }
 
   function toggleCart(open){
