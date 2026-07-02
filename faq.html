@@ -5,6 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FAQ — Maï Business Import</title>
 <meta name="description" content="Questions fréquentes sur la livraison, le paiement, les retours et les commandes chez Maï Business Import.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://maibusinessimport.com/faq.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Maï Business Import">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="FAQ — Maï Business Import">
+<meta property="og:description" content="Questions fréquentes sur Maï Business Import : commande, paiement, livraison, retours, import sur commande.">
+<meta property="og:url" content="https://maibusinessimport.com/faq.html">
+<meta property="og:image" content="https://maibusinessimport.com/images/logo-full.jpg">
+<meta property="og:image:alt" content="Maï Business Import — Importer, Qualité, Confiance, Performance">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FAQ — Maï Business Import">
+<meta name="twitter:description" content="Questions fréquentes sur Maï Business Import : commande, paiement, livraison, retours, import sur commande.">
+<meta name="twitter:image" content="https://maibusinessimport.com/images/logo-full.jpg">
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png">
@@ -62,6 +76,18 @@ footer{background:var(--navy-dark);color:#AEB9CE;padding:56px 0 20px;}
 .footer-bottom{border-top:1px solid #26314D;padding-top:18px;display:flex;justify-content:space-between;font-size:12.5px;flex-wrap:wrap;gap:10px;}
 @media(max-width:700px){.footer-grid{grid-template-columns:1fr 1fr;}}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Store",
+  "name": "Maï Business Import",
+  "url": "https://maibusinessimport.com",
+  "logo": "https://maibusinessimport.com/images/logo-full.jpg",
+  "description": "Boutique d'import de produits de qualité : mode, électronique, maison, beauté, sport. Prix en FCFA, livraison à domicile.",
+  "slogan": "Importer, Qualité, Confiance, Performance",
+  "areaServed": "BJ"
+}
+</script>
 </head>
 <body>
 
@@ -214,5 +240,352 @@ footer{background:var(--navy-dark);color:#AEB9CE;padding:56px 0 20px;}
     document.getElementById('cartBadge').textContent = count;
   }catch(e){}
 </script>
+
+<!-- === ASSISTANT MAI BUSINESS IMPORT (widget) === -->
+<style id="mbi-style">
+
+  /* ============================================================
+     MAÏ BUSINESS IMPORT — WIDGET ASSISTANT IA + VOIX
+     ------------------------------------------------------------
+     >>> UNE SEULE CHOSE À CONFIGURER <<<
+     Remplacez l'URL ci-dessous par celle de votre webhook n8n
+     (voir le mode d'emploi fourni). Ligne repérée par: N8N_WEBHOOK_URL
+     ============================================================ */
+  #mbi-launcher, #mbi-panel{
+    --navy:#0f1e3d;
+    --navy-soft:#16294f;
+    --orange:#f2711c;
+    --orange-dark:#d85f10;
+    --gold:#c6a15b;
+    --ink:#1c2333;
+    --muted:#6b7385;
+    --bg-bot:#f1f4f9;
+    --bg-user:linear-gradient(135deg,#f2711c,#d85f10);
+    --line:#e4e8f0;
+    --font:'Segoe UI',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  
+  
+
+  /* ---- Bouton flottant ---- */
+  #mbi-launcher{
+    position:fixed;bottom:24px;right:24px;z-index:9998;
+    width:62px;height:62px;border-radius:50%;border:none;cursor:pointer;
+    background:linear-gradient(135deg,var(--orange),var(--orange-dark));
+    box-shadow:0 8px 26px -6px rgba(242,113,28,0.6);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .3s cubic-bezier(.22,.61,.36,1);
+  }
+  #mbi-launcher:hover{transform:scale(1.07);}
+  #mbi-launcher svg{width:28px;height:28px;}
+  #mbi-launcher .badge{position:absolute;top:-2px;right:-2px;width:16px;height:16px;
+    background:#2ecc71;border:2px solid var(--navy);border-radius:50%;}
+
+  /* ---- Fenêtre ---- */
+  #mbi-panel{
+    position:fixed;bottom:100px;right:24px;z-index:9999;
+    width:380px;max-width:calc(100vw - 32px);height:560px;max-height:calc(100vh - 130px);
+    background:#fff;border-radius:20px;overflow:hidden;
+    display:flex;flex-direction:column;
+    box-shadow:0 24px 60px -12px rgba(0,0,0,0.5);
+    opacity:0;transform:translateY(16px) scale(.98);pointer-events:none;
+    transition:opacity .3s ease, transform .3s cubic-bezier(.22,.61,.36,1);
+  }
+  #mbi-panel.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+
+  .mbi-header{background:linear-gradient(135deg,var(--navy),var(--navy-soft));
+    padding:16px 18px;display:flex;align-items:center;gap:12px;color:#fff;}
+  .mbi-header .av{width:40px;height:40px;border-radius:11px;flex-shrink:0;overflow:hidden;
+    background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--gold);}
+  .mbi-header .av img{width:100%;height:100%;object-fit:cover;}
+  .mbi-header .t{flex:1;min-width:0;}
+  .mbi-header .t h4{font-size:15px;font-weight:600;}
+  .mbi-header .t span{font-size:12px;color:rgba(255,255,255,0.6);display:flex;align-items:center;gap:5px;}
+  .mbi-header .t span::before{content:'';width:7px;height:7px;border-radius:50%;background:#2ecc71;}
+  .mbi-header button{background:none;border:none;color:rgba(255,255,255,0.7);cursor:pointer;font-size:22px;line-height:1;padding:4px;}
+  .mbi-header button:hover{color:#fff;}
+
+  .mbi-body{flex:1;overflow-y:auto;padding:18px;background:#fafbfc;display:flex;flex-direction:column;gap:12px;}
+  .mbi-msg{max-width:82%;padding:11px 15px;border-radius:16px;font-size:14px;line-height:1.5;word-wrap:break-word;}
+  .mbi-msg.bot{background:var(--bg-bot);color:var(--ink);border-bottom-left-radius:5px;align-self:flex-start;}
+  .mbi-msg.user{background:var(--bg-user);color:#fff;border-bottom-right-radius:5px;align-self:flex-end;}
+  .mbi-msg.bot .speak{margin-top:7px;font-size:11px;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:4px;user-select:none;}
+  .mbi-msg.bot .speak:hover{color:var(--orange);}
+
+  .mbi-typing{align-self:flex-start;background:var(--bg-bot);padding:12px 16px;border-radius:16px;border-bottom-left-radius:5px;display:none;}
+  .mbi-typing.show{display:block;}
+  .mbi-typing span{display:inline-block;width:7px;height:7px;margin:0 2px;background:var(--muted);border-radius:50%;animation:blink 1.4s infinite both;}
+  .mbi-typing span:nth-child(2){animation-delay:.2s;}
+  .mbi-typing span:nth-child(3){animation-delay:.4s;}
+  @keyframes blink{0%,80%,100%{opacity:.3;}40%{opacity:1;}}
+
+  .mbi-quick{display:flex;flex-wrap:wrap;gap:7px;padding:0 18px 12px;background:#fafbfc;}
+  .mbi-quick button{font-size:12px;background:#fff;border:1px solid var(--line);color:var(--navy);
+    padding:7px 12px;border-radius:999px;cursor:pointer;transition:all .2s;}
+  .mbi-quick button:hover{border-color:var(--orange);color:var(--orange);}
+
+  .mbi-input{padding:12px;border-top:1px solid var(--line);background:#fff;display:flex;align-items:center;gap:8px;}
+  .mbi-input input{flex:1;border:1px solid var(--line);border-radius:999px;padding:11px 16px;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;}
+  .mbi-input input:focus{border-color:var(--orange);}
+  .mbi-input button{width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;transition:transform .2s, background .2s;}
+  .mbi-input button:hover{transform:scale(1.06);}
+  .mbi-mic{background:#eef1f6;color:var(--navy);}
+  .mbi-mic.listening{background:#e74c3c;color:#fff;animation:pulse 1.2s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(231,76,60,0.5);}70%{box-shadow:0 0 0 10px rgba(231,76,60,0);}100%{box-shadow:0 0 0 0 rgba(231,76,60,0);}}
+  .mbi-send{background:linear-gradient(135deg,var(--orange),var(--orange-dark));color:#fff;}
+  .mbi-send svg{width:18px;height:18px;}
+  .mbi-mic svg{width:18px;height:18px;}
+
+  .mbi-foot{text-align:center;font-size:10.5px;color:var(--muted);padding:0 12px 10px;background:#fff;}
+  .mbi-voice-toggle{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;background:#fff;border-top:1px solid var(--line);font-size:12px;color:var(--muted);cursor:pointer;user-select:none;}
+  .mbi-voice-toggle input{cursor:pointer;}
+
+</style>
+<!-- ====================== BOUTON FLOTTANT ====================== -->
+<button id="mbi-launcher" aria-label="Ouvrir l'assistant">
+  <span class="badge"></span>
+  <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.5 8.5 8.5 0 0 1-4-1L3 21l1.5-4.5A8.4 8.4 0 0 1 3 11.5 8.5 8.5 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5Z"/></svg>
+</button>
+
+<!-- ====================== FENÊTRE ====================== -->
+<div id="mbi-panel" role="dialog" aria-label="Assistant Maï Business Import">
+  <div class="mbi-header">
+    <div class="av"><img src="/images/logo-mark.png" alt="" onerror="this.parentElement.textContent='M'"></div>
+    <div class="t">
+      <h4>Assistant Maï</h4>
+      <span>En ligne</span>
+    </div>
+    <button id="mbi-close" aria-label="Fermer">&times;</button>
+  </div>
+
+  <div class="mbi-body" id="mbi-body">
+    <div class="mbi-msg bot">
+      Bonjour 👋 Je suis l'assistant de Maï Business Import. Je peux vous renseigner sur nos produits, la livraison, le paiement, les retours ou l'import sur commande. Comment puis-je vous aider ?
+    </div>
+    <div class="mbi-typing" id="mbi-typing"><span></span><span></span><span></span></div>
+  </div>
+
+  <div class="mbi-quick" id="mbi-quick">
+    <button>Comment commander ?</button>
+    <button>Délais de livraison</button>
+    <button>Moyens de paiement</button>
+    <button>Import sur commande</button>
+  </div>
+
+  <div class="mbi-voice-toggle">
+    <input type="checkbox" id="mbi-autospeak" checked>
+    <label for="mbi-autospeak">Lire les réponses à voix haute</label>
+  </div>
+
+  <div class="mbi-input">
+    <button class="mbi-mic" id="mbi-mic" aria-label="Parler">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg>
+    </button>
+    <input type="text" id="mbi-text" placeholder="Écrivez ou parlez…" autocomplete="off">
+    <button class="mbi-send" id="mbi-send" aria-label="Envoyer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z"/></svg>
+    </button>
+  </div>
+
+  <div class="mbi-foot">Assistant Maï Business Import · Réponses indicatives</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     >>>>>>>>>>  À CONFIGURER : URL DE VOTRE WEBHOOK N8N  <<<<<<<<<<
+     Collez ici l'URL "Production" du nœud Webhook de votre workflow n8n.
+     Tant qu'elle n'est pas remplie, l'agent tourne en MODE DÉMO
+     (réponses de secours pré-écrites), pour que vous puissiez tester le visuel.
+     ============================================================ */
+  const N8N_WEBHOOK_URL = ""; // <-- ex: "https://teams33.app.n8n.cloud/webhook/xxxxxxxx"
+
+  const launcher = document.getElementById('mbi-launcher');
+  const panel    = document.getElementById('mbi-panel');
+  const closeBtn = document.getElementById('mbi-close');
+  const body     = document.getElementById('mbi-body');
+  const typing   = document.getElementById('mbi-typing');
+  const input    = document.getElementById('mbi-text');
+  const sendBtn  = document.getElementById('mbi-send');
+  const micBtn   = document.getElementById('mbi-mic');
+  const quick    = document.getElementById('mbi-quick');
+  const autospeak= document.getElementById('mbi-autospeak');
+
+  // Mémoire de conversation (envoyée à n8n pour le contexte)
+  const history = [];
+
+  /* ---------- Ouverture / fermeture ---------- */
+  function toggle(open){
+    panel.classList.toggle('open', open);
+    if(open) setTimeout(()=>input.focus(), 300);
+  }
+  launcher.addEventListener('click', ()=>toggle(!panel.classList.contains('open')));
+  closeBtn.addEventListener('click', ()=>toggle(false));
+
+  /* ---------- Affichage des messages ---------- */
+  function addMessage(text, who){
+    const el = document.createElement('div');
+    el.className = 'mbi-msg ' + who;
+    el.textContent = text;
+    if(who === 'bot'){
+      const s = document.createElement('span');
+      s.className = 'speak';
+      s.innerHTML = '🔊 Écouter';
+      s.addEventListener('click', ()=>speak(text));
+      el.appendChild(document.createElement('br'));
+      el.appendChild(s);
+    }
+    body.insertBefore(el, typing);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  /* ---------- Synthèse vocale (lire à voix haute) ---------- */
+  function speak(text){
+    if(!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'fr-FR';
+    u.rate = 1.02;
+    const frVoice = window.speechSynthesis.getVoices().find(v => v.lang.startsWith('fr'));
+    if(frVoice) u.voice = frVoice;
+    window.speechSynthesis.speak(u);
+  }
+
+  /* ---------- Reconnaissance vocale (parler) ---------- */
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let recognition = null, listening = false;
+  if(SR){
+    recognition = new SR();
+    recognition.lang = 'fr-FR';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    recognition.addEventListener('result', (e)=>{
+      const t = e.results[0][0].transcript;
+      input.value = t;
+      handleSend();
+    });
+    recognition.addEventListener('end', ()=>{ listening=false; micBtn.classList.remove('listening'); });
+    recognition.addEventListener('error', ()=>{ listening=false; micBtn.classList.remove('listening'); });
+  } else {
+    micBtn.style.display = 'none'; // navigateur sans reconnaissance vocale
+  }
+  micBtn.addEventListener('click', ()=>{
+    if(!recognition) return;
+    if(listening){ recognition.stop(); return; }
+    window.speechSynthesis && window.speechSynthesis.cancel();
+    try{ recognition.start(); listening=true; micBtn.classList.add('listening'); }catch(e){}
+  });
+
+  /* ---------- Envoi ---------- */
+  async function handleSend(){
+    const text = input.value.trim();
+    if(!text) return;
+    addMessage(text, 'user');
+    history.push({ role:'user', content:text });
+    input.value = '';
+    quick.style.display = 'none';
+    typing.classList.add('show');
+    body.scrollTop = body.scrollHeight;
+
+    try{
+      const reply = await getReply(text);
+      typing.classList.remove('show');
+      addMessage(reply, 'bot');
+      history.push({ role:'assistant', content:reply });
+      if(autospeak.checked) speak(reply);
+    }catch(err){
+      typing.classList.remove('show');
+      addMessage("Désolé, je rencontre un souci technique. Vous pouvez nous contacter directement via le formulaire de contact.", 'bot');
+    }
+  }
+  sendBtn.addEventListener('click', handleSend);
+  input.addEventListener('keydown', (e)=>{ if(e.key==='Enter') handleSend(); });
+  quick.addEventListener('click', (e)=>{
+    if(e.target.tagName==='BUTTON'){ input.value = e.target.textContent; handleSend(); }
+  });
+
+  /* ---------- Appel à l'IA via n8n (ou mode démo) ---------- */
+  async function getReply(message){
+    if(!N8N_WEBHOOK_URL){
+      // MODE DÉMO — réponses de secours tant que n8n n'est pas branché
+      await new Promise(r=>setTimeout(r, 700));
+      return demoReply(message);
+    }
+    const res = await fetch(N8N_WEBHOOK_URL, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json' },
+      body: JSON.stringify({ message: message, history: history.slice(-10) })
+    });
+    if(!res.ok) throw new Error('n8n error');
+    const data = await res.json();
+    // n8n peut renvoyer { reply: "..." } ou { output: "..." } selon votre workflow
+    return data.reply || data.output || data.text || "Je n'ai pas pu générer de réponse.";
+  }
+
+  /* ---------- Réponses de démonstration ---------- */
+  function demoReply(m){
+    const t = m.toLowerCase();
+
+    // Salutations
+    if(/(bonjour|bonsoir|salut|coucou|hello|slt|cava|ça va)/.test(t))
+      return "Bonjour et bienvenue chez Maï Business Import 👋 Je peux vous renseigner sur nos produits, la commande, la livraison, le paiement, les retours ou l'import sur commande. Que puis-je faire pour vous ?";
+
+    // Remerciements
+    if(/(merci|thanks|thx|c'est gentil)/.test(t))
+      return "Avec plaisir ! N'hésitez pas si vous avez d'autres questions. 😊";
+
+    // Au revoir
+    if(/(au revoir|bye|à bientôt|a bientot|bonne journée)/.test(t))
+      return "Merci de votre visite et à très bientôt chez Maï Business Import ! 👋";
+
+    // Commander
+    if(/(command|commander|acheter|panier|passer commande|comment ça marche|comment ca marche)/.test(t))
+      return "Pour commander, c'est simple : parcourez la boutique, ajoutez vos articles au panier, puis validez. Votre commande nous parvient par WhatsApp ou email, et notre équipe vous recontacte pour confirmer les détails.";
+
+    // Livraison
+    if(/(livr|délai|delai|expédi|expedi|recevoir|réception|reception|combien de temps)/.test(t))
+      return "Nous livrons à domicile avec un suivi de commande. Les délais et zones de livraison précis vous sont communiqués au moment de la confirmation, selon votre localisation.";
+
+    // Paiement
+    if(/(pai|payer|paye|règlement|reglement|mobile money|espèce|espece|carte|monnaie)/.test(t))
+      return "Nous acceptons les moyens de paiement locaux courants. Les modalités exactes vous sont précisées lors de la confirmation de votre commande.";
+
+    // Retours / SAV
+    if(/(retour|sav|remboours|rembours|défectueux|defectueux|cassé|casse|abîmé|abime|garantie|échange|echange|non conforme)/.test(t))
+      return "Si un produit est non conforme ou défectueux, contactez-nous rapidement via le formulaire de contact : nous trouvons une solution de remplacement ou de retour dans les meilleurs délais.";
+
+    // Import sur commande
+    if(/(import|introuvable|pas en stock|indisponible|rupture|produit spécifique|produit specifique|commander un produit)/.test(t))
+      return "Vous cherchez un produit absent de la boutique ? Nous pouvons l'importer pour vous au meilleur prix. Indiquez-nous le produit recherché via le formulaire de contact et nous revenons vers vous.";
+
+    // Prix / FCFA
+    if(/(prix|coût|cout|tarif|combien coûte|combien coute|fcfa|cher)/.test(t))
+      return "Tous nos prix sont affichés en FCFA directement sur les fiches produits de la boutique. Pour un produit sur commande, nous vous communiquons un devis personnalisé.";
+
+    // Catégories / produits
+    if(/(catégor|categor|produit|article|vend|proposez|mode|électro|electro|maison|beauté|beaute|sport|téléphone|telephone)/.test(t))
+      return "Nous proposons plusieurs univers : mode & accessoires, électronique, maison & déco, beauté & soins et sport. Rendez-vous sur la boutique pour tout parcourir, avec recherche et filtres.";
+
+    // Contact / horaires
+    if(/(contact|joindre|téléphone|telephone|numéro|numero|whatsapp|email|mail|horaire|ouvert|heure)/.test(t))
+      return "Vous pouvez nous joindre via le formulaire de contact du site, par WhatsApp ou par email. Nous répondons du lundi au samedi, de 8h à 20h.";
+
+    // Confiance / avis / fiabilité
+    if(/(fiable|confiance|arnaque|sérieux|serieux|avis|garanti|qualité|qualite|authentique)/.test(t))
+      return "Chez Maï Business Import, chaque produit est vérifié avant expédition. Notre devise résume notre engagement : Importer, Qualité, Confiance, Performance. Vous pouvez aussi consulter les avis de nos clients sur le site.";
+
+    // Repli
+    return "Bonne question ! Je peux vous aider sur : comment commander, les délais de livraison, les moyens de paiement, les retours, l'import sur commande, nos catégories et nos prix. Pour une demande précise, le formulaire de contact du site est le plus sûr — notre équipe vous répondra rapidement.";
+  }
+
+  // Précharger les voix (certains navigateurs les chargent tardivement)
+  if('speechSynthesis' in window){ window.speechSynthesis.onvoiceschanged = ()=>{}; }
+})();
+</script>
+<!-- === FIN ASSISTANT === -->
 </body>
 </html>
