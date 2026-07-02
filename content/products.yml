@@ -3,6 +3,7 @@ products:
     category: Électronique
     price: 26000
     oldPrice: 36000
+    description: Suivez votre activité, votre rythme cardiaque et vos notifications au poignet. Étanche, autonomie longue durée, compatible Android et iOS.
     rating: 5
     votes: 128
     badgeLabel: Meilleure vente
@@ -11,6 +12,7 @@ products:
     category: Mode
     price: 16000
     oldPrice: null
+    description: Sac à main au design intemporel, matière résistante et compartiments pratiques pour le quotidien. Disponible en plusieurs coloris.
     rating: 4
     votes: 76
     badgeLabel: Nouveau
@@ -19,6 +21,7 @@ products:
     category: Maison
     price: 21000
     oldPrice: 30000
+    description: Mixeur puissant multi-vitesses pour smoothies, soupes et préparations culinaires. Bol et lames faciles à nettoyer.
     rating: 5
     votes: 94
     badgeLabel: null
@@ -27,6 +30,7 @@ products:
     category: Beauté
     price: 12500
     oldPrice: null
+    description: Coffret complet de soins pour le visage, formulé pour convenir à tous types de peau. Idéal pour une routine beauté quotidienne.
     rating: 4
     votes: 52
     badgeLabel: Nouveau
@@ -35,6 +39,7 @@ products:
     category: Sport
     price: 10000
     oldPrice: 13000
+    description: Ballon de match taille officielle, revêtement résistant à l'usure, adapté à un usage intensif sur terrain comme en salle.
     rating: 5
     votes: 61
     badgeLabel: null
@@ -43,6 +48,7 @@ products:
     category: Électronique
     price: 15000
     oldPrice: 20000
+    description: Écouteurs Bluetooth avec boîtier de charge, son clair et autonomie prolongée. Parfaits pour le sport comme pour le quotidien.
     rating: 4
     votes: 143
     badgeLabel: Meilleure vente
@@ -51,6 +57,7 @@ products:
     category: Bagagerie
     price: 39000
     oldPrice: null
+    description: Valise cabine à coque rigide, roues 360°, verrouillage à combinaison intégré. Compacte et résistante pour vos déplacements.
     rating: 5
     votes: 38
     badgeLabel: null
@@ -59,6 +66,7 @@ products:
     category: Enfants
     price: 9500
     oldPrice: 14000
+    description: Ensemble de jouets colorés et sécurisés, conçus pour stimuler l'éveil et l'imagination des plus petits.
     rating: 4
     votes: 47
     badgeLabel: null
