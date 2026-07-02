@@ -73,3 +73,49 @@ products:
     oldPrice: 500
     description: Éplucheur de cuisine pratique et tranchant, pour éplucher fruits et
       légumes rapidement et en toute sécurité. Ergonomique et facile à nettoyer.
+  - oldPrice: 899
+    price: 699
+    votes: 3
+    name: SADOER Stick Men Déodorant – Cool Ocean Scent (20 g)
+    badgeLabel: Nouveau
+    image: /images/uploads/1000041131.jpg
+    description: >-
+      C’est un déodorant en stick pour homme conçu pour contrôler la
+      transpiration et limiter les mauvaises odeurs tout au long de la journée.
+      Sa formule “antitranspirante” est faite pour offrir une sensation de
+      fraîcheur durable.
+
+      Il se distingue par :
+
+      Une senteur “océan frais” (Cool Ocean Scent), légère et masculine
+
+      Une action anti-transpiration (“Stop Sweating”)
+
+      Un format stick compact facile à appliquer et à transporter
+
+      Une utilisation quotidienne pour garder une sensation de propreté et de fraîcheur
+    rating: 5
+    category: Beauté
+  - rating: 5
+    votes: 1
+    image: /images/uploads/1000041269.jpg
+    description: >-
+      C’est un gobelet réutilisable conçu pour les boissons froides (smoothies,
+      milkshakes, jus, café glacé). Il possède un design en plastique
+      transparent avec des éléments en silicone violet et une poignée pour une
+      bonne prise en main.
+
+      Caractéristiques principales :
+
+      Paille intégrée pour boire facilement
+
+      Couvercle hermétique avec protection anti-renversement
+
+      Poignée latérale pour transport facile
+
+      Style “ICE CREAM” moderne et coloré
+
+      Idéal pour boissons froides et à emporter
+    name: Gobelet isotherme “ICE CREAM” avec paille (tasse portable avec poignée
+    category: Maison
+    price: 5000
