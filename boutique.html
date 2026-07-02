@@ -239,7 +239,7 @@
   .chat-header span.status{font-size:11px;color:var(--gold);display:block;margin-top:2px;}
   .chat-close{cursor:pointer;font-size:18px;color:#AEB9CE;}
   .chat-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--cream);}
-  .chat-msg{max-width:82%;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.5;}
+  .chat-msg{max-width:82%;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.5;white-space:pre-line;}
   .chat-msg.bot{background:var(--white);color:var(--ink);align-self:flex-start;border-bottom-left-radius:4px;box-shadow:var(--shadow-sm);}
   .chat-msg.user{background:var(--navy);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
   .chat-quick{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 12px;background:var(--cream);}
@@ -415,6 +415,7 @@
   </div>
   <div class="chat-body" id="chatBody"></div>
   <div class="chat-quick" id="chatQuick">
+    <button onclick="askChat('Voir le catalogue')">Produits</button>
     <button onclick="askChat('Livraison')">Livraison</button>
     <button onclick="askChat('Paiement')">Paiement</button>
     <button onclick="askChat('Retours')">Retours</button>
@@ -642,8 +643,63 @@
      answer: "Bonjour ! Comment puis-je vous aider aujourd'hui ? Vous pouvez me poser une question ou choisir un sujet ci-dessous."}
   ];
 
+  function normalizeStr(str){
+    return str.toLowerCase()
+      .replace(/[eéèêë]/g,'e')
+      .replace(/[aàâ]/g,'a')
+      .replace(/[uùûü]/g,'u')
+      .replace(/[iïî]/g,'i')
+      .replace(/[oôö]/g,'o')
+      .replace(/ç/g,'c');
+  }
+
+  function searchProducts(text){
+    if(!products || products.length === 0) return null;
+    const t = normalizeStr(text);
+    const categoryMap = {
+      'mode':'Mode','electronique':'Électronique','maison':'Maison','beaute':'Beauté',
+      'sport':'Sport','enfants':'Enfants','bagagerie':'Bagagerie','accessoires':'Accessoires'
+    };
+    for(const key in categoryMap){
+      if(t.includes(key)){
+        const items = products.filter(p => normalizeStr(p.category) === key);
+        if(items.length) return {type:'category', label: categoryMap[key], items};
+      }
+    }
+    const words = t.split(/[^a-z0-9]+/).filter(w => w.length > 2);
+    if(words.length){
+      const items = products.filter(p => {
+        const name = normalizeStr(p.name);
+        return words.some(w => name.includes(w));
+      });
+      if(items.length) return {type:'name', items};
+    }
+    return null;
+  }
+
+  function formatProductLine(p){
+    let line = '• ' + p.name + ' — ' + formatPrice(p.price);
+    if(p.oldPrice) line += ' (au lieu de ' + formatPrice(p.oldPrice) + ')';
+    return line;
+  }
+
   function findAnswer(text){
     const t = text.toLowerCase();
+    if(t.includes('catalogue') || t.includes('combien de produit') || (t.includes('quels') && t.includes('produit')) || (t.includes('que') && t.includes('vendez'))){
+      return 'Nous avons ' + products.length + ' produits au catalogue, répartis en 8 catégories : Mode, Électronique, Maison, Beauté, Sport, Enfants, Bagagerie et Accessoires. Vous pouvez tout parcourir sur la page Boutique.';
+    }
+    const result = searchProducts(text);
+    if(result){
+      const shown = result.items.slice(0,5);
+      const list = shown.map(formatProductLine).join('\n');
+      const intro = result.type === 'category'
+        ? 'Voici quelques produits dans la catégorie ' + result.label + ' :'
+        : "Voici ce que j'ai trouvé :";
+      let msg = intro + '\n' + list;
+      if(result.items.length > shown.length) msg += '\n... et ' + (result.items.length - shown.length) + ' autre(s).';
+      msg += '\nRetrouvez tout sur la page Boutique.';
+      return msg;
+    }
     for(const entry of chatFaq){
       if(entry.keywords.some(k => t.includes(k))) return entry.answer;
     }
