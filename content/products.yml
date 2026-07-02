@@ -6,6 +6,9 @@ products:
     category: Mode
     oldPrice: 6000
     price: 3000
+    description: Jolies sandales pour petite fille, ornées d'un nœud et de fleurs
+      pour un look féminin et élégant. Matière souple et confortable, idéale
+      pour le quotidien comme pour les grandes occasions.
   - rating: 4
     votes: 0
     image: /images/uploads/img-20260701-wa0122.jpg
@@ -13,6 +16,8 @@ products:
     category: Maison
     price: 17000
     oldPrice: 20000
+    description: Lave-vaisselle compact et performant, idéal pour un usage
+      quotidien. Faible consommation d'eau et d'énergie, installation facile.
   - rating: 5
     votes: 0
     image: /images/uploads/img-20260701-wa0129.jpg
@@ -20,6 +25,9 @@ products:
     category: Maison
     price: 35000
     oldPrice: 40000
+    description: Ensemble de casseroles à revêtement anti-adhésif, pour une cuisson
+      saine sans accroche. Résistantes et faciles à nettoyer, compatibles avec
+      tous types de feux.
   - rating: 5
     votes: 0
     image: /images/uploads/img-20260701-wa0164.jpg
@@ -27,6 +35,9 @@ products:
     category: Mode
     price: 14000
     oldPrice: 16000
+    description: Sac bandoulière pratique et élégant, parfait pour un usage
+      quotidien. Compartiments bien pensés pour organiser facilement vos
+      essentiels.
   - rating: 5
     votes: 0
     image: /images/uploads/img-20260701-wa0173.jpg
@@ -34,12 +45,16 @@ products:
     category: Accessoires
     price: 5000
     oldPrice: 7000
+    description: Rasoir électrique performant pour un rasage précis et confortable.
+      Facile à utiliser et à entretenir, idéal pour un usage quotidien.
   - rating: 5
     votes: 0
     image: /images/uploads/img-20260701-wa0167.jpg
     name: "Gamelle "
     category: Maison
     price: 2000
+    description: Gamelle robuste et pratique, idéale pour un usage quotidien à la
+      maison ou en déplacement. Facile à nettoyer et durable dans le temps.
   - rating: 4
     votes: 0
     image: /images/uploads/img-20260701-wa0169.jpg
@@ -47,6 +62,8 @@ products:
     oldPrice: 12000
     category: Mode
     name: Sac en cuire marron
+    description: Sac en cuir marron au style intemporel, à la fois robuste et
+      élégant. Parfait pour accompagner toutes vos tenues au quotidien.
   - rating: 5
     votes: 0
     image: /images/uploads/img-20260701-wa0171.jpg
@@ -54,3 +71,5 @@ products:
     category: Maison
     price: 700
     oldPrice: 500
+    description: Éplucheur de cuisine pratique et tranchant, pour éplucher fruits et
+      légumes rapidement et en toute sécurité. Ergonomique et facile à nettoyer.
