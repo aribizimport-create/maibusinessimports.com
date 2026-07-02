@@ -11,6 +11,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+<script src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -295,7 +296,7 @@
   .cart-item .remove{color:var(--coral-dark);font-size:12px;font-weight:600;cursor:pointer;}
   .cart-empty{text-align:center;color:var(--muted);font-size:14px;padding:44px 0;}
   .cart-foot{padding:22px 24px;border-top:1px solid var(--cream-dark);}
-  .checkout-form{display:none;flex-direction:column;gap:10px;margin-bottom:14px;}
+  .checkout-form{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
   .checkout-form input{width:100%;height:42px;border:1px solid var(--cream-dark);border-radius:8px;padding:0 14px;font-size:13px;font-family:inherit;background:var(--cream);}
   .cart-total{display:flex;justify-content:space-between;font-weight:700;margin-bottom:16px;font-family:var(--font-mono);color:var(--navy);}
   .cart-foot .btn-primary{width:100%;justify-content:center;}
@@ -488,7 +489,9 @@
       <input type="text" id="orderPhone" placeholder="Votre numéro de téléphone">
       <input type="text" id="orderAddress" placeholder="Adresse de livraison">
     </div>
-    <a href="#" class="btn-primary" id="checkoutBtn" onclick="startCheckout(event)">Passer commande &rarr;</a>
+    <button type="button" class="btn-primary" id="payOnlineBtn" style="width:100%;justify-content:center;background:var(--gold);color:var(--navy-dark);margin-bottom:8px;" onclick="payOnline()">Payer en ligne (Mobile Money / Carte)</button>
+    <p style="font-size:11px;color:var(--muted);text-align:center;margin:0 0 12px;">Paiement sécurisé via FedaPay</p>
+    <a href="#" class="btn-ghost" id="checkoutBtn" onclick="startCheckout(event)" style="width:100%;justify-content:center;">Commander via WhatsApp &rarr;</a>
   </div>
 </div>
 
@@ -720,33 +723,36 @@
     return '2290143040485';
   }
 
-  function startCheckout(e){
-    e.preventDefault();
-    if(cart.length === 0){ alert('Votre panier est vide.'); return; }
-    if(checkoutStep === 0){
-      document.getElementById('checkoutForm').style.display = 'flex';
-      document.getElementById('checkoutBtn').textContent = 'Confirmer la commande →';
-      checkoutStep = 1;
-      return;
-    }
+  // --- Paiement en ligne (FedaPay) ---
+  // Remplacez FEDAPAY_PUBLIC_KEY par votre clé publique (sandbox ou live) une fois votre compte FedaPay créé
+  // sur https://fedapay.com — voir docs.fedapay.com. Autorisez aussi le domaine maibusinessimport.com
+  // dans votre tableau de bord FedaPay (Profil > Applications) avant de passer en clé "live".
+  const FEDAPAY_PUBLIC_KEY = 'REMPLACEZ_PAR_VOTRE_CLE_PUBLIQUE_FEDAPAY';
+  const FEDAPAY_ENV = 'sandbox'; // 'sandbox' pour tester, 'live' une fois prêt à encaisser réellement
+
+  function validateCheckoutFields(){
     const name = document.getElementById('orderName').value.trim();
     const phone = document.getElementById('orderPhone').value.trim();
     const address = document.getElementById('orderAddress').value.trim();
     if(!name || !phone || !address){
       alert('Merci de remplir votre nom, votre téléphone et votre adresse.');
-      return;
+      return null;
     }
+    return {name, phone, address};
+  }
+
+  function sendOrderAndOpenWhatsApp(info, mode, ref){
     const orderLines = cart.map(c => `${c.qty} x ${c.name} (${formatPrice(c.price)})`).join('\n');
     const total = cart.reduce((s,c) => s + c.qty * c.price, 0);
     const totalFormatted = formatPrice(total);
 
     const formData = new URLSearchParams();
     formData.append('form-name', 'commande');
-    formData.append('name', name);
-    formData.append('phone', phone);
-    formData.append('address', address);
+    formData.append('name', info.name);
+    formData.append('phone', info.phone);
+    formData.append('address', info.address);
     formData.append('order', orderLines);
-    formData.append('total', totalFormatted);
+    formData.append('total', totalFormatted + (mode === 'online' ? ' (payé en ligne, réf. ' + ref + ')' : ''));
     fetch('/', {
       method: 'POST',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -754,18 +760,63 @@
     }).catch(err => console.error('Erreur envoi commande :', err));
 
     const waNumber = getWhatsAppNumber();
+    const paidNote = mode === 'online' ? `\n\nPaiement en ligne reçu (réf. ${ref}).` : '';
     const waText = encodeURIComponent(
-      `Nouvelle commande - Maï Business Import\n\nClient : ${name}\nTéléphone : ${phone}\nAdresse : ${address}\n\nArticles :\n${orderLines}\n\nTotal : ${totalFormatted}`
+      `Nouvelle commande - Maï Business Import\n\nClient : ${info.name}\nTéléphone : ${info.phone}\nAdresse : ${info.address}\n\nArticles :\n${orderLines}\n\nTotal : ${totalFormatted}${paidNote}`
     );
     window.open(`https://wa.me/${waNumber}?text=${waText}`, '_blank');
 
-    alert('Merci ! Votre commande a été envoyée. Vous allez être redirigé vers WhatsApp pour confirmer avec nous.');
     cart = [];
+    saveCart();
     renderCart();
-    checkoutStep = 0;
-    document.getElementById('checkoutForm').style.display = 'none';
-    document.getElementById('checkoutBtn').textContent = 'Passer commande →';
+    document.getElementById('orderName').value = '';
+    document.getElementById('orderPhone').value = '';
+    document.getElementById('orderAddress').value = '';
     toggleCart(false);
+  }
+
+  function payOnline(){
+    if(cart.length === 0){ alert('Votre panier est vide.'); return; }
+    const info = validateCheckoutFields();
+    if(!info) return;
+    if(!window.FedaPay || FEDAPAY_PUBLIC_KEY.indexOf('REMPLACEZ') === 0){
+      alert("Le paiement en ligne n'est pas encore activé sur ce site. Merci d'utiliser \"Commander via WhatsApp\" pour finaliser votre commande.");
+      return;
+    }
+    const total = cart.reduce((s,c) => s + c.qty * c.price, 0);
+    const summary = cart.map(c => `${c.qty} x ${c.name}`).join(', ');
+    const nameParts = info.name.trim().split(/\s+/);
+    const firstname = nameParts[0] || info.name;
+    const lastname = nameParts.slice(1).join(' ') || info.name;
+    FedaPay.init({
+      public_key: FEDAPAY_PUBLIC_KEY,
+      environment: FEDAPAY_ENV,
+      transaction: {
+        amount: Math.round(total),
+        description: 'Commande Maï Business Import : ' + summary
+      },
+      customer: {
+        firstname: firstname,
+        lastname: lastname,
+        phone_number: { number: info.phone, country: 'bj' }
+      },
+      onComplete: function(response){
+        if(response.reason === FedaPay.CHECKOUT_COMPLETED){
+          const ref = (response.transaction && response.transaction.id) || '';
+          sendOrderAndOpenWhatsApp(info, 'online', ref);
+          alert('Paiement reçu, merci ! Votre commande est confirmée.');
+        }
+      }
+    }).open();
+  }
+
+  function startCheckout(e){
+    e.preventDefault();
+    if(cart.length === 0){ alert('Votre panier est vide.'); return; }
+    const info = validateCheckoutFields();
+    if(!info) return;
+    sendOrderAndOpenWhatsApp(info, 'whatsapp');
+    alert('Merci ! Votre commande a été envoyée. Vous allez être redirigé vers WhatsApp pour confirmer avec nous.');
   }
 
   const chatFaq = [
