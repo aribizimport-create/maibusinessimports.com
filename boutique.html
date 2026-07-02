@@ -528,6 +528,12 @@
     }catch(e){ cart = []; }
   }
   loadCart();
+  try{
+    if(localStorage.getItem('mbi_chat_seen')){
+      const cb = document.getElementById('chatBadge');
+      if(cb) cb.style.display = 'none';
+    }
+  }catch(e){}
   let activeCategory = 'Toutes';
   let activeSearch = '';
   const categories = ['Toutes', 'Mode', 'Électronique', 'Maison', 'Beauté', 'Sport', 'Enfants', 'Bagagerie', 'Accessoires'];
@@ -941,6 +947,7 @@
     const willOpen = !win.classList.contains('open');
     win.classList.toggle('open', willOpen);
     document.getElementById('chatBadge').style.display = 'none';
+    try{ localStorage.setItem('mbi_chat_seen', '1'); }catch(e){}
     if(willOpen && document.getElementById('chatBody').children.length === 0){
       addChatMsg("Bonjour et bienvenue chez Maï Business Import ! Choisissez un sujet ci-dessous ou écrivez votre question.", 'bot');
     }

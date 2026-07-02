@@ -658,6 +658,12 @@
     }catch(e){ cart = []; }
   }
   loadCart();
+  try{
+    if(localStorage.getItem('mbi_chat_seen')){
+      const cb = document.getElementById('chatBadge');
+      if(cb) cb.style.display = 'none';
+    }
+  }catch(e){}
 
   function starString(n){
     const filled = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="vertical-align:-2px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
@@ -1133,6 +1139,7 @@
     const willOpen = !win.classList.contains('open');
     win.classList.toggle('open', willOpen);
     document.getElementById('chatBadge').style.display = 'none';
+    try{ localStorage.setItem('mbi_chat_seen', '1'); }catch(e){}
     if(willOpen && document.getElementById('chatBody').children.length === 0){
       addChatMsg("Bonjour et bienvenue chez Maï Business Import ! Choisissez un sujet ci-dessous ou écrivez votre question.", 'bot');
     }
