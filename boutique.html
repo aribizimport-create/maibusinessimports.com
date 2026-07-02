@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Boutique — Maï Business Import</title>
 <meta name="description" content="Maï Business Import : boutique en ligne multi-catégories (mode, électronique, maison, beauté, sport) avec produits importés, livraison suivie et retours faciles.">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 <style>
@@ -53,7 +57,7 @@
   header.main.scrolled{box-shadow:var(--shadow-sm);}
   .header-inner{display:flex;align-items:center;gap:30px;padding:20px 0;flex-wrap:wrap;}
   .logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:25px;color:var(--navy);white-space:nowrap;}
-  .logo .mark{width:40px;height:40px;background:var(--navy);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:19px;font-weight:700;font-family:var(--font-display);flex-shrink:0;}
+  .logo-img{height:46px;width:46px;object-fit:cover;border-radius:10px;flex-shrink:0;box-shadow:var(--shadow-sm);}
   .logo span{color:var(--coral);}
   .search-form{flex:1;min-width:240px;display:flex;height:48px;border-radius:999px;overflow:hidden;background:var(--white);box-shadow:var(--shadow-sm);}
   .search-form select{border:none;background:transparent;padding:0 16px;font-size:13px;color:var(--muted);border-right:1px solid var(--cream-dark);}
@@ -214,7 +218,8 @@
   .footer-grid h5{color:#fff;font-size:14px;margin-bottom:16px;font-family:var(--font-display);}
   .footer-grid li{font-size:13.5px;margin-bottom:10px;}
   .footer-grid li:hover{color:var(--gold);}
-  .footer-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:700;font-size:22px;color:#fff;margin-bottom:14px;}
+  .footer-logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:22px;color:#fff;margin-bottom:14px;}
+  .footer-logo img{height:38px;width:38px;object-fit:cover;border-radius:8px;flex-shrink:0;}
   .footer-grid p{font-size:13.5px;margin-bottom:9px;line-height:1.6;}
   .payment-row{display:flex;gap:10px;margin-top:16px;}
   .payment-row .pay-ic{background:#26314D;color:#AEB9CE;font-size:11px;font-family:var(--font-mono);padding:7px 12px;border-radius:6px;}
@@ -316,7 +321,7 @@
 
 <header class="main" id="mainHeader">
   <div class="container header-inner">
-    <a href="index.html" class="logo" id="logoText"><span class="mark">M</span>Maï Business <span>Import</span></a>
+    <a href="index.html" class="logo" id="logoText"><img src="/images/logo-mark.png" alt="Maï Business Import" class="logo-img">Maï Business <span>Import</span></a>
     <form class="search-form" id="searchForm" onsubmit="handleHeaderSearch(event)">
       <select id="searchCategory">
         <option value="Toutes">Toutes catégories</option>
@@ -365,7 +370,7 @@
   <div class="container">
     <div class="footer-grid">
       <div>
-        <div class="footer-logo" id="footerLogo"><span style="color:var(--gold);">Maï</span> Business Import</div>
+        <div class="footer-logo" id="footerLogo"><img src="/images/logo-mark.png" alt="Maï Business Import"><span><span style="color:var(--gold);">Maï</span> Business Import</span></div>
         <p>Votre boutique multi-catégories pour des produits importés de qualité, livrés directement chez vous.</p>
         <p>&#128222; <span id="phoneFooter">+229 01 43 04 04 85</span></p>
         <p>&#9993; <span id="emailFooter">teams@maibusinessimport.com</span></p>
