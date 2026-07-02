@@ -1015,4 +1015,549 @@
 
   loadContent();
 </script>
+
+<!-- === ASSISTANT MAI BUSINESS IMPORT (widget) === -->
+<style id="mbi-style">
+  /* ============================================================
+     MAÏ BUSINESS IMPORT — WIDGET ASSISTANT IA + VOIX
+     Variables scopées (--mbi-*) pour ne pas écraser le CSS du site.
+     ============================================================ */
+  #mbi-launcher, #mbi-panel{
+    --mbi-navy:#0f1e3d;
+    --mbi-navy-soft:#16294f;
+    --mbi-orange:#f2711c;
+    --mbi-orange-dark:#d85f10;
+    --mbi-gold:#c6a15b;
+    --mbi-ink:#1c2333;
+    --mbi-muted:#6b7385;
+    --mbi-bg-bot:#f1f4f9;
+    --mbi-bg-user:linear-gradient(135deg,#f2711c,#d85f10);
+    --mbi-line:#e4e8f0;
+    --mbi-font:'Segoe UI',system-ui,-apple-system,sans-serif;
+    box-sizing:border-box;
+  }
+  #mbi-panel *, #mbi-panel *::before, #mbi-panel *::after{box-sizing:border-box;}
+
+  /* ---- Bouton flottant ---- */
+  #mbi-launcher{
+    position:fixed;bottom:24px;right:24px;z-index:9998;
+    width:62px;height:62px;border-radius:50%;border:none;cursor:pointer;
+    background:linear-gradient(135deg,var(--mbi-orange),var(--mbi-orange-dark));
+    box-shadow:0 8px 26px -6px rgba(242,113,28,0.6);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .3s cubic-bezier(.22,.61,.36,1);
+    padding:0;margin:0;
+  }
+  #mbi-launcher:hover{transform:scale(1.07);}
+  #mbi-launcher svg{width:28px;height:28px;}
+  #mbi-launcher .badge{position:absolute;top:-2px;right:-2px;width:16px;height:16px;
+    background:#2ecc71;border:2px solid var(--mbi-navy);border-radius:50%;}
+
+  /* ---- Fenêtre ---- */
+  #mbi-panel{
+    position:fixed;bottom:100px;right:24px;z-index:9999;
+    width:380px;max-width:calc(100vw - 32px);height:560px;max-height:calc(100vh - 130px);
+    background:#fff;border-radius:20px;overflow:hidden;
+    display:flex;flex-direction:column;
+    box-shadow:0 24px 60px -12px rgba(0,0,0,0.5);
+    opacity:0;transform:translateY(16px) scale(.98);pointer-events:none;
+    transition:opacity .3s ease, transform .3s cubic-bezier(.22,.61,.36,1);
+    font-family:var(--mbi-font);color:var(--mbi-ink);line-height:1.4;
+  }
+  #mbi-panel.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+
+  #mbi-panel .mbi-header{background:linear-gradient(135deg,var(--mbi-navy),var(--mbi-navy-soft));
+    padding:16px 18px;display:flex;align-items:center;gap:12px;color:#fff;}
+  #mbi-panel .mbi-header .av{width:40px;height:40px;border-radius:11px;flex-shrink:0;overflow:hidden;
+    background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--mbi-gold);}
+  #mbi-panel .mbi-header .av img{width:100%;height:100%;object-fit:cover;}
+  #mbi-panel .mbi-header .t{flex:1;min-width:0;}
+  #mbi-panel .mbi-header .t h4{font-size:15px;font-weight:600;margin:0;color:#fff;}
+  #mbi-panel .mbi-header .t span{font-size:12px;color:rgba(255,255,255,0.6);display:flex;align-items:center;gap:5px;}
+  #mbi-panel .mbi-header .t span::before{content:'';width:7px;height:7px;border-radius:50%;background:#2ecc71;}
+  #mbi-panel .mbi-header button{background:none;border:none;color:rgba(255,255,255,0.7);cursor:pointer;font-size:22px;line-height:1;padding:4px;}
+  #mbi-panel .mbi-header button:hover{color:#fff;}
+
+  #mbi-panel .mbi-body{flex:1;overflow-y:auto;padding:18px;background:#fafbfc;display:flex;flex-direction:column;gap:12px;}
+  #mbi-panel .mbi-msg{max-width:82%;padding:11px 15px;border-radius:16px;font-size:14px;line-height:1.5;word-wrap:break-word;}
+  #mbi-panel .mbi-msg.bot{background:var(--mbi-bg-bot);color:var(--mbi-ink);border-bottom-left-radius:5px;align-self:flex-start;}
+  #mbi-panel .mbi-msg.user{background:var(--mbi-bg-user);color:#fff;border-bottom-right-radius:5px;align-self:flex-end;}
+  #mbi-panel .mbi-msg.bot .speak{margin-top:7px;font-size:11px;color:var(--mbi-muted);cursor:pointer;display:inline-flex;align-items:center;gap:4px;user-select:none;}
+  #mbi-panel .mbi-msg.bot .speak:hover{color:var(--mbi-orange);}
+
+  #mbi-panel .mbi-typing{align-self:flex-start;background:var(--mbi-bg-bot);padding:12px 16px;border-radius:16px;border-bottom-left-radius:5px;display:none;}
+  #mbi-panel .mbi-typing.show{display:block;}
+  #mbi-panel .mbi-typing span{display:inline-block;width:7px;height:7px;margin:0 2px;background:var(--mbi-muted);border-radius:50%;animation:mbi-blink 1.4s infinite both;}
+  #mbi-panel .mbi-typing span:nth-child(2){animation-delay:.2s;}
+  #mbi-panel .mbi-typing span:nth-child(3){animation-delay:.4s;}
+  @keyframes mbi-blink{0%,80%,100%{opacity:.3;}40%{opacity:1;}}
+
+  #mbi-panel .mbi-quick{display:flex;flex-wrap:wrap;gap:7px;padding:0 18px 12px;background:#fafbfc;}
+  #mbi-panel .mbi-quick button{font-size:12px;background:#fff;border:1px solid var(--mbi-line);color:var(--mbi-navy);
+    padding:7px 12px;border-radius:999px;cursor:pointer;transition:all .2s;font-family:inherit;}
+  #mbi-panel .mbi-quick button:hover{border-color:var(--mbi-orange);color:var(--mbi-orange);}
+
+  #mbi-panel .mbi-input{padding:12px;border-top:1px solid var(--mbi-line);background:#fff;display:flex;align-items:center;gap:8px;}
+  #mbi-panel .mbi-input input{flex:1;border:1px solid var(--mbi-line);border-radius:999px;padding:11px 16px;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;color:var(--mbi-ink);background:#fff;}
+  #mbi-panel .mbi-input input:focus{border-color:var(--mbi-orange);}
+  #mbi-panel .mbi-input button{width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;transition:transform .2s, background .2s;padding:0;}
+  #mbi-panel .mbi-input button:hover{transform:scale(1.06);}
+  #mbi-panel .mbi-mic{background:#eef1f6;color:var(--mbi-navy);}
+  #mbi-panel .mbi-mic.listening{background:#e74c3c;color:#fff;animation:mbi-pulse 1.2s infinite;}
+  @keyframes mbi-pulse{0%{box-shadow:0 0 0 0 rgba(231,76,60,0.5);}70%{box-shadow:0 0 0 10px rgba(231,76,60,0);}100%{box-shadow:0 0 0 0 rgba(231,76,60,0);}}
+  #mbi-panel .mbi-send{background:linear-gradient(135deg,var(--mbi-orange),var(--mbi-orange-dark));color:#fff;}
+  #mbi-panel .mbi-send svg{width:18px;height:18px;}
+  #mbi-panel .mbi-mic svg{width:18px;height:18px;}
+
+  #mbi-panel .mbi-foot{text-align:center;font-size:10.5px;color:var(--mbi-muted);padding:0 12px 10px;background:#fff;}
+  #mbi-panel .mbi-voice-toggle{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;background:#fff;border-top:1px solid var(--mbi-line);font-size:12px;color:var(--mbi-muted);cursor:pointer;user-select:none;}
+  #mbi-panel .mbi-voice-toggle input{cursor:pointer;}
+</style>
+<!-- ====================== BOUTON FLOTTANT ====================== -->
+<button id="mbi-launcher" aria-label="Ouvrir l'assistant">
+  <span class="badge"></span>
+  <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.5 8.5 8.5 0 0 1-4-1L3 21l1.5-4.5A8.4 8.4 0 0 1 3 11.5 8.5 8.5 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5Z"/></svg>
+</button>
+
+<!-- ====================== FENÊTRE ====================== -->
+<div id="mbi-panel" role="dialog" aria-label="Assistant Maï Business Import">
+  <div class="mbi-header">
+    <div class="av"><img src="/images/logo-mark.png" alt="" onerror="this.parentElement.textContent='M'"></div>
+    <div class="t">
+      <h4>Assistant Maï</h4>
+      <span>En ligne</span>
+    </div>
+    <button id="mbi-close" aria-label="Fermer">&times;</button>
+  </div>
+
+  <div class="mbi-body" id="mbi-body">
+    <div class="mbi-msg bot">
+      Bonjour 👋 Je suis l'assistant de Maï Business Import. Je peux vous renseigner sur nos produits, la livraison, le paiement, les retours ou l'import sur commande. Comment puis-je vous aider ?
+    </div>
+    <div class="mbi-typing" id="mbi-typing"><span></span><span></span><span></span></div>
+  </div>
+
+  <div class="mbi-quick" id="mbi-quick">
+    <button>Comment commander ?</button>
+    <button>Délais de livraison</button>
+    <button>Moyens de paiement</button>
+    <button>Import sur commande</button>
+  </div>
+
+  <div class="mbi-voice-toggle">
+    <input type="checkbox" id="mbi-autospeak" checked>
+    <label for="mbi-autospeak">Lire les réponses à voix haute</label>
+  </div>
+
+  <div class="mbi-input">
+    <button class="mbi-mic" id="mbi-mic" aria-label="Parler">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg>
+    </button>
+    <input type="text" id="mbi-text" placeholder="Écrivez ou parlez…" autocomplete="off">
+    <button class="mbi-send" id="mbi-send" aria-label="Envoyer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z"/></svg>
+    </button>
+  </div>
+
+  <div class="mbi-foot">Assistant Maï Business Import · Réponses indicatives</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     MAÏ BUSINESS IMPORT — MOTEUR CONVERSATIONNEL LOCAL
+     ------------------------------------------------------------
+     Fonctionne 100% côté navigateur : gratuit, offline, sans clé API.
+     Pour brancher un vrai LLM plus tard, remplissez N8N_WEBHOOK_URL.
+     ============================================================ */
+  const N8N_WEBHOOK_URL = ""; // ex: "https://xxx.app.n8n.cloud/webhook/xxxxx"
+
+  const $ = (id) => document.getElementById(id);
+  const launcher=$('mbi-launcher'), panel=$('mbi-panel'), closeBtn=$('mbi-close'),
+        body=$('mbi-body'), typing=$('mbi-typing'), input=$('mbi-text'),
+        sendBtn=$('mbi-send'), micBtn=$('mbi-mic'), quick=$('mbi-quick'),
+        autospeak=$('mbi-autospeak');
+
+  // Mémoire courte : messages + dernier sujet évoqué + entités extraites
+  const state = { history:[], lastIntent:null, entities:{} };
+
+  /* ---------- Ouverture / fermeture ---------- */
+  function toggle(open){
+    panel.classList.toggle('open', open);
+    if(open) setTimeout(()=>input.focus(), 300);
+  }
+  launcher.addEventListener('click', ()=>toggle(!panel.classList.contains('open')));
+  closeBtn.addEventListener('click', ()=>toggle(false));
+
+  /* ---------- Affichage messages ---------- */
+  function addMessage(text, who, suggestions){
+    const el = document.createElement('div');
+    el.className = 'mbi-msg ' + who;
+    el.textContent = text;
+    if(who === 'bot'){
+      const s = document.createElement('span');
+      s.className = 'speak';
+      s.innerHTML = '🔊 Écouter';
+      s.addEventListener('click', ()=>speak(text));
+      el.appendChild(document.createElement('br'));
+      el.appendChild(s);
+    }
+    body.insertBefore(el, typing);
+    // Suggestions cliquables sous la réponse
+    if(who === 'bot' && suggestions && suggestions.length){
+      const box = document.createElement('div');
+      box.className = 'mbi-sugg';
+      box.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 4px;';
+      suggestions.forEach(s=>{
+        const b = document.createElement('button');
+        b.textContent = s;
+        b.style.cssText = 'font-size:12px;background:#fff;border:1px solid #e4e8f0;color:#0f1e3d;padding:6px 11px;border-radius:999px;cursor:pointer;font-family:inherit;';
+        b.addEventListener('click', ()=>{ input.value = s; handleSend(); });
+        box.appendChild(b);
+      });
+      body.insertBefore(box, typing);
+    }
+    body.scrollTop = body.scrollHeight;
+  }
+
+  /* ---------- Synthèse vocale ---------- */
+  function speak(text){
+    if(!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'fr-FR'; u.rate = 1.02;
+    const frVoice = window.speechSynthesis.getVoices().find(v => v.lang.startsWith('fr'));
+    if(frVoice) u.voice = frVoice;
+    window.speechSynthesis.speak(u);
+  }
+
+  /* ---------- Reconnaissance vocale ---------- */
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let recognition = null, listening = false;
+  if(SR){
+    recognition = new SR();
+    recognition.lang = 'fr-FR';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    recognition.addEventListener('result', (e)=>{
+      input.value = e.results[0][0].transcript;
+      handleSend();
+    });
+    recognition.addEventListener('end', ()=>{ listening=false; micBtn.classList.remove('listening'); });
+    recognition.addEventListener('error', ()=>{ listening=false; micBtn.classList.remove('listening'); });
+  } else { micBtn.style.display = 'none'; }
+  micBtn.addEventListener('click', ()=>{
+    if(!recognition) return;
+    if(listening){ recognition.stop(); return; }
+    window.speechSynthesis && window.speechSynthesis.cancel();
+    try{ recognition.start(); listening=true; micBtn.classList.add('listening'); }catch(e){}
+  });
+
+  /* ---------- Envoi ---------- */
+  async function handleSend(){
+    const text = input.value.trim();
+    if(!text) return;
+    addMessage(text, 'user');
+    state.history.push({ role:'user', content:text });
+    input.value = '';
+    quick.style.display = 'none';
+    typing.classList.add('show');
+    body.scrollTop = body.scrollHeight;
+
+    try{
+      const result = await getReply(text);
+      typing.classList.remove('show');
+      const reply = typeof result === 'string' ? result : result.text;
+      const sugg  = typeof result === 'string' ? [] : (result.suggestions || []);
+      addMessage(reply, 'bot', sugg);
+      state.history.push({ role:'assistant', content:reply });
+      if(autospeak.checked) speak(reply);
+    }catch(err){
+      typing.classList.remove('show');
+      addMessage("Désolé, souci technique. Contactez-nous via le formulaire de contact.", 'bot');
+    }
+  }
+  sendBtn.addEventListener('click', handleSend);
+  input.addEventListener('keydown', (e)=>{ if(e.key==='Enter') handleSend(); });
+  quick.addEventListener('click', (e)=>{
+    if(e.target.tagName==='BUTTON'){ input.value = e.target.textContent; handleSend(); }
+  });
+
+  /* ---------- Appel IA (webhook n8n) ou moteur local ---------- */
+  async function getReply(message){
+    if(!N8N_WEBHOOK_URL){
+      await new Promise(r=>setTimeout(r, 450 + Math.random()*400));
+      return smartReply(message);
+    }
+    const res = await fetch(N8N_WEBHOOK_URL, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json' },
+      body: JSON.stringify({
+        message: message,
+        history: state.history.slice(-10),
+        context: { lastIntent: state.lastIntent, entities: state.entities }
+      })
+    });
+    if(!res.ok) throw new Error('n8n error');
+    const data = await res.json();
+    return data.reply || data.output || data.text || "Je n'ai pas pu générer de réponse.";
+  }
+
+  /* ============================================================
+     MOTEUR CONVERSATIONNEL LOCAL — scoring + entités + mémoire
+     ============================================================ */
+
+  // Normalisation : minuscules + suppression accents
+  const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const pick = (arr) => arr[Math.floor(Math.random()*arr.length)];
+
+  // Base d'intentions : chaque intention a mots-clés positifs (poids) et exclusions
+  const INTENTS = [
+    { id:'salut', kw:['bonjour','bonsoir','salut','coucou','hello','hey','yo','slt','cava','ca va','bonne journee'], w:1 },
+    { id:'merci', kw:['merci','thanks','thx','gentil','sympa','cool','super'], w:1 },
+    { id:'bye',   kw:['au revoir','bye','a bientot','a plus','bonne journee','bonne soiree','ciao'], w:1 },
+    { id:'commander', kw:['command','commander','acheter','panier','passer commande','comment ca marche','comment faire','comment on fait','achat'], w:2 },
+    { id:'livraison', kw:['livr','livraison','deliver','expedi','recevoir','reception','combien de temps','delai','delais','quand','arrive','transport'], w:2 },
+    { id:'zones', kw:['ou livrez','ou vous livrez','livrez vous','zone','ville','cotonou','porto novo','parakou','abomey','province','partout','pays','benin','etranger','international','afrique'], w:2 },
+    { id:'paiement', kw:['pai','payer','paye','reglement','mobile money','mtn','moov','celtis','espece','cash','carte','visa','mastercard','fedapay','virement'], w:2 },
+    { id:'retour', kw:['retour','sav','rembours','defectueux','casse','abime','garantie','echange','non conforme','panne','probleme produit','pas satisfait'], w:2 },
+    { id:'import', kw:['import','introuvable','pas en stock','indisponible','rupture','specifique','importer','commander un produit','produit precis','sur commande','commander pour moi'], w:2 },
+    { id:'prix', kw:['prix','cout','tarif','combien coute','combien ca coute','fcfa','cher','pas cher','abordable','devis','estimation'], w:2 },
+    { id:'produits', kw:['produit','article','categorie','vend','proposez','avez vous','mode','electro','maison','beauty','beaute','sport','telephone','portable','cuisine','deco','vetement','chaussure','sac','montre','ordinateur','pc','tv','television'], w:2 },
+    { id:'contact', kw:['contact','joindre','telephone','numero','whatsapp','wa','email','mail','ecrire','appeler','horaire','ouvert','heure','ferme'], w:2 },
+    { id:'confiance', kw:['fiable','confiance','arnaque','serieux','avis','garanti','qualite','authentique','vrai','original','contrefacon','faux'], w:2 },
+    { id:'delai_import', kw:['delai import','delai commande','combien de temps import','import combien','import quand'], w:3 },
+    { id:'suivi', kw:['suivi','ou est ma commande','tracking','tracer','ou en est','statut commande','numero de suivi'], w:2 },
+    { id:'annulation', kw:['annuler','annulation','changer commande','modifier commande','erreur commande'], w:2 },
+    { id:'promo', kw:['promo','promotion','solde','reduction','remise','code promo','offre','bon plan'], w:2 },
+    { id:'gros', kw:['gros','grosse quantite','revendeur','revente','wholesale','stock','en gros','pour magasin','pour boutique'], w:3 },
+    { id:'aide', kw:['aide','aidez moi','help','besoin d aide','je ne sais pas','sais pas','perdu','comment'], w:1 }
+  ];
+
+  // Extraction d'entités simples
+  function extract(t){
+    const e = {};
+    // budget en FCFA
+    const bud = t.match(/(\d[\d\s.]*)\s*(?:fcfa|f cfa|f\.cfa|xof|francs?)/i);
+    if(bud) e.budget = bud[1].replace(/\s+/g,'') + ' FCFA';
+    // quantité
+    const qte = t.match(/\b(\d+)\s*(pieces?|unites?|articles?|exemplaires?)/i);
+    if(qte) e.quantite = qte[1];
+    // ville (liste étendable)
+    const villes = ['cotonou','porto novo','parakou','abomey','bohicon','natitingou','djougou','ouidah','lokossa','kandi','malanville','pobe','save','allada'];
+    const n = norm(t);
+    for(const v of villes){ if(n.includes(v)){ e.ville = v.charAt(0).toUpperCase()+v.slice(1); break; } }
+    return e;
+  }
+
+  // Détection d'intention par scoring
+  function detectIntent(text){
+    const t = norm(text);
+    let best = null, bestScore = 0;
+    for(const it of INTENTS){
+      let score = 0;
+      for(const k of it.kw){ if(t.includes(k)) score += it.w; }
+      if(score > bestScore){ bestScore = score; best = it.id; }
+    }
+    return { intent: best, score: bestScore };
+  }
+
+  // Réponses variées par intention + suggestions de suivi
+  const REPLIES = {
+    salut: {
+      text:[
+        "Bonjour 👋 Bienvenue chez Maï Business Import ! Je peux vous renseigner sur les produits, la commande, la livraison, le paiement ou l'import sur commande. Que puis-je faire pour vous ?",
+        "Salut ! 😊 Je suis l'assistant de Maï Business Import. Vous cherchez un produit précis, des infos livraison, ou vous souhaitez importer quelque chose ?",
+        "Bonjour et bienvenue ! Comment puis-je vous aider aujourd'hui ?"
+      ],
+      sugg:['Comment commander ?','Import sur commande','Délais de livraison']
+    },
+    merci: { text:["Avec plaisir 😊 N'hésitez pas si vous avez d'autres questions.","De rien ! Je reste disponible.","À votre service !"], sugg:[] },
+    bye: { text:["À très bientôt chez Maï Business Import ! 👋","Merci de votre visite, à bientôt !","Bonne journée et à bientôt sur maibusinessimports.com"], sugg:[] },
+    commander: {
+      text:[
+        "Pour commander c'est simple : 1) parcourez la boutique, 2) ajoutez au panier, 3) validez. Votre commande nous arrive par WhatsApp/email et nous vous rappelons pour confirmer le règlement et la livraison.",
+        "Rendez-vous sur la boutique, ajoutez vos articles au panier puis validez. On vous recontacte pour confirmer les détails de livraison et de paiement."
+      ],
+      sugg:['Moyens de paiement','Délais de livraison','Où livrez-vous ?']
+    },
+    livraison: {
+      text:[
+        "Livraison à domicile avec suivi. Délais indicatifs : 24–72 h à Cotonou, 2–5 jours en province. Les délais précis dépendent de votre zone et vous sont confirmés au moment de la commande.",
+        "Nous livrons partout au Bénin, en 24–72 h dans le Grand Cotonou et sous quelques jours en province. Le transporteur et le délai exact sont communiqués à la confirmation."
+      ],
+      sugg:['Où livrez-vous ?','Moyens de paiement','Suivi de commande']
+    },
+    zones: {
+      text:[
+        "Nous livrons partout au Bénin (Cotonou, Porto-Novo, Parakou, Abomey, Bohicon…) et pouvons expédier vers d'autres pays de la sous-région sur demande.",
+        "Livraison sur tout le territoire béninois. Pour l'international, contactez-nous : nous étudions chaque demande au cas par cas."
+      ],
+      sugg:['Délais de livraison','Frais de livraison']
+    },
+    paiement: {
+      text:[
+        "Nous acceptons Mobile Money (MTN, Moov, Celtis), carte bancaire via FedaPay, virement et espèces à la livraison selon la zone. Vous choisissez au moment de la validation.",
+        "Mobile Money, carte bancaire (FedaPay), espèces à la livraison ou virement — vous avez le choix. Les options s'affichent au checkout."
+      ],
+      sugg:['Comment commander ?','Livraison','Paiement à la livraison ?']
+    },
+    retour: {
+      text:[
+        "En cas de produit non conforme ou défectueux : contactez-nous sous 48 h via le formulaire de contact ou WhatsApp. Nous organisons rapidement un remplacement ou un remboursement.",
+        "Retour ou échange possible sous 48 h après réception si le produit est défectueux ou non conforme à la commande. Le formulaire de contact est le plus rapide."
+      ],
+      sugg:['Contact','Garantie']
+    },
+    import: {
+      text:[
+        "Vous cherchez un produit absent de la boutique ? Nous l'importons pour vous, généralement en 2 à 4 semaines. Indiquez la référence ou une photo via le formulaire, on vous envoie un devis gratuit.",
+        "Import sur commande : envoyez-nous le lien ou la photo du produit + la quantité souhaitée. Sous 24 h vous recevez un devis avec le prix final livré."
+      ],
+      sugg:['Délais import','Devis import','Contact']
+    },
+    prix: {
+      text:[
+        "Tous les prix sont affichés en FCFA sur les fiches produits de la boutique. Pour un produit sur commande, on vous envoie un devis personnalisé gratuit.",
+        "Prix affichés en FCFA directement dans la boutique, TTC. Pour un import spécifique, demandez un devis — c'est gratuit et sans engagement."
+      ],
+      sugg:['Import sur commande','Voir la boutique','Promos en cours']
+    },
+    produits: {
+      text:[
+        "Nos univers : mode & accessoires, électronique, maison & déco, beauté & soins, sport. Vous trouverez la recherche et les filtres directement sur la boutique.",
+        "Nous proposons de la mode, de l'électronique, des articles maison & déco, beauté et sport. Un produit précis en tête ? Dites-moi lequel."
+      ],
+      sugg:['Voir la boutique','Import sur commande','Prix']
+    },
+    contact: {
+      text:[
+        "Vous pouvez nous joindre via le formulaire de contact du site, par WhatsApp ou par email. Nous répondons du lundi au samedi, 8 h–20 h.",
+        "Formulaire de contact, WhatsApp ou email — au choix. Réponse rapide en journée du lundi au samedi."
+      ],
+      sugg:['Horaires','WhatsApp']
+    },
+    confiance: {
+      text:[
+        "Chaque produit est vérifié avant expédition et notre équipe travaille avec des fournisseurs référencés. Notre engagement tient en 4 mots : Importer, Qualité, Confiance, Performance.",
+        "Nous prenons la qualité très au sérieux : contrôle avant expédition, fournisseurs sélectionnés, retours acceptés en cas de problème. Consultez aussi les avis clients sur le site."
+      ],
+      sugg:['Retours','Garantie','Avis clients']
+    },
+    delai_import: {
+      text:[
+        "Délai d'import type : 2 à 4 semaines selon la disponibilité fournisseur et le mode de transport. On vous confirme un délai précis dans le devis.",
+        "Import : compter 15 à 30 jours en moyenne. Le devis que nous envoyons précise toujours le délai estimé pour votre commande."
+      ],
+      sugg:['Import sur commande','Devis import']
+    },
+    suivi: {
+      text:[
+        "Après expédition, vous recevez un numéro de suivi par WhatsApp ou email. Vous pouvez aussi nous demander le point à tout moment via le formulaire de contact.",
+        "Suivi de commande envoyé dès l'expédition. Vous n'avez pas reçu d'infos ? Répondez-moi avec votre numéro de commande, je fais suivre à l'équipe."
+      ],
+      sugg:['Contact','Délais de livraison']
+    },
+    annulation: {
+      text:[
+        "Annulation ou modification possible tant que la commande n'est pas expédiée. Contactez-nous rapidement via WhatsApp ou le formulaire, avec votre numéro de commande.",
+        "Pour modifier ou annuler une commande, il faut nous joindre avant l'expédition. Le plus rapide reste WhatsApp."
+      ],
+      sugg:['Contact','WhatsApp']
+    },
+    promo: {
+      text:[
+        "Les promotions et bons plans en cours sont visibles directement sur la page d'accueil de la boutique. Inscrivez-vous à la newsletter pour ne rien rater.",
+        "Nous avons régulièrement des offres. Elles sont affichées sur la page d'accueil et communiquées par newsletter et WhatsApp."
+      ],
+      sugg:['Voir la boutique','Contact']
+    },
+    gros: {
+      text:[
+        "Achat en gros / revendeurs : nous proposons des tarifs dégressifs à partir d'un certain volume. Envoyez-nous la liste et les quantités souhaitées via le formulaire, on vous fait un devis pro.",
+        "Pour les revendeurs, nous avons une grille tarifaire dédiée. Contactez-nous avec vos besoins (produits + quantités) pour un devis personnalisé."
+      ],
+      sugg:['Import sur commande','Contact']
+    },
+    aide: {
+      text:[
+        "Bien sûr, dites-m'en un peu plus 🙂 Vous cherchez à commander, importer un produit précis, ou vous avez une question sur une commande en cours ?",
+        "Je suis là pour ça ! Précisez-moi votre besoin : produit, livraison, paiement, import, retour…"
+      ],
+      sugg:['Comment commander ?','Import sur commande','Délais de livraison']
+    }
+  };
+
+  // Sujets de relance pour l'intention précédente (pour maintenir un fil)
+  const FOLLOWUP = {
+    livraison:['zones','paiement'],
+    zones:['livraison','commander'],
+    paiement:['commander','livraison'],
+    import:['delai_import','prix','contact'],
+    commander:['paiement','livraison'],
+    prix:['produits','import'],
+    produits:['prix','commander']
+  };
+
+  function smartReply(message){
+    const t = norm(message);
+    // extraction d'entités (mémorisation)
+    Object.assign(state.entities, extract(message));
+
+    const { intent, score } = detectIntent(message);
+
+    // Fallback : rien de reconnu
+    if(!intent || score === 0){
+      // Si le message est très court et suit une intention connue, relancer
+      if(state.lastIntent && t.length < 25){
+        const suivi = FOLLOWUP[state.lastIntent] || [];
+        return {
+          text: "Vous voulez qu'on approfondisse ce point, ou vous avez une autre question ? Je peux vous parler de : commande, livraison, paiement, import, retours, prix.",
+          suggestions: suivi.length ? suivi.map(id => humanLabel(id)) : ['Comment commander ?','Import sur commande','Contact']
+        };
+      }
+      return {
+        text: "Je ne suis pas certain d'avoir bien compris. Je peux vous aider sur : comment commander, la livraison, les moyens de paiement, les retours, l'import sur commande, les prix et les catégories. Reformulez ou choisissez ci-dessous.",
+        suggestions: ['Comment commander ?','Import sur commande','Délais de livraison','Contact']
+      };
+    }
+
+    state.lastIntent = intent;
+    const bank = REPLIES[intent] || REPLIES.aide;
+    let text = pick(bank.text);
+
+    // Injection contextuelle si entités connues
+    if(state.entities.ville && (intent === 'livraison' || intent === 'zones')){
+      text += " Pour " + state.entities.ville + ", on vous confirme le délai exact à la commande.";
+    }
+    if(state.entities.budget && (intent === 'prix' || intent === 'import' || intent === 'produits')){
+      text += " Avec un budget de " + state.entities.budget + ", on peut vous proposer plusieurs options.";
+    }
+    if(state.entities.quantite && (intent === 'commander' || intent === 'gros' || intent === 'import')){
+      text += " Pour " + state.entities.quantite + " unités, un tarif dégressif est possible.";
+    }
+
+    return { text: text, suggestions: bank.sugg || [] };
+  }
+
+  function humanLabel(id){
+    const map = {
+      salut:'Bonjour', commander:'Comment commander ?', livraison:'Délais de livraison',
+      zones:'Où livrez-vous ?', paiement:'Moyens de paiement', retour:'Retours et SAV',
+      import:'Import sur commande', prix:'Vos prix', produits:'Vos produits',
+      contact:'Vous contacter', confiance:'Êtes-vous fiables ?', delai_import:'Délai d\'import',
+      suivi:'Suivi de commande', annulation:'Annuler une commande', promo:'Promotions',
+      gros:'Achat en gros', aide:'J\'ai besoin d\'aide'
+    };
+    return map[id] || id;
+  }
+
+  // Précharger les voix
+  if('speechSynthesis' in window){ window.speechSynthesis.onvoiceschanged = ()=>{}; }
+})();
+</script>
+<!-- === FIN ASSISTANT === -->
 </body></html>
