@@ -1,1 +1,56 @@
-products: []
+products:
+  - rating: 3
+    votes: 2
+    image: /images/uploads/1000041430.jpg
+    name: Sandales fille à fleurs avec nœud (sandales princesse)
+    category: Mode
+    oldPrice: 6000
+    price: 3000
+  - rating: 4
+    votes: 0
+    image: /images/uploads/img-20260701-wa0122.jpg
+    name: "Dishwasher "
+    category: Maison
+    price: 17000
+    oldPrice: 20000
+  - rating: 5
+    votes: 0
+    image: /images/uploads/img-20260701-wa0129.jpg
+    name: "Ensemble casserole anti-adhesive quality "
+    category: Maison
+    price: 35000
+    oldPrice: 40000
+  - rating: 5
+    votes: 0
+    image: /images/uploads/img-20260701-wa0164.jpg
+    name: "Sac bandoulière "
+    category: Mode
+    price: 14000
+    oldPrice: 16000
+  - rating: 5
+    votes: 0
+    image: /images/uploads/img-20260701-wa0173.jpg
+    name: "Rasoir électrique "
+    category: Accessoires
+    price: 5000
+    oldPrice: 7000
+  - rating: 5
+    votes: 0
+    image: /images/uploads/img-20260701-wa0167.jpg
+    name: "Gamelle "
+    category: Maison
+    price: 2000
+  - rating: 4
+    votes: 0
+    image: /images/uploads/img-20260701-wa0169.jpg
+    price: 10000
+    oldPrice: 12000
+    category: Mode
+    name: Sac en cuire marron
+  - rating: 5
+    votes: 0
+    image: /images/uploads/img-20260701-wa0171.jpg
+    name: Epulcheur
+    category: Maison
+    price: 700
+    oldPrice: 500
