@@ -491,6 +491,7 @@
     </div>
     <button type="button" class="btn-primary" id="payOnlineBtn" style="width:100%;justify-content:center;background:var(--gold);color:var(--navy-dark);margin-bottom:8px;" onclick="payOnline()">Payer en ligne (Mobile Money / Carte)</button>
     <p style="font-size:11px;color:var(--muted);text-align:center;margin:0 0 12px;">Paiement sécurisé via FedaPay</p>
+    <button type="button" class="btn-ghost" id="codBtn" onclick="payOnDelivery()" style="width:100%;justify-content:center;margin-bottom:8px;">Paiement à la livraison</button>
     <a href="#" class="btn-ghost" id="checkoutBtn" onclick="startCheckout(event)" style="width:100%;justify-content:center;">Commander via WhatsApp &rarr;</a>
   </div>
 </div>
@@ -752,7 +753,10 @@
     formData.append('phone', info.phone);
     formData.append('address', info.address);
     formData.append('order', orderLines);
-    formData.append('total', totalFormatted + (mode === 'online' ? ' (payé en ligne, réf. ' + ref + ')' : ''));
+    let totalNote = '';
+    if(mode === 'online') totalNote = ' (payé en ligne, réf. ' + ref + ')';
+    else if(mode === 'delivery') totalNote = ' (paiement à la livraison)';
+    formData.append('total', totalFormatted + totalNote);
     fetch('/', {
       method: 'POST',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -760,7 +764,9 @@
     }).catch(err => console.error('Erreur envoi commande :', err));
 
     const waNumber = getWhatsAppNumber();
-    const paidNote = mode === 'online' ? `\n\nPaiement en ligne reçu (réf. ${ref}).` : '';
+    let paidNote = '';
+    if(mode === 'online') paidNote = `\n\nPaiement en ligne reçu (réf. ${ref}).`;
+    else if(mode === 'delivery') paidNote = `\n\nMode de paiement : paiement à la livraison.`;
     const waText = encodeURIComponent(
       `Nouvelle commande - Maï Business Import\n\nClient : ${info.name}\nTéléphone : ${info.phone}\nAdresse : ${info.address}\n\nArticles :\n${orderLines}\n\nTotal : ${totalFormatted}${paidNote}`
     );
@@ -817,6 +823,14 @@
     if(!info) return;
     sendOrderAndOpenWhatsApp(info, 'whatsapp');
     alert('Merci ! Votre commande a été envoyée. Vous allez être redirigé vers WhatsApp pour confirmer avec nous.');
+  }
+
+  function payOnDelivery(){
+    if(cart.length === 0){ alert('Votre panier est vide.'); return; }
+    const info = validateCheckoutFields();
+    if(!info) return;
+    sendOrderAndOpenWhatsApp(info, 'delivery');
+    alert('Merci ! Votre commande est enregistrée en paiement à la livraison. Vous allez être redirigé vers WhatsApp pour confirmer les détails de livraison.');
   }
 
   const chatFaq = [
