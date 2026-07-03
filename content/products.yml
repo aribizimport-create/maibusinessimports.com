@@ -64,20 +64,13 @@ products:
     name: Sac en cuire marron
     description: Sac en cuir marron au style intemporel, à la fois robuste et
       élégant. Parfait pour accompagner toutes vos tenues au quotidien.
-  - rating: 5
-    votes: 0
-    image: /images/uploads/img-20260701-wa0171.jpg
-    name: Epulcheur
-    category: Maison
-    price: 700
-    oldPrice: 500
-    description: Éplucheur de cuisine pratique et tranchant, pour éplucher fruits et
-      légumes rapidement et en toute sécurité. Ergonomique et facile à nettoyer.
   - oldPrice: 899
     price: 699
     votes: 3
     name: SADOER Stick Men Déodorant – Cool Ocean Scent (20 g)
     badgeLabel: Nouveau
+    gallery:
+      - /images/uploads/1000041133.jpg
     image: /images/uploads/1000041131.jpg
     description: >-
       C’est un déodorant en stick pour homme conçu pour contrôler la
@@ -96,6 +89,15 @@ products:
       Une utilisation quotidienne pour garder une sensation de propreté et de fraîcheur
     rating: 5
     category: Beauté
+  - rating: 5
+    votes: 0
+    image: /images/uploads/img-20260701-wa0171.jpg
+    name: Epulcheur
+    category: Maison
+    price: 700
+    oldPrice: 500
+    description: Éplucheur de cuisine pratique et tranchant, pour éplucher fruits et
+      légumes rapidement et en toute sécurité. Ergonomique et facile à nettoyer.
   - rating: 5
     votes: 1
     image: /images/uploads/1000041269.jpg
