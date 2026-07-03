@@ -92,12 +92,12 @@ products:
     rating: 5
     category: Beauté
   - rating: 5
-    votes: 0
+    votes: 2
     image: /images/uploads/img-20260701-wa0171.jpg
     name: Epulcheur
     category: Maison
     price: 700
-    oldPrice: 500
+    oldPrice: 800
     description: Éplucheur de cuisine pratique et tranchant, pour éplucher fruits et
       légumes rapidement et en toute sécurité. Ergonomique et facile à nettoyer.
   - rating: 5
@@ -133,7 +133,7 @@ products:
     gallery:
       - /images/uploads/1000041159.jpg
       - /images/uploads/1000041143.jpg
-    price: ""
+    price: 18000
     category: Mode
   - rating: 5
     votes: 0
@@ -149,7 +149,7 @@ products:
     name: Balai Serpillière Rotative Pliable
     description: Balai plat auto-essorant, manche télescopique. Nettoyage rapide.
     category: Maison
-    price: ""
+    price: 4000
     image: /images/uploads/1000041022.jpg
     gallery:
       - /images/uploads/1000041064.jpg
@@ -170,12 +170,13 @@ products:
     price: 5000
     description: Exfoliant crémeux avocat, texture gourmande, peau nourrie.
     image: /images/uploads/1000041108.jpg
-  - rating: 3
+  - oldPrice: ""
+    price: 12
     votes: 0
     name: Loafers Cuir Marron Semelle Blanche
-    category: Mode
-    description: Exfoliant crémeux avocat, texture gourmande, peau nourrie.
-    image: /images/uploads/1000041300.jpg
     gallery:
       - /images/uploads/1000041304.jpg
-    oldPrice: 12
+    image: /images/uploads/1000041300.jpg
+    description: Exfoliant crémeux avocat, texture gourmande, peau nourrie.
+    rating: 3
+    category: Mode
