@@ -1,23 +1,29 @@
 products:
-  - rating: 3
-    votes: 2
-    image: /images/uploads/1000041430.jpg
-    name: Sandales fille à fleurs avec nœud (sandales princesse)
-    category: Mode
-    oldPrice: 6000
+  - oldPrice: 6000
     price: 3000
+    votes: 2
+    name: Sandales fille à fleurs avec nœud (sandales princesse)
+    badgeLabel: Nouveau
+    gallery:
+      - /images/uploads/1000041334.jpg
+      - /images/uploads/1000041426.jpg
+    image: /images/uploads/1000041430.jpg
     description: Jolies sandales pour petite fille, ornées d'un nœud et de fleurs
       pour un look féminin et élégant. Matière souple et confortable, idéale
       pour le quotidien comme pour les grandes occasions.
-  - rating: 4
-    votes: 0
-    image: /images/uploads/img-20260701-wa0122.jpg
-    name: "Dishwasher "
-    category: Maison
+    rating: 3
+    category: Mode
+  - oldPrice: 20000
     price: 17000
-    oldPrice: 20000
+    votes: 0
+    name: "Dishwasher "
+    gallery:
+      - /images/uploads/1000041294.jpg
+    image: /images/uploads/img-20260701-wa0122.jpg
     description: Lave-vaisselle compact et performant, idéal pour un usage
       quotidien. Faible consommation d'eau et d'énergie, installation facile.
+    rating: 4
+    category: Maison
   - rating: 5
     votes: 0
     image: /images/uploads/img-20260701-wa0129.jpg
@@ -28,16 +34,18 @@ products:
     description: Ensemble de casseroles à revêtement anti-adhésif, pour une cuisson
       saine sans accroche. Résistantes et faciles à nettoyer, compatibles avec
       tous types de feux.
-  - rating: 5
-    votes: 0
-    image: /images/uploads/img-20260701-wa0164.jpg
-    name: "Sac bandoulière "
-    category: Mode
+  - oldPrice: 16000
     price: 14000
-    oldPrice: 16000
+    votes: 0
+    name: "Sac bandoulière "
+    gallery:
+      - /images/uploads/1000041398.jpg
+    image: /images/uploads/img-20260701-wa0164.jpg
     description: Sac bandoulière pratique et élégant, parfait pour un usage
       quotidien. Compartiments bien pensés pour organiser facilement vos
       essentiels.
+    rating: 5
+    category: Mode
   - rating: 5
     votes: 0
     image: /images/uploads/img-20260701-wa0173.jpg
@@ -55,15 +63,17 @@ products:
     price: 2000
     description: Gamelle robuste et pratique, idéale pour un usage quotidien à la
       maison ou en déplacement. Facile à nettoyer et durable dans le temps.
-  - rating: 4
-    votes: 0
-    image: /images/uploads/img-20260701-wa0169.jpg
+  - oldPrice: 12000
     price: 10000
-    oldPrice: 12000
-    category: Mode
+    votes: 0
     name: Sac en cuire marron
+    gallery:
+      - /images/uploads/1000041410.jpg
+    image: /images/uploads/img-20260701-wa0169.jpg
     description: Sac en cuir marron au style intemporel, à la fois robuste et
       élégant. Parfait pour accompagner toutes vos tenues au quotidien.
+    rating: 4
+    category: Mode
   - oldPrice: 1500
     price: 1000
     votes: 3
@@ -180,3 +190,5 @@ products:
     description: Exfoliant crémeux avocat, texture gourmande, peau nourrie.
     rating: 3
     category: Mode
+  - rating: 5
+    votes: 0
