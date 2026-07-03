@@ -638,7 +638,10 @@
     }
     // Galerie : image principale + images supplémentaires
     const thumbsEl = document.getElementById('modalThumbs');
-    const allImgs = [p.image].concat(Array.isArray(p.gallery) ? p.gallery : []).filter(Boolean);
+    const galleryImgs = Array.isArray(p.gallery)
+      ? p.gallery.map(function(g){ return (g && typeof g === 'object') ? g.src : g; })
+      : [];
+    const allImgs = [p.image].concat(galleryImgs).filter(Boolean);
     if(!p.video && allImgs.length > 1){
       thumbsEl.style.display = 'flex';
       thumbsEl.innerHTML = allImgs.map((src, i) =>
