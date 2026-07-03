@@ -64,13 +64,15 @@ products:
     name: Sac en cuire marron
     description: Sac en cuir marron au style intemporel, à la fois robuste et
       élégant. Parfait pour accompagner toutes vos tenues au quotidien.
-  - oldPrice: 899
-    price: 699
+  - oldPrice: 1500
+    price: 1000
     votes: 3
     name: SADOER Stick Men Déodorant – Cool Ocean Scent (20 g)
     badgeLabel: Nouveau
     gallery:
       - /images/uploads/1000041133.jpg
+      - /images/uploads/1000041141.jpg
+      - /images/uploads/1000041139.jpg
     image: /images/uploads/1000041131.jpg
     description: >-
       C’est un déodorant en stick pour homme conçu pour contrôler la
@@ -121,3 +123,59 @@ products:
     name: Gobelet isotherme “ICE CREAM” avec paille (tasse portable avec poignée
     category: Maison
     price: 5000
+  - rating: 5
+    votes: 0
+    name: Loafers Croco Marron Premium
+    description: Mocassins homme effet peau de crocodile, finition brillante avec
+      détail métallique doré. Élégance et caractère pour une allure business
+      affirmée.
+    image: /images/uploads/1000041960.jpg
+    gallery:
+      - /images/uploads/1000041159.jpg
+      - /images/uploads/1000041143.jpg
+    price: ""
+    category: Mode
+  - rating: 5
+    votes: 0
+    name: " Lunettes Cat-Eye Noires Glossy"
+    description: Monture papillon noire laquée, effet glamour rétro.
+    category: Mode
+    price: 4000
+    image: /images/uploads/1000041288.jpg
+    gallery:
+      - /images/uploads/1000041290.jpg
+  - rating: 5
+    votes: 0
+    name: Balai Serpillière Rotative Pliable
+    description: Balai plat auto-essorant, manche télescopique. Nettoyage rapide.
+    category: Maison
+    price: ""
+    image: /images/uploads/1000041022.jpg
+    gallery:
+      - /images/uploads/1000041064.jpg
+      - /images/uploads/1000041025.jpg
+  - rating: 5
+    votes: 0
+    name: Lanterne Dorée LED Vintage
+    category: Maison
+    price: 1000
+    oldPrice: 1500
+    description: Petite lanterne rétro dorée, globe cristal LED chaleureux.
+      14.5x8.5cm, déco cosy ou table de fête.
+    image: /images/uploads/1000041447.jpg
+  - rating: 5
+    votes: 0
+    name: Gommage Corps Avocat Glacé
+    category: Beauté
+    price: 5000
+    description: Exfoliant crémeux avocat, texture gourmande, peau nourrie.
+    image: /images/uploads/1000041108.jpg
+  - rating: 3
+    votes: 0
+    name: Loafers Cuir Marron Semelle Blanche
+    category: Mode
+    description: Exfoliant crémeux avocat, texture gourmande, peau nourrie.
+    image: /images/uploads/1000041300.jpg
+    gallery:
+      - /images/uploads/1000041304.jpg
+    oldPrice: 12
