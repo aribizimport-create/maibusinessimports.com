@@ -112,7 +112,7 @@ products:
       légumes rapidement et en toute sécurité. Ergonomique et facile à nettoyer.
   - rating: 5
     votes: 1
-    image: /images/uploads/1000041269.jpg
+    image: /images/uploads/13-Gourde-IceCream-Violette.jpg
     description: >-
       C’est un gobelet réutilisable conçu pour les boissons froides (smoothies,
       milkshakes, jus, café glacé). Il possède un design en plastique
@@ -192,3 +192,111 @@ products:
     category: Mode
   - rating: 5
     votes: 0
+    name: Gommage Corps Grenade RongYao (250g)
+    category: Beauté
+    price: 5000
+    description: Gommage corps aux graines de grenade. Exfolie en douceur, élimine
+      les peaux mortes et laisse la peau lisse et éclatante. Pot de 250g.
+    image: /images/uploads/01-Gommage-Grenade-RongYao.jpg
+  - rating: 5
+    votes: 0
+    name: Parfum Roll-On Rose Fraîcheur EOLGUL (20ml)
+    category: Beauté
+    price: 3000
+    description: Brume corporelle roll-on senteur rose sauvage. Application facile à
+      bille, parfum frais et longue tenue. Flacon 20ml, format nomade.
+    image: /images/uploads/02-Roll-On-Rose-EOLGUL.jpg
+  - rating: 5
+    votes: 0
+    name: Masque Boue Purifiant Thé Vert Fenyi
+    category: Beauté
+    price: 3500
+    description: Masque visage à l'argile et au thé vert. Nettoyage en profondeur,
+      contrôle du sébum et peau revitalisée. Idéal peaux mixtes à grasses.
+    image: /images/uploads/03-Masque-TheVert-Fenyi.jpg
+  - rating: 5
+    votes: 0
+    name: Parure Bijoux Papillon Jusmi (5 pièces)
+    category: Accessoires
+    price: 12000
+    description: "Ensemble 5 pièces doré : montre à cadran rectangulaire, collier
+      papillon, bracelet jonc, et paire de boucles d'oreilles papillon pailleté.
+      Élégant et raffiné."
+    image: /images/uploads/04-Parure-Papillon-Jusmi.jpg
+  - rating: 5
+    votes: 0
+    name: Sandales Compensées Beige Élégantes
+    category: Mode
+    price: 12000
+    description: Sandales à talon compensé beige, bout ouvert, ornées de détails
+      dorés. Confortables et tendance, parfaites pour l'été.
+    image: /images/uploads/05-Sandales-Compensees-Beige.jpg
+  - rating: 5
+    votes: 0
+    name: Baskets Homme Toile Bleu Marine
+    category: Mode
+    price: 15000
+    description: Baskets homme en toile bleu marine, lacets, semelle blanche épaisse
+      et détails en cuir marron. Style casual, confortables au quotidien.
+    image: /images/uploads/06-Baskets-Homme-Toile-Bleu.jpg
+  - rating: 5
+    votes: 0
+    name: Baskets Fille Kuromi & My Melody Rose
+    category: Enfants
+    price: 8000
+    description: Baskets fille rose à motif Kuromi et My Melody, fermeture scratch,
+      semelle épaisse et amortissante. Légères et respirantes pour le quotidien.
+    image: /images/uploads/08-Baskets-Kuromi-MyMelody.jpg
+  - rating: 5
+    votes: 0
+    name: Gourde Enfant "Let's Go to Space"
+    category: Enfants
+    price: 4000
+    description: Gourde isotherme enfant motif astronaute "Let's Go to Space",
+      bouchon à clapet et dragonne. Disponible en plusieurs couleurs. Idéale pour
+      l'école.
+    image: /images/uploads/09-Gourde-Space.jpg
+  - rating: 5
+    votes: 0
+    name: Baskets Fille Rose & Lavande Pastel
+    category: Enfants
+    price: 7500
+    description: Baskets fille tons pastel rose et lavande, fermeture scratch et
+      lacets, semelle blanche. Look tendance et confortable pour les petites.
+    image: /images/uploads/10-Baskets-Rose-Lavande.jpg
+  - rating: 5
+    votes: 0
+    name: Baskets Bébé Blanches Motif Ourson
+    category: Enfants
+    price: 6000
+    description: Baskets bébé blanches avec petit ourson en relief, fermeture
+      scratch pour enfiler facilement. Semelle souple antidérapante. Premiers pas
+      confortables.
+    image: /images/uploads/11-Baskets-Bebe-Ourson.jpg
+  - rating: 5
+    votes: 0
+    name: Lunch Box Enfant Licorne & Dinosaure
+    category: Enfants
+    price: 5500
+    description: Boîte à lunch enfant avec compartiments, motifs licorne et
+      dinosaure. Hermétique, sans BPA, avec couvercle à clip. Parfaite pour
+      l'école.
+    image: /images/uploads/12-LunchBox-Licorne-Dino.jpg
+  - rating: 5
+    votes: 0
+    name: Lunch Box Compartiments Turquoise
+    category: Maison
+    price: 4500
+    description: Boîte à repas turquoise à compartiments séparés, couvercle
+      hermétique à clip. Sans BPA, idéale pour emporter un repas équilibré au
+      bureau ou à l'école.
+    image: /images/uploads/14-LunchBox-Turquoise.jpg
+  - rating: 5
+    votes: 0
+    name: Vaporisateur Spray Pastel (lot de 3)
+    category: Maison
+    price: 2000
+    description: "Lot de 3 vaporisateurs à gâchette en tons pastel (rose, bleu,
+      crème). Idéals pour arroser les plantes, repasser ou nettoyer. Contenance
+      pratique."
+    image: /images/uploads/15-Vaporisateurs-Pastel.jpg
