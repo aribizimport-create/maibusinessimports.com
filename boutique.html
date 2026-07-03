@@ -301,6 +301,10 @@
   .product-modal{background:var(--white);border-radius:var(--radius-lg);max-width:640px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:var(--shadow-lg);position:relative;}
   .product-modal-close{position:absolute;top:14px;right:16px;font-size:24px;color:var(--muted);cursor:pointer;z-index:2;background:var(--white);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);}
   .product-modal-img{height:280px;width:100%;background-size:cover;background-position:center;border-radius:var(--radius-lg) var(--radius-lg) 0 0;}
+  .product-modal-thumbs{display:flex;gap:8px;padding:12px 28px 0;flex-wrap:wrap;}
+  .product-modal-thumbs .thumb{width:56px;height:56px;border-radius:10px;background-size:cover;background-position:center;cursor:pointer;border:2px solid transparent;transition:.2s;}
+  .product-modal-thumbs .thumb:hover{transform:translateY(-2px);}
+  .product-modal-thumbs .thumb.active{border-color:var(--coral);}
   .product-modal-body{padding:28px;}
   .product-modal-body h3{font-family:var(--font-display);font-size:22px;color:var(--navy);margin:8px 0 10px;}
   .product-modal-body .prod-rating{margin-bottom:14px;}
@@ -516,6 +520,7 @@
     <span class="product-modal-close" onclick="closeProductModal()">&times;</span>
     <div class="product-modal-img" id="modalImg"></div>
     <video class="product-modal-img" id="modalVideo" controls style="display:none;object-fit:cover;background:#000;"></video>
+    <div class="product-modal-thumbs" id="modalThumbs" style="display:none;"></div>
     <div class="product-modal-body">
       <span class="prod-cat" id="modalCat"></span>
       <h3 id="modalTitle"></h3>
@@ -631,6 +636,18 @@
       modalVideoEl.removeAttribute('src');
       modalVideoEl.style.display = 'none';
     }
+    // Galerie : image principale + images supplémentaires
+    const thumbsEl = document.getElementById('modalThumbs');
+    const allImgs = [p.image].concat(Array.isArray(p.gallery) ? p.gallery : []).filter(Boolean);
+    if(!p.video && allImgs.length > 1){
+      thumbsEl.style.display = 'flex';
+      thumbsEl.innerHTML = allImgs.map((src, i) =>
+        `<div class="thumb${i===0?' active':''}" style="background-image:url('${src}');" onclick="setModalImage('${escAttr(src)}', this)"></div>`
+      ).join('');
+    } else {
+      thumbsEl.style.display = 'none';
+      thumbsEl.innerHTML = '';
+    }
     document.getElementById('modalCat').textContent = p.category;
     document.getElementById('modalTitle').textContent = p.name;
     document.getElementById('modalStars').innerHTML = starString(p.rating);
@@ -644,6 +661,13 @@
     descEl.style.display = p.description ? 'block' : 'none';
     document.getElementById('modalAddBtn').setAttribute('data-idx', idx);
     document.getElementById('productModalOverlay').classList.add('open');
+  }
+
+  function setModalImage(src, el){
+    const modalImgEl = document.getElementById('modalImg');
+    if(modalImgEl){ modalImgEl.style.backgroundImage = `url('${src}')`; }
+    document.querySelectorAll('#modalThumbs .thumb').forEach(t => t.classList.remove('active'));
+    if(el){ el.classList.add('active'); }
   }
 
   function closeProductModal(){
