@@ -382,6 +382,10 @@
         <option value="Maison">Maison</option>
         <option value="Beauté">Beauté</option>
         <option value="Sport">Sport</option>
+        <option value="Enfants">Enfants</option>
+        <option value="Bagagerie">Bagagerie</option>
+        <option value="Accessoires">Accessoires</option>
+        <option value="Fournitures scolaires">Fournitures scolaires</option>
       </select>
       <input type="text" id="searchInput" placeholder="Rechercher un produit...">
       <button type="submit"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
@@ -557,7 +561,7 @@
   }catch(e){}
   let activeCategory = 'Toutes';
   let activeSearch = '';
-  const categories = ['Toutes', 'Mode', 'Électronique', 'Maison', 'Beauté', 'Sport', 'Enfants', 'Bagagerie', 'Accessoires'];
+  const categories = ['Toutes', 'Mode', 'Électronique', 'Maison', 'Beauté', 'Sport', 'Enfants', 'Bagagerie', 'Accessoires', 'Fournitures scolaires'];
 
   function starString(n){
     const filled = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="vertical-align:-2px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
@@ -929,7 +933,8 @@
     const t = normalizeStr(text);
     const categoryMap = {
       'mode':'Mode','electronique':'Électronique','maison':'Maison','beaute':'Beauté',
-      'sport':'Sport','enfants':'Enfants','bagagerie':'Bagagerie','accessoires':'Accessoires'
+      'sport':'Sport','enfants':'Enfants','bagagerie':'Bagagerie','accessoires':'Accessoires',
+      'fournitures scolaires':'Fournitures scolaires','fourniture scolaire':'Fournitures scolaires','fournitures':'Fournitures scolaires','scolaire':'Fournitures scolaires'
     };
     for(const key in categoryMap){
       if(t.includes(key)){
@@ -957,7 +962,7 @@
   function findAnswer(text){
     const t = text.toLowerCase();
     if(t.includes('catalogue') || t.includes('combien de produit') || (t.includes('quels') && t.includes('produit')) || (t.includes('que') && t.includes('vendez'))){
-      return 'Nous avons ' + products.length + ' produits au catalogue, répartis en 8 catégories : Mode, Électronique, Maison, Beauté, Sport, Enfants, Bagagerie et Accessoires. Vous pouvez tout parcourir sur la page Boutique.';
+      return 'Nous avons ' + products.length + ' produits au catalogue, répartis en 9 catégories : Mode, Électronique, Maison, Beauté, Sport, Enfants, Bagagerie, Accessoires et Fournitures scolaires. Vous pouvez tout parcourir sur la page Boutique.';
     }
     const result = searchProducts(text);
     if(result){
