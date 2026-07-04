@@ -1,10 +1,12 @@
 reviews:
-  - name: "Adjoa K."
+  - name: Adjoa K.
     stars: 5
-    text: "Commande reçue en parfait état et bien plus vite que prévu. Le service client a été très réactif à mes questions."
-  - name: "Fabrice M."
+    text: Commande reçue en parfait état et bien plus vite que prévu. Le service
+      client a été très réactif à mes questions.
+  - name: Fabrice M.
     stars: 5
-    text: "Très bon rapport qualité-prix sur toute la boutique. J'ai pris plusieurs catégories différentes, aucune déception."
-  - name: "Sandrine T."
+    text: Très bon rapport qualité-prix sur toute la boutique. J'ai pris plusieurs
+      catégories différentes, aucune déception.
+  - name: Sandrine T.
     stars: 4
-    text: "Bonne expérience globale, le suivi de livraison est clair. Je recommande pour l'électronique en particulier."
+    text: "Bonne expérience globale, le suivi de livraison est clair. "
