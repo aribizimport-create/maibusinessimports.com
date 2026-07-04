@@ -253,8 +253,8 @@ products:
     category: Enfants
     price: 4000
     description: Gourde isotherme enfant motif astronaute "Let's Go to Space",
-      bouchon à clapet et dragonne. Disponible en plusieurs couleurs. Idéale pour
-      l'école.
+      bouchon à clapet et dragonne. Disponible en plusieurs couleurs. Idéale
+      pour l'école.
     image: /images/uploads/09-Gourde-Space.jpg
   - rating: 5
     votes: 0
@@ -270,8 +270,8 @@ products:
     category: Enfants
     price: 6000
     description: Baskets bébé blanches avec petit ourson en relief, fermeture
-      scratch pour enfiler facilement. Semelle souple antidérapante. Premiers pas
-      confortables.
+      scratch pour enfiler facilement. Semelle souple antidérapante. Premiers
+      pas confortables.
     image: /images/uploads/11-Baskets-Bebe-Ourson.jpg
   - rating: 5
     votes: 0
@@ -296,7 +296,17 @@ products:
     name: Vaporisateur Spray Pastel (lot de 3)
     category: Maison
     price: 2000
-    description: "Lot de 3 vaporisateurs à gâchette en tons pastel (rose, bleu,
+    description: Lot de 3 vaporisateurs à gâchette en tons pastel (rose, bleu,
       crème). Idéals pour arroser les plantes, repasser ou nettoyer. Contenance
-      pratique."
+      pratique.
     image: /images/uploads/15-Vaporisateurs-Pastel.jpg
+  - rating: 5
+    votes: 10
+    image: /images/uploads/1000041969.jpg
+    description: >-
+      
+      Chaussures élégantes pour homme en cuir lisse premium, finition brillante avec bout légèrement allongé et couture fine sur les côtés. Design Richelieu à lacets, idéal pour un style chic, professionnel ou événementiel (mariage, bureau, sorties habillées). Semelle noire robuste antidérapante pour plus de
+    price: 18000
+    oldPrice: 20000
+    category: Mode
+    name: Chaussures Richelieu Classiques en cuir – Marron caramel
