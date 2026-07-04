@@ -22,7 +22,7 @@ collections:
             summary: "{{fields.name}} — {{fields.price}} FCFA"
             fields:
               - {label: "Nom du produit", name: "name", widget: "string"}
-              - {label: "Catégorie", name: "category", widget: "select", options: ["Mode", "Électronique", "Maison", "Beauté", "Sport", "Enfants", "Bagagerie", "Accessoires"]}
+              - {label: "Catégorie", name: "category", widget: "select", options: ["Mode", "Électronique", "Maison", "Beauté", "Sport", "Enfants", "Bagagerie", "Accessoires", "Fournitures scolaires"]}
               - {label: "Prix (FCFA)", name: "price", widget: "number", value_type: "int"}
               - {label: "Ancien prix (optionnel, pour afficher une promo, en FCFA)", name: "oldPrice", widget: "number", value_type: "int", required: false}
               - {label: "Description (optionnel, affichée sur la fiche produit)", name: "description", widget: "text", required: false}
