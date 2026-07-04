@@ -168,6 +168,7 @@
   .cat-card.cat-sport{background-image:url("https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=500&q=80");}
   .cat-card.cat-enfants{background-image:url("https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=500&q=80");}
   .cat-card.cat-bagagerie{background-image:url("https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80");}
+  .cat-card.cat-fournitures{background-image:url("https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=500&q=80");}
   .cat-card.cat-all{background:linear-gradient(135deg, var(--navy), var(--navy-light));}
 
   /* Why us */
@@ -368,6 +369,10 @@
         <option value="Maison">Maison</option>
         <option value="Beauté">Beauté</option>
         <option value="Sport">Sport</option>
+        <option value="Enfants">Enfants</option>
+        <option value="Bagagerie">Bagagerie</option>
+        <option value="Accessoires">Accessoires</option>
+        <option value="Fournitures scolaires">Fournitures scolaires</option>
       </select>
       <input type="text" id="searchInput" placeholder="Rechercher un produit...">
       <button type="submit"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
@@ -403,6 +408,7 @@
         <li><a href="boutique.html?cat=Enfants"><span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></span> Enfants</a></li>
         <li><a href="boutique.html?cat=Bagagerie"><span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span> Bagagerie</a></li>
         <li><a href="boutique.html?cat=Accessoires"><span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><circle cx="12" cy="12" r="7"/><polyline points="12 9 12 12 13.5 13.5"/><path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83M7.49 6.65l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"/></svg></span> Accessoires</a></li>
+        <li><a href="boutique.html?cat=Fournitures scolaires"><span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span> Fournitures scolaires</a></li>
       </ul>
     </aside>
     <div class="hero">
@@ -446,6 +452,7 @@
       <a class="cat-card cat-sport" href="boutique.html?cat=Sport"><div class="overlay"><h4>Sport</h4><span>52+ articles</span></div></a>
       <a class="cat-card cat-enfants" href="boutique.html?cat=Enfants"><div class="overlay"><h4>Enfants</h4><span>40+ articles</span></div></a>
       <a class="cat-card cat-bagagerie" href="boutique.html?cat=Bagagerie"><div class="overlay"><h4>Bagagerie</h4><span>30+ articles</span></div></a>
+      <a class="cat-card cat-fournitures" href="boutique.html?cat=Fournitures scolaires"><div class="overlay"><h4>Fournitures scolaires</h4><span>Nouveau</span></div></a>
       <a class="cat-card cat-all" href="boutique.html"><div class="overlay" style="background:none;align-items:center;text-align:center;"><h4>Toutes catégories</h4><span>Voir plus &rarr;</span></div></a>
     </div>
   </div>
@@ -1088,7 +1095,8 @@
     const t = normalizeStr(text);
     const categoryMap = {
       'mode':'Mode','electronique':'Électronique','maison':'Maison','beaute':'Beauté',
-      'sport':'Sport','enfants':'Enfants','bagagerie':'Bagagerie','accessoires':'Accessoires'
+      'sport':'Sport','enfants':'Enfants','bagagerie':'Bagagerie','accessoires':'Accessoires',
+      'fournitures scolaires':'Fournitures scolaires','fourniture scolaire':'Fournitures scolaires','fournitures':'Fournitures scolaires','scolaire':'Fournitures scolaires'
     };
     for(const key in categoryMap){
       if(t.includes(key)){
@@ -1116,7 +1124,7 @@
   function findAnswer(text){
     const t = text.toLowerCase();
     if(t.includes('catalogue') || t.includes('combien de produit') || (t.includes('quels') && t.includes('produit')) || (t.includes('que') && t.includes('vendez'))){
-      return 'Nous avons ' + products.length + ' produits au catalogue, répartis en 8 catégories : Mode, Électronique, Maison, Beauté, Sport, Enfants, Bagagerie et Accessoires. Vous pouvez tout parcourir sur la page Boutique.';
+      return 'Nous avons ' + products.length + ' produits au catalogue, répartis en 9 catégories : Mode, Électronique, Maison, Beauté, Sport, Enfants, Bagagerie, Accessoires et Fournitures scolaires. Vous pouvez tout parcourir sur la page Boutique.';
     }
     const result = searchProducts(text);
     if(result){
