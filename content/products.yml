@@ -310,3 +310,60 @@ products:
     oldPrice: 20000
     category: Mode
     name: Chaussures Richelieu Classiques en cuir – Marron caramel
+  - oldPrice: 1000
+    price: 800
+    votes: 15
+    name: Règle multifonction 4-en-1 (30cm)
+    gallery:
+      - /images/uploads/1000041999.png
+      - /images/uploads/1000042000.png
+      - /images/uploads/1000042000.png
+    image: /images/uploads/1000041998.png
+    description: Règle graduée 30 cm avec crayon HB intégré, gomme et taille-crayon
+      incorporés. Design compact tout-en-un, disponible en rouge, bleu, jaune et
+      rose. Idéal pour écoliers et étudiants
+    rating: 5
+    category: Fournitures scolaires
+  - oldPrice: 1800
+    price: 1500
+    votes: 0
+    name: Crayons de couleur Twins Win (12 couleurs
+    gallery:
+      - /images/uploads/1000041992.png
+      - /images/uploads/1000041994.png
+    image: /images/uploads/1000041995.png
+    description: >-
+      Set de 12 crayons de couleur en bois, pointes vives et bien taillées,
+      présentés dans un étui pastel (rose/violet). Pigments doux, parfait pour
+      le coloriage et le dessin des enfants.
+
+      💰 Prix suggérer : 400 par unité
+    rating: 5
+    category: Fournitures scolaires
+  - oldPrice: 1600
+    price: 1500
+    votes: 20
+    name: Crayons de couleur Stitch (12 couleurs)
+    gallery:
+      - /images/uploads/1000041992.png
+    image: /images/uploads/1000041997.png
+    description: Boîte de 12 crayons de couleur au design Disney Stitch, coloris
+      variés et vifs. Emballage fun et attractif pour enfants fans du
+      personnage.
+    rating: 5
+    category: Fournitures scolaires
+  - oldPrice: 5000
+    price: 3000
+    votes: 0
+    name: Crayons de couleur New Elite "Colores" (12 ou 36 couleurs)
+    gallery:
+      - /images/uploads/1000041991.png
+    image: /images/uploads/1000041990.png
+    description: >-
+      Crayons de couleur pointe épaisse (Punta Gruesa), non toxiques,
+      disponibles en pack de 12 ou 36 couleurs incluant teintes fluo. Excellent
+      rapport qualité-prix pour usage scolaire ou artistique.
+
+      💰 Prix suggéré : 1 500 FCFA ) / 3 000 FCFA (36 couleurs)
+    rating: 5
+    category: Fournitures scolaires
