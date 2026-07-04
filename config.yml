@@ -30,8 +30,6 @@ collections:
               - {label: "Nombre d'avis", name: "votes", widget: "number", value_type: "int", default: 0}
               - {label: "Badge (optionnel)", name: "badgeLabel", widget: "select", options: ["Nouveau", "Meilleure vente"], required: false}
               - {label: "Photo du produit", name: "image", widget: "image"}
-              - {label: "Galerie (photos supplémentaires, optionnel)", name: "gallery", widget: "list", required: false, field: {label: "Image", name: "image", widget: "image"}}
-              - {label: "Vidéo du produit (optionnel, fichier .mp4 court et léger de préférence)", name: "video", widget: "file", required: false}
 
   - name: "reviews"
     label: "Avis clients"
