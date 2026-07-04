@@ -161,6 +161,14 @@
   .cat-card .overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(27,42,74,0.05), rgba(17,27,48,0.82));display:flex;flex-direction:column;justify-content:flex-end;padding:16px;}
   .cat-card h4{color:#fff;font-size:15px;font-weight:600;font-family:var(--font-display);}
   .cat-card span{color:var(--gold);font-size:11.5px;font-family:var(--font-mono);}
+  .cat-card.cat-mode{background-image:url("https://images.unsplash.com/photo-1445205170230-053b83016050?w=500&q=80");}
+  .cat-card.cat-electro{background-image:url("https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=500&q=80");}
+  .cat-card.cat-maison{background-image:url("https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=500&q=80");}
+  .cat-card.cat-beaute{background-image:url("https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500&q=80");}
+  .cat-card.cat-sport{background-image:url("https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=500&q=80");}
+  .cat-card.cat-enfants{background-image:url("https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=500&q=80");}
+  .cat-card.cat-bagagerie{background-image:url("https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80");}
+  .cat-card.cat-all{background:linear-gradient(135deg, var(--navy), var(--navy-light));}
 
   /* Why us */
   .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
@@ -431,14 +439,14 @@
       <a href="boutique.html">Voir tout le catalogue &rarr;</a>
     </div>
     <div class="cat-grid" data-reveal>
-      <a class="cat-card" href="boutique.html?cat=Mode" style="background-image:url('https://images.unsplash.com/photo-1445205170230-053b83016050?w=500&q=80')"><div class="overlay"><h4>Mode</h4><span>120+ articles</span></div></a>
-      <a class="cat-card" href="boutique.html?cat=Électronique" style="background-image:url('https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=500&q=80')"><div class="overlay"><h4>Électronique</h4><span>85+ articles</span></div></a>
-      <a class="cat-card" href="boutique.html?cat=Maison" style="background-image:url('https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=500&q=80')"><div class="overlay"><h4>Maison</h4><span>96+ articles</span></div></a>
-      <a class="cat-card" href="boutique.html?cat=Beauté" style="background-image:url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500&q=80')"><div class="overlay"><h4>Beauté</h4><span>64+ articles</span></div></a>
-      <a class="cat-card" href="boutique.html?cat=Sport" style="background-image:url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=500&q=80')"><div class="overlay"><h4>Sport</h4><span>52+ articles</span></div></a>
-      <a class="cat-card" href="boutique.html?cat=Enfants" style="background-image:url('https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=500&q=80')"><div class="overlay"><h4>Enfants</h4><span>40+ articles</span></div></a>
-      <a class="cat-card" href="boutique.html?cat=Bagagerie" style="background-image:url('https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80')"><div class="overlay"><h4>Bagagerie</h4><span>30+ articles</span></div></a>
-      <a class="cat-card" href="boutique.html" style="background:linear-gradient(135deg, var(--navy), var(--navy-light));"><div class="overlay" style="background:none;align-items:center;text-align:center;"><h4>Toutes catégories</h4><span>Voir plus &rarr;</span></div></a>
+      <a class="cat-card cat-mode" href="boutique.html?cat=Mode"><div class="overlay"><h4>Mode</h4><span>120+ articles</span></div></a>
+      <a class="cat-card cat-electro" href="boutique.html?cat=Électronique"><div class="overlay"><h4>Électronique</h4><span>85+ articles</span></div></a>
+      <a class="cat-card cat-maison" href="boutique.html?cat=Maison"><div class="overlay"><h4>Maison</h4><span>96+ articles</span></div></a>
+      <a class="cat-card cat-beaute" href="boutique.html?cat=Beauté"><div class="overlay"><h4>Beauté</h4><span>64+ articles</span></div></a>
+      <a class="cat-card cat-sport" href="boutique.html?cat=Sport"><div class="overlay"><h4>Sport</h4><span>52+ articles</span></div></a>
+      <a class="cat-card cat-enfants" href="boutique.html?cat=Enfants"><div class="overlay"><h4>Enfants</h4><span>40+ articles</span></div></a>
+      <a class="cat-card cat-bagagerie" href="boutique.html?cat=Bagagerie"><div class="overlay"><h4>Bagagerie</h4><span>30+ articles</span></div></a>
+      <a class="cat-card cat-all" href="boutique.html"><div class="overlay" style="background:none;align-items:center;text-align:center;"><h4>Toutes catégories</h4><span>Voir plus &rarr;</span></div></a>
     </div>
   </div>
 </section>
