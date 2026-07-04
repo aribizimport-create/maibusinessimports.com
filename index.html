@@ -453,7 +453,7 @@
 <section class="section" id="produits">
   <div class="container">
     <div class="section-head" data-reveal>
-      <div><span class="tag">Fraîchement importés</span><h2>Nouveautés</h2></div>
+      <div><span class="tag">À ne pas manquer</span><h2>Promotions</h2></div>
       <a href="boutique.html">Voir tous les produits &rarr;</a>
     </div>
     <div class="prod-grid" id="productGrid" data-reveal></div>
@@ -603,7 +603,11 @@
 
   function renderProducts(){
     const grid = document.getElementById('productGrid');
-    grid.innerHTML = products.map((p, idx) => `
+    const indexed = products.map((p, idx) => ({p, idx}));
+    let list = indexed.filter(({p}) => p.oldPrice);
+    if(list.length === 0){ list = indexed; }
+    list = list.slice(0, 8);
+    grid.innerHTML = list.map(({p, idx}) => `
       <div class="prod-card">
         <div class="prod-img" style="background-image:url('${p.image}');">
           ${p.oldPrice ? '<span class="badge">Promo</span>' : (p.badgeLabel ? `<span class="badge" style="background:var(--navy);">${p.badgeLabel}</span>` : '')}
